@@ -2,7 +2,7 @@
 Un jeu d'échecs en C
 
 # Plusieurs prgramme
-1) main 
+###### main 
 
 - prendre la requete de l'utilisateur
 
@@ -10,11 +10,11 @@ Un jeu d'échecs en C
 - renvoit une erreur si la pièce ne peut pas se deplacer 
 ( - confirmation ?)
 
-2) pieces + mouvements
+###### Pieces + mouvements
 - definir mouvement de chaque piece
 - voir si mouvement possible
 
-3) Interface graphique
+###### Interface graphique
 - Afficher echequier avec chaque piece a sa place actuelle
 - tableaux contenant les pieces et leurs positions
   - tableau de 8 tableaux contenant chacun 8 element de 1 a 8
