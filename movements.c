@@ -1,12 +1,12 @@
-# include <string.h>
+# include <stdio.h>
 struct piece
 {
     int x;
     int y;
     char signature;
-}
+};
 
-void check_piece(piece p)
-{
+typedef struct piece Bishop;
 
-}
+//prototype
+void check_piece(struct piece);
