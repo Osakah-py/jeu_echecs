@@ -1,7 +1,7 @@
 # jeu_echecs
 Un jeu d'échecs en C
 
-# Plusieurs prgramme
+# Plusieurs programmes
 ###### main 
 
 - prendre la requete de l'utilisateur
@@ -18,3 +18,6 @@ Un jeu d'échecs en C
 - Afficher echequier avec chaque piece a sa place actuelle
 - tableaux contenant les pieces et leurs positions
   - tableau de 8 tableaux contenant chacun 8 element de 1 a 8
+
+# Premier rendu graphique 
+![rendu 1](https://jreaigle.pythonanywhere.com/static/images/rendu1.PNG "Premier Rendu")
