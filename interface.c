@@ -13,30 +13,30 @@
 
 //Permet d'afficher le cadre supérieur de l'échéquier
 void interface_topedge () {
-    wprintf(L"\x2554");
+    wprintf(L"  \x2554");
     for (int i = 1; i < 8 ; i++){
-        wprintf(L"\x2550\x2550\x2564");
+        wprintf(L"\x2550\x2550\x2550\x2550\x2564");
     }
-    wprintf(L"\x2550\x2550\x2557 \n");
+    wprintf(L"\x2550\x2550\x2550\x2550\x2557 \n");
 }
 
 //Permet d'afficher le cadre inférieur de l'échéquier
 void interface_botedge () {
-    wprintf(L"\x255A");
+    wprintf(L"  \x255A");
     for (int i = 1; i < 8 ; i++){
-        wprintf(L"\x2550\x2550\x2567");
+        wprintf(L"\x2550\x2550\x2550\x2550\x2567");
     }
-    wprintf(L"\x2550\x2550\x255D \n");
-    wprintf(L" A  B  C  D  E  F  G  H");
+    wprintf(L"\x2550\x2550\x2550\x2550\x255D \n");
+    wprintf(L"    A    B    C    D    E    F    G    H");
 }
 
 //Permet d'afficher les cadres intermédiaires de l'échéquier
 void interface_interedge () {
-    wprintf(L"\x255F");
+    wprintf(L"  \x255F");
     for (int i = 1; i < 8 ; i++){
-        wprintf(L"\x2500\x2500\x253C");
+        wprintf(L"\x2500\x2500\x2500\x2500\x253C");
     }
-    wprintf(L"\x2500\x2500\x2562 \n");
+    wprintf(L"\x2500\x2500\x2500\x2500\x2562 \n");
 }
 
 int main (int argc, char ** argv){
@@ -49,10 +49,11 @@ int main (int argc, char ** argv){
 
     interface_topedge();
 
-    //wprintf(L"\x2551\x2654 \x2502\x265A \x2551 \n");
     for (int i = 1; i <8; i++){
+        wprintf(L"%d \x2551 \x2658  \x2502 \x2654  \x2502 \x2655  \x2502 \x265E  \x2502 \x265A  \x2502 \x265B  \x2502 \x265C  \x2502 \x2656  \x2551 \n", i);
         interface_interedge ();
     }
+    wprintf(L"8 \x2551 \x2658  \x2502 \x2654  \x2502 \x2655  \x2502 \x265E  \x2502 \x265A  \x2502 \x265B  \x2502 \x265C  \x2502 \x2656  \x2551 \n");
     interface_botedge();
     return 0;
 }

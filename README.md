@@ -19,5 +19,8 @@ Un jeu d'échecs en C
 - tableaux contenant les pieces et leurs positions
   - tableau de 8 tableaux contenant chacun 8 element de 1 a 8
 
-# Premier rendu graphique 
+# Premiers rendus graphique
+###### Choix design 
 ![rendu 1](https://jreaigle.pythonanywhere.com/static/images/rendu1.PNG "Premier Rendu")
+###### Test echequier complet
+![rendu 2](https://jreaigle.pythonanywhere.com/static/images/rendu2.PNG "Deuxieme Rendu")
