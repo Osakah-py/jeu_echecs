@@ -1,17 +1,22 @@
 # include <stdio.h>
-struct piece
+
+/* note :
+position = x
+horizontal pos = x % 8
+vertical pos = x / 8
+*/
+
+
+// GLOBAL VARIABLES ------------------------------------------------------------------------------
+// a dictionnary of movement to each piece
+const char piece_key[6] = {'p'} 
+const int movmeent_value = 
+
+// PROTOTYPES ------------------------------------------------------------------------------------
+char check_movement(int position, char signature);
+
+// FUNCTIONS -------------------------------------------------------------------------------------
+char check_movement(int position, char signature)
 {
-    int x;
-    int y;
-    char signature;
-};
-
-typedef struct piece Bishop;
-
-//prototype
-char compare_piece(struct piece, struct piece);
-
-char compare_piece(struct piece p1, struct piece p2)
-{
-    // do some comparison with two pieces :D
+    // need to find a general solution for all types of chess piece
 }
