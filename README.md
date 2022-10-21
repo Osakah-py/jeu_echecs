@@ -24,3 +24,5 @@ Un jeu d'échecs en C
 ![rendu 1](https://jreaigle.pythonanywhere.com/static/images/rendu1.PNG "Premier Rendu")
 ###### Test echequier complet
 ![rendu 2](https://jreaigle.pythonanywhere.com/static/images/rendu2.PNG "Deuxieme Rendu")
+###### Test affichage à partir de la table de tables 
+![rendu 3](https://jreaigle.pythonanywhere.com/static/images/rendu3.PNG "Troisieme Rendu")

@@ -15,7 +15,11 @@
 #include <fcntl.h>
 # include <io.h>
 
-// INITIALISATION ECHEQUIER -------------------------------------------------------------------------------------
+// UNICODE DE CHAQUE PIECE ---------------------------------------------------------------------------------
+const char lettre[13] = {'R', 'D', 'T', 'F', 'C', 'P', 'r', 'd', 't', 'f', 'c', 'p', '0'};
+const wchar_t unicode[13] = {0x2654, 0x2655, 0x2656, 0x2657, 0x2658, 0x2659, 0x265A, 0x265B, 0x265C, 0x265D, 0x265E, 0x265F, 0x2800};
+
+// INITIALISATION ECHEQUIER --------------------------------------------------------------------------------
 void init_echequier (char chessboard[][8]){
     
     // Gestion d'une erreur éventuelle
@@ -72,6 +76,18 @@ void interface_interedge () {
     wprintf(L"\x2500\x2500\x2500\x2500\x2562 \n");
 }
 
+// TROUVER L'INDICE D'UN ELEMENT (POUR L'ASSIMILER A SON UNICODE) -----------------------------------------
+int indice (char let){
+    int ind = -1;
+    for (int i = 0; i < 13; i++){
+        if (lettre[i] == let){
+            ind = i;
+            continue;
+        }
+    }
+    return ind;
+}
+
 // MAIN FUNCTION ------------------------------------------------------------------------------------------
 int main (int argc, char ** argv){
     
@@ -85,18 +101,23 @@ int main (int argc, char ** argv){
     char chessboard [8][8];
     init_echequier (chessboard);
     // Affichage de l'échequier
-    interface_topedge();
+    interface_topedge(); 
+    
     for (int i = 0; i < 8; i++){
-        //wprintf(L"%d \x2551 \x2658  \x2502 \x2654  \x2502 \x2655  \x2502 \x265E  \x2502 \x265A  \x2502 \x265B  \x2502 \x265C  \x2502 \x2656  \x2551 \n", i);
-        wprintf(L"%d \x2551 %c", i, chessboard [i][0]);
+        
+        wprintf(L"%d \x2551 %lc", i+1, unicode[indice(chessboard [i][0])]); // Affichage du premier élement (on le sépare du reste pour avoir le bord)
+        
         for (int j = 1; j < 8; j++){
-            wprintf(L"  \x2502 %c", chessboard [i][j]);
+            wprintf(L"  \x2502 %lc", unicode[indice(chessboard [i][j])]); // on affiche chaque indice unicode des pièces
         }
-        wprintf(L"  \x2551 \n");
-        if (i != 7){
-        interface_interedge ();
+
+        wprintf(L"  \x2551 \n"); // On ferme le cadre
+
+        if (i != 7){ 
+        interface_interedge (); // Affichage du cadriage intermédiaire, on ne le veut pas pour la dernière ligne (le cadre est déjà là)
         }
     }
     interface_botedge();
+
     return 0;
 }
