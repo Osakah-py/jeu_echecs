@@ -1,12 +1,22 @@
 # include <stdio.h>
-// GLOBAL VARIABLES ---------------------------------------------------------------------------------------
-const int size_chessboard = 64; // 8 * 8  
 
-/* sketch : 
+/* note : 
 '0' --> blank case
 'lowercase' --> black piece
 'uppercase' --> white piece
+'p' --> pawn
+'r' --> rook
+'n' --> knight
+'b' --> bishop
+'k' --> king
+'q' --> queen
 */
+
+
+// GLOBAL VARIABLES ---------------------------------------------------------------------------------------
+const int size_chessboard = 64; // 8 * 8  
+
+
 // SECONDARY FUNCTIONS ------------------------------------------------------------------------------------
 void init_chessboard(char* chessboard, const int size)
 {
