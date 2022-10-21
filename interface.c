@@ -9,7 +9,7 @@
 
 // Windows Libraries
 #include <fcntl.h>
-# include <io.h>
+// # include <io.h>
 
 //Permet d'afficher le cadre supérieur de l'échéquier
 void interface_topedge () {
@@ -27,7 +27,7 @@ void interface_botedge () {
         wprintf(L"\x2550\x2550\x2550\x2550\x2567");
     }
     wprintf(L"\x2550\x2550\x2550\x2550\x255D \n");
-    wprintf(L"    A    B    C    D    E    F    G    H");
+    wprintf(L"    A    B    C    D    E    F    G    H \n");
 }
 
 //Permet d'afficher les cadres intermédiaires de l'échéquier
@@ -42,18 +42,20 @@ void interface_interedge () {
 int main (int argc, char ** argv){
     
     // On passe la console Windows en Unicode  
-    _setmode(_fileno(stdout), 0x00020000); // _O_U16TEXT
+    //_setmode(_fileno(stdout), 0x00020000); // _O_U16TEXT
     
     // On passe la console Linux en Unicode  
     setlocale(LC_CTYPE, "");
 
     interface_topedge();
 
-    for (int i = 1; i <8; i++){
+    for (int i = 1; i <= 8; i++){
         wprintf(L"%d \x2551 \x2658  \x2502 \x2654  \x2502 \x2655  \x2502 \x265E  \x2502 \x265A  \x2502 \x265B  \x2502 \x265C  \x2502 \x2656  \x2551 \n", i);
+        
+        if (i != 8){
         interface_interedge ();
+        }
     }
-    wprintf(L"8 \x2551 \x2658  \x2502 \x2654  \x2502 \x2655  \x2502 \x265E  \x2502 \x265A  \x2502 \x265B  \x2502 \x265C  \x2502 \x2656  \x2551 \n");
     interface_botedge();
     return 0;
 }
