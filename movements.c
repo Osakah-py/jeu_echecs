@@ -9,4 +9,9 @@ struct piece
 typedef struct piece Bishop;
 
 //prototype
-void check_piece(struct piece);
+char compare_piece(struct piece, struct piece);
+
+char compare_piece(struct piece p1, struct piece p2)
+{
+    // do some comparison with two pieces :D
+}
