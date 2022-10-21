@@ -2,5 +2,6 @@
     "files.associations": {
         "wchar.h": "c",
         "locale.h": "c"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }
