@@ -15,7 +15,7 @@
 // Windows Libraries
 #elif _WIN64
     #include <fcntl.h>
-    # include <io.h>
+    #include <io.h>
 #endif
 
 // UNICODE DE CHAQUE PIECE ---------------------------------------------------------------------------------
@@ -28,9 +28,10 @@ void init_echequier (char chessboard[][8]){
     // Gestion d'une erreur éventuelle
     errno = 0;
     // Ouverture du fichier par défaut
-    FILE * flux_entree = fopen ( "Default.txt", "r");
+    const char *nom_fichier = "Default.txt";
+    FILE * flux_entree = fopen ( nom_fichier, "r");
     if ( flux_entree == NULL ){
-        printf (" Une erreur s'est produite à l'ouverture du fichier %s : %s\n", flux_entree, strerror ( errno ) ) ;
+        printf (" Une erreur s'est produite à l'ouverture du fichier %s : %s\n", nom_fichier, strerror ( errno ) ) ;
         exit(EXIT_FAILURE); }
     
     //Récupération des données 
@@ -92,14 +93,16 @@ int indice (char let){
 }
 
 // MAIN FUNCTION ------------------------------------------------------------------------------------------
-int main (int argc, char ** argv){
+void test (){
     
     // On passe la console Windows en Unicode  
+#if _WIN64
     _setmode(_fileno(stdout), 0x00020000); // _O_U16TEXT
     
     // On passe la console Linux en Unicode  
+#elif unix
     setlocale(LC_CTYPE, "");
-
+#endif
     // Initialisation de l'échéquier
     char chessboard [8][8];
     init_echequier (chessboard);
@@ -121,6 +124,4 @@ int main (int argc, char ** argv){
         }
     }
     interface_botedge();
-
-    return 0;
 }

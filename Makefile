@@ -26,4 +26,7 @@ all: $(NOM_EXECUTABLE)
 $(NOM_EXECUTABLE): $(NOM_FICHIER) $(OBJETS)
 	gcc -o $(NOM_EXECUTABLE) $(OPTIONS) $(OBJETS) $(NOM_FICHIER)
 
+clean:
+	rm -f .O; rm main
+
 
