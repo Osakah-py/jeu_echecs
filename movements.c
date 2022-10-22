@@ -37,7 +37,7 @@ int get_piece_key(const char signature)
             return i = 0;
         }
     }
-    return -1; // il n' a pas d'indice...
+    return -1; // il n'a pas d'indice...
 }
 
 char check_movement(const int position, const char signature)
