@@ -51,12 +51,13 @@ int one_move(const int position, const int destination, const int movement[4])
     int dest_posH = posH(destination);
     int dest_posV = posV(destination);
 
-    if(movement[3] == 0)
+    if (movement[3] == 0)
     {
-        if(init_posH < dest_posH && init_posV < dest_posV)
+        if (init_posH < dest_posH && init_posV < dest_posV)
         {
             // il fait le mouvement brute (x et y toujours positifs dans le "dictionnaire"!!!)
         }
+        
     }
 
     return -1; // le mouvement ne peut pas aller au-dela de la destination    
@@ -65,7 +66,6 @@ int one_move(const int position, const int destination, const int movement[4])
 int check_movement(const int position, const int destination, const char signature)
 {
     const int ind_key = get_piece_key(signature); // cherche le mouvement de la piece
-    int movement[4] = movement_value[ind_key];
     int inter_pos = position;
 
     // Il faut check le cas ou le pion peut manger en diagonale (peut-etre une fonction a part)
@@ -81,7 +81,7 @@ int check_movement(const int position, const int destination, const char signatu
     else
     {
         // le mouvement est repete une seule fois
-        inter_pos = one_move(inter_pos, destination, movement);
+        inter_pos = one_move(inter_pos, destination, movement_value[ind_key]);
     }
     
     if(inter_pos == destination)
