@@ -27,8 +27,8 @@ const int movement_value[6][4] = {{1, 0, 0, 0}, {1, 0, 1, 1}, {2, 1, 0, 1}, {1, 
 
 // PROTOTYPES ------------------------------------------------------------------------------------
 int get_piece_key(const char signature);
-int one_move(const int position, const int movement[4]); // -1
-int check_movement(const int position, const char signature); // faux --> 0 et vrai --> autres valeurs
+int one_move(const int position, const int destination, const int movement[4]); // -1
+int check_movement(const int position, const int destination, const char signature); // faux --> 0 et vrai --> autres valeurs
 
 
 // FONCTIONS -------------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ int get_piece_key(const char signature)
     return -1; // il n'a pas d'indice...
 }
 
-int one_move(const int position, const destination, const int movement[4])
+int one_move(const int position, const int destination, const int movement[4])
 {
     int init_posH = posH(position);
     int init_posV = posV(position);
@@ -75,7 +75,7 @@ int check_movement(const int position, const int destination, const char signatu
         // le mouvement est repete avec une boucle while
         while(inter_pos != -1)
         {
-            inter_pos = init_direction(inter_pos, destination, movement_value[ind_key]);
+            inter_pos = one_move(inter_pos, destination, movement_value[ind_key]);
         }
     }
     else
