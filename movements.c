@@ -16,15 +16,39 @@ nb : if x = 0 et y = 0 --> la pièce peut bouger dans toutes les directions !
 
 // VARIABLES GLOBALES -----------------------------------------------------------------------------
 // un dictionnaire de mouvement pour chaque piece
+const int size_dict_movement = 6;
 const char piece_key[6] = {       'p',          'r',          'n',          'b',          'k',          'q'};
-const int movement_value[6][6] = {{1, 0, 0, 0}, {1, 0, 1, 1}, {2, 1, 0, 1}, {1, 1, 1, 1}, {0, 0, 0, 1}, {0, 0, 1, 1}};
+const int movement_value[6][4] = {{1, 0, 0, 0}, {1, 0, 1, 1}, {2, 1, 0, 1}, {1, 1, 1, 1}, {0, 0, 0, 1}, {0, 0, 1, 1}};
+
 
 // PROTOTYPES ------------------------------------------------------------------------------------
-int* get_piece_movement(char signature);
-char check_movement(int position, char signature);
+int get_piece_key(const char signature);
+int init_directionvc(const int position, const int* mouvement);
+char check_movement(const int position, const char signature);
+
 
 // FONCTIONS -------------------------------------------------------------------------------------
-char check_movement(int position, char signature)
+int get_piece_key(const char signature)
 {
-    if()
+    for (int i = 0; i <size_dict_movement; i++)
+    {
+        if(piece_key[i] == signature)
+        {
+            return i = 0;
+        }
+    }
+    return -1; // il n' a pas d'indice...
+}
+
+char check_movement(const int position, const char signature)
+{
+    const int movement_piece[4] = movement_value[get_piece_key(signature)]; // cherche le mouvement de la piece
+    if(movement[2] == 0)
+    {
+        // verifie une seule fois le mouvement indique
+    }
+    else
+    {
+        //verifie si le mouvement est atteint avec une boucle while
+    }
 }
