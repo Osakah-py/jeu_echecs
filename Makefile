@@ -2,7 +2,7 @@
 # Vous pouvez rajouter des commentaires en utilisant le symbole #
 
 # Donner ci-dessous le du fichier source principal
-NOM_FICHIER= main.c
+NOM_FICHIER = main.c
 
 # Donner ci-dessous le nom des fichiers intermédiaires à générer
 # Si vous indiquez un nom de module ici, cela sous-entend que votre programme

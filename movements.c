@@ -1,29 +1,30 @@
 # include <stdio.h>
 
 /* note :
-position = x
-horizontal pos = x % 8
-vertical pos = x / 8
+pos = x
+pos horizontal = x % 8
+pos vertical = x / 8
 
-movement = {x, y, z, a, b}
-x = horizontal movement
-y = vertical movement
-z = can repeat this single movement ? (0 : nope, other value : yes)
-a = multiple direction ? (0 : nope, other value : yes)
-nb : if x = 0 and y = 0 --> the piece can move in all directions ! 
+mouvement = {x, y, z, a}
+x = mouvement horizontal
+y = mouvement vertical
+z = peut repeter ce mouvement ? (0 : nope, other value : yes)
+a =  son mouvement est multi-directionnel ? (0 : nope, autre valeur : yes)
+nb : if x = 0 et y = 0 --> la pièce peut bouger dans toutes les directions ! 
 */
 
 
-// GLOBAL VARIABLES ------------------------------------------------------------------------------
-// a dictionnary of movement to each piece
+// VARIABLES GLOBALES -----------------------------------------------------------------------------
+// un dictionnaire de mouvement pour chaque piece
 const char piece_key[6] = {       'p',          'r',          'n',          'b',          'k',          'q'};
 const int movement_value[6][6] = {{1, 0, 0, 0}, {1, 0, 1, 1}, {2, 1, 0, 1}, {1, 1, 1, 1}, {0, 0, 0, 1}, {0, 0, 1, 1}};
 
 // PROTOTYPES ------------------------------------------------------------------------------------
+int* get_piece_movement(char signature);
 char check_movement(int position, char signature);
 
-// FUNCTIONS -------------------------------------------------------------------------------------
+// FONCTIONS -------------------------------------------------------------------------------------
 char check_movement(int position, char signature)
 {
-    // need to find a general solution for all types of chess piece
+    if()
 }
