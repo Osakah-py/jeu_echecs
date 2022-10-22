@@ -9,11 +9,14 @@
 # include <wchar.h>
 
 // Linux library
-#include <locale.h>
+#ifdef unix
+    #include <locale.h>
 
 // Windows Libraries
-#include <fcntl.h>
-# include <io.h>
+#elif _WIN64
+    #include <fcntl.h>
+    # include <io.h>
+#endif
 
 // UNICODE DE CHAQUE PIECE ---------------------------------------------------------------------------------
 const char lettre[13] = {'R', 'D', 'T', 'F', 'C', 'P', 'r', 'd', 't', 'f', 'c', 'p', '0'};
