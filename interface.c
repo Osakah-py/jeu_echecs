@@ -29,14 +29,14 @@ void init_echequier (char chessboard[][8]){
     errno = 0;
     // Ouverture du fichier par défaut
     const char *nom_fichier = "Default.txt";
-    FILE * flux_entree = fopen ( nom_fichier, "r");
+    FILE* flux_entree = fopen ( nom_fichier, "r");
     if ( flux_entree == NULL ){
         printf (" Une erreur s'est produite à l'ouverture du fichier %s : %s\n", nom_fichier, strerror ( errno ) ) ;
         exit(EXIT_FAILURE); }
     
     //Récupération des données 
     int caractereActuel = 1;
-            for (int i = 0; i <= 8; i++ ){
+            for (int i = 0; i < 8; i++ ){
                 for (int j = 0; j < 8; j++){
                     caractereActuel = fgetc(flux_entree); // On lit le caractère
                     
@@ -103,12 +103,14 @@ void test (){
 #elif unix
     setlocale(LC_CTYPE, "");
 #endif
+
+
     // Initialisation de l'échéquier
-    char chessboard [8][8];
+    char chessboard[8][8];
     init_echequier (chessboard);
     // Affichage de l'échequier
     interface_topedge(); 
-    
+
     for (int i = 0; i < 8; i++){
         
         wprintf(L"%d \x2551 %lc", i+1, unicode[indice(chessboard [i][0])]); // Affichage du premier élement (on le sépare du reste pour avoir le bord)
@@ -124,4 +126,4 @@ void test (){
         }
     }
     interface_botedge();
-}
+}   
