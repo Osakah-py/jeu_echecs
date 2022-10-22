@@ -12,7 +12,7 @@ NOM_FICHIER = main.c
 OBJETS = interface.o movements.o
 
 # Donner ci-dessous le nom du fichier exécutable à produire
-NOM_EXECUTABLE= main
+NOM_EXECUTABLE = main
 
 # Ligne ci-dessous à conserver
 OPTIONS = -std=c99 -Wall -Wextra -Wvla -fsanitize=address,undefined
