@@ -42,8 +42,8 @@ int get_piece_key(const char signature)
 
 char check_movement(const int position, const char signature)
 {
-    const int movement_piece[4] = movement_value[get_piece_key(signature)]; // cherche le mouvement de la piece
-    if(movement[2] == 0)
+    const int ind_key = get_piece_key(signature); // cherche le mouvement de la piece
+    if(movement_value[ind_key][2] == 0)
     {
         // verifie une seule fois le mouvement indique
     }

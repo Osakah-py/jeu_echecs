@@ -21,8 +21,4 @@ const int size_chessboard = 64; // 8 * 8
 
 
 // MAIN FONCTION ------------------------------------------------------------------------------------------
-int main (int argc, char ** argv){  
-    char *chessboard = (char *) malloc(sizeof(char) * 8 * 8); //array of a classic chessboard
-    init_chessboard(chessboard, size_chessboard);
-    return 0;
-}
+
