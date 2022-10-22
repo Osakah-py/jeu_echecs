@@ -70,7 +70,7 @@ int check_movement(const int position, const int destination, const char signatu
 
     // Il faut check le cas ou le pion peut manger en diagonale (peut-etre une fonction a part)
 
-    if(movement[2] != 0)
+    if(movement_value[ind_key][2] != 0)
     {
         // le mouvement est repete avec une boucle while
         while(inter_pos != -1)
