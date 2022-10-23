@@ -14,7 +14,7 @@
 
 // VARIABLES GLOBALES -------------------------------------------------------------------------------------
 const wchar_t pieces [6][8] = {L"roi", L"dame", L"tour", L"fou", L"cavalier", L"pion"};
-char chessboard[8][8];
+const char chessboard[8][8];
 
 
 // FONCTIONS SECONDAIRES ----------------------------------------------------------------------------------
