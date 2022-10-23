@@ -29,7 +29,8 @@ const int movement_value[6][4] = {{1, 0, 0, 0}, {1, 0, 1, 1}, {2, 1, 0, 1}, {1, 
 
 // PROTOTYPES ------------------------------------------------------------------------------------
 int get_piece_key(const char signature);
-int one_move(const int position, const int destination, const int movement[4]); // -1
+int check_
+int direction_move(const int position, const int destination, const int movement[4]); // -1
 int check_movement(const int position, const int destination, const char signature); // faux --> 0 et vrai --> autres valeurs
 
 
@@ -53,20 +54,50 @@ int one_move(const int position, const int destination, const int movement[4])
     int dest_posH = HPOS(destination);
     int dest_posV = VPOS(destination);
 
-    if (movement[3] == 0)
+    if ((init_posH + movement[0]) < dest_posH && (init_posV + movement[1] < dest_posV))
     {
-        if ((init_posH + movement[0]) < dest_posH && (init_posV + movement[1] < dest_posV))
+            // la piece reste en bas a gauche de la destination
+        return (position + movement[0] + movement[1] * 8); 
+    }
+
+    // LE MOUVEMENT: x = movement[0] et y = movement[1] 
+    if (movement[3] != 0) // la pièce est multi-directionnelle
+    {
+        if ((init_posH - movement[0]) > dest_posH && (init_posV - movement[1] > dest_posV))
         {
-            return (position + movement[0] * 8; 
+            // la piece est en haut a droite de la destination
+            return (position - movement[0] - movement[1] * 8); 
+        }
+        if ((init_posH - movement[0]) > dest_posH && (init_posV + movement[0] < dest_posV))
+        {
+            // la piece est en bas a droite de la destination
+            return(position + movement[1] + movement[0] * 8);
         }
         if ((init_posH + movement[0]) < dest_posH && (init_posV + movement[1] < dest_posV))
         {
+            //la piece est en haut a gauche de la destination
+            return(position - movement[0] + movement[1] * 8)
+        }
+        
+    }
+    
+    // LE MOUVEMENT: x = movement[1] et x = movement[1] 
+    if (movement[3] != 0)
+    {
+        if ((init_posH - movement[0]) > dest_posH && (init_posV - movement[1] > dest_posV))
+        {
+            // la piece est en haut a droite de la destination
+            return (position - movement[0] - movement[1] * 8); 
+        }
+        if ((init_posH - movement[0]) > dest_posH && (init_posV + movement[0] < dest_posV))
+        {
+            // la piece est en bas a droite de la destination
+            return(position + movement[1] + movement[0] * 8);
         }
         if ((init_posH + movement[0]) < dest_posH && (init_posV + movement[1] < dest_posV))
         {
-        }
-        if ((init_posH + movement[0]) < dest_posH && (init_posV + movement[1] < dest_posV))
-        {
+            //la piece est en haut a gauche de la destination
+            return(position - movement[0] + movement[1] * 8)
         }
         
     }
