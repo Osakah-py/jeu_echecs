@@ -40,7 +40,7 @@ int main(int argc, char** argv)
     // Entrée utilisateur
     char y;
     int x;
-    wprintf(L"Quel pion voulez vous déplacer ? \n");
+    wprintf(L"Quel pièce voulez vous déplacer ? \n");
     scanf("%c %d", &y, &x);
 
     // On vérifie que l'entrée est correcte
