@@ -1,5 +1,5 @@
 #ifndef interface 
-#define DEF_NOMDUFICHIER
+#define interface
 
 # include <stdio.h>
 # include <string.h>
