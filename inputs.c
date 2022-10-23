@@ -1,7 +1,9 @@
 # include "inputs.h"
 
-const wchar_t pieces [6][8] = {L"roi", L"dame", L"tour", L"fou", L"cavalier", L"pion"};
+// VARIABLES GLOBALES ---------------------------------------------------------------------------------
+const wchar_t pieces [6][9] = {L"roi", L"dame", L"tour", L"fou", L"cavalier", L"pion"};
 
+// UTILISATEUR CHOISI PIECE A DEPLACER ----------------------------------------------------------------
 int input_a_deplacer (char chessboard[][8], int color){
 
     // Entrée utilisateur
@@ -19,6 +21,7 @@ int input_a_deplacer (char chessboard[][8], int color){
         wprintf(L"Aucune pièce à vous en %c%d", y, x);
         return 0;
     } else {
+        wprintf(L"pion = %d \n", pion);
        wprintf(L"Où voulez vous déplacer votre %s ? \n", pieces[pion]);
        return 1;
     }
