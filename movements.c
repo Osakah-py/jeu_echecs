@@ -36,8 +36,9 @@ int move_piece(int position, const int destination, const int movement[3]);
 int find_final_pos(int position, const int destination, const int movement[4]);
 int find_pos_manager(const int position, const int destination, const int movement[4]); // -1
 // renvoie 0 si le mouvement n'est pas valide, sinon 1
-int check_movement(int position, const int destination, const char signature, char tableau[8][8]); // faux --> 0 et vrai --> autres valeurs
+int check_movement(int position, const int destination, const char signature, const char tableau[8][8]); // faux --> 0 et vrai --> autres valeurs
 
+int is_check(const int position, const int movement[4]);
 
 // FONCTIONS -------------------------------------------------------------------------------------
 void duplicate_chessboard(char target[8][8], const char original[8][8])
@@ -161,7 +162,7 @@ int find_pos_controller(int position, const int destination, const int movement[
 
 
 
-int check_movement(int position, const int destination, const char signature, char tableau[8][8])
+int check_movement(int position, const int destination, const char signature, const char tableau[8][8])
 {
     const int ind_key = get_piece_key(signature); // cherche le mouvement de la piece
     duplicate_chessboard(chessboard, tableau);
@@ -197,5 +198,16 @@ int check_movement(int position, const int destination, const char signature, ch
         }
     }
 
+    return 0;
+}
+
+
+// IS CHECK ---------------------------------------------------------------------------------- 
+int is_check(const int position, const int movement[4])
+{
+    if(0) // s'il y a un check au roi
+    {
+        return 1;
+    }
     return 0;
 }
