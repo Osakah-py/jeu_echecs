@@ -120,7 +120,7 @@ int detection (int y, int x, int color, char chessboard[][8]){
 // ZONE EN CHANTIER POUR L'INPUT
 // (avec un bulldozer CAT)
 // je peux aussi ramener un marteau piqueur stv
-void zone_en_chantier()
+void zone_en_chantier(char chessboard[][8])
 {
     // Entrée utilisateur
     char y;
