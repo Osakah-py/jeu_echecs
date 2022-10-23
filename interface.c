@@ -1,22 +1,6 @@
 // https://linuxhint.com/unicode-c/
 
-# include <stdio.h>
-# include <string.h>
-
-# include <errno.h>
-# include <stdlib.h>
-
-# include <wchar.h>
-
-// Linux library
-#ifdef unix
-    #include <locale.h>
-
-// Windows Libraries
-#elif _WIN64
-    #include <fcntl.h>
-    #include <io.h>
-#endif
+# include "interface.h"
 
 // UNICODE DE CHAQUE PIECE ---------------------------------------------------------------------------------
 const char lettre[13] = {'R', 'D', 'T', 'F', 'C', 'P', 'r', 'd', 't', 'f', 'c', 'p', '0'};
@@ -94,17 +78,6 @@ int indice (char let){
 
 // MAIN FUNCTION ------------------------------------------------------------------------------------------
 void test (){
-    
-    // On passe la console Windows en Unicode  
-#if _WIN64
-    _setmode(_fileno(stdout), 0x00020000); // _O_U16TEXT
-    
-    // On passe la console Linux en Unicode  
-#elif unix
-    setlocale(LC_CTYPE, "");
-#endif
-
-
     // Initialisation de l'échéquier
     char chessboard[8][8];
     init_echequier (chessboard);
