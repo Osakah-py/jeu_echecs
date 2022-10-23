@@ -26,7 +26,7 @@ const char piece_key[6] = {       'p',          'r',          'n',          'b',
 (surtout pour check les mouvements) */
 const int movement_value[6][4] = {{1, 0, 0, 0}, {1, 0, 1, 1}, {2, 1, 0, 1}, {1, 1, 1, 1}, {0, 0, 0, 1}, {0, 0, 1, 1}};
 
-char chessboard[8][8];
+char chessboard_mv[8][8];
 
 
 // PROTOTYPES ------------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ int move_piece(int position, const int destination, const int movement[3])
         while(position < destination)
         {
             position += (movement[0] + movement[1] * 8);
-            if(chessboard[VPOS(position)][HPOS(position)] != '0')
+            if(chessboard_mv[VPOS(position)][HPOS(position)] != '0')
             {
 // la piece a rencontre une autre piece durant son mouvement, qui n'est donc pas valide
                 return -1; 
@@ -90,7 +90,7 @@ int move_piece(int position, const int destination, const int movement[3])
         {
             // le signe de x et y sont bien definis dans find_final_move
             position += (movement[0] + movement[1] * 8); 
-            if(chessboard[VPOS(position)][HPOS(position)] != '0')
+            if(chessboard_mv[VPOS(position)][HPOS(position)] != '0')
             {
 // la piece a rencontree une autre piece durant son mouvement, qui n'est donc pas valide
                 return -1; 
@@ -113,7 +113,7 @@ int find_final_pos(const int position, const int destination, const int movement
     if (init_posH + movement[0] <= dest_posH  &&  init_posV + movement[1] <= dest_posV)
     {
         //la piece est en bas a gauche de la destination
-        return find_final_pos(position, destination, final_movement);
+        return move_piece(position, destination, final_movement);
     }
 
     if(movement[3] == 0) // la piece ne peut pas etre multidirectionnelle
@@ -123,19 +123,19 @@ int find_final_pos(const int position, const int destination, const int movement
             // la piece est en haut a droite de la destination
             final_movement[0] = - movement[0];
             final_movement[1] = - movement[1];
-            return find_final_pos(position, destination, final_movement);
+            return move_piece(position, destination, final_movement);
         }
         if (init_posH - movement[0] >= dest_posH  &&  init_posV + movement[1] <= dest_posV)
         {
             // la piece est en bas a droite de la destination
             final_movement[0] = - movement[0];
-            return find_final_pos(position, destination, final_movement);
+            return move_piece(position, destination, final_movement);
         }
         if (init_posH + movement[0] <= dest_posH  &&  init_posV - movement[1] >= dest_posV)
         {
             //la piece est en haut a gauche de la destination
             final_movement[1] = - movement[1];
-            return find_final_pos(position, destination, final_movement);
+            return move_piece(position, destination, final_movement);
         }
     }
 
@@ -165,8 +165,8 @@ int find_pos_controller(int position, const int destination, const int movement[
 int check_movement(int position, const int destination, const char signature, const char tableau[8][8])
 {
     const int ind_key = get_piece_key(signature); // cherche le mouvement de la piece
-    duplicate_chessboard(chessboard, tableau);
-    const char target = chessboard[HPOS(destination)][VPOS(destination)];
+    duplicate_chessboard(chessboard_mv, tableau);
+    const char target = chessboard_mv[HPOS(destination)][VPOS(destination)];
 
     // Il faut check le cas ou le pion peut manger en diagonale (peut-etre une fonction a part)
     if ((signature == 'p' || signature == 'P') 
