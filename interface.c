@@ -5,11 +5,11 @@
 // UNICODE DE CHAQUE PIECE ---------------------------------------------------------------------------------
 const char lettre[13] = {'R', 'D', 'T', 'F', 'C', 'P', 'r', 'd', 't', 'f', 'c', 'p', '0'};
 const wchar_t unicode[13] = {0x2654, 0x2655, 0x2656, 0x2657, 0x2658, 0x2659, 0x265A, 0x265B, 0x265C, 0x265D, 0x265E, 0x265F, 0x0020};
-const wchar_t pieces [6][8] = {L"roi", L"dame", L"tour", L"fou", L"cavalier", L"pion"};
-
+//const wchar_t pieces [6][8] = {L"roi", L"dame", L"tour", L"fou", L"cavalier", L"pion"};
+extern char chessboard[][8];
 
 // INITIALISATION ECHEQUIER --------------------------------------------------------------------------------
-void init_echequier (char chessboard[][8]){
+void init_echequier (){
     
     // Gestion d'une erreur éventuelle
     errno = 0;
@@ -112,7 +112,6 @@ int detection (int y, int x, int color, char chessboard[][8]){
     else if (!isupper(chessboard[y][x]) && color == 0){
         return indice(chessboard[y][x]) - 6; // (déphasage de 6 pièces)
     }
-    wprintf(L"noon : %d %d \n",y ,x);
     return -1;
 }
 
@@ -120,7 +119,7 @@ int detection (int y, int x, int color, char chessboard[][8]){
 // ZONE EN CHANTIER POUR L'INPUT
 // (avec un bulldozer CAT)
 // je peux aussi ramener un marteau piqueur stv
-void zone_en_chantier()
+/*void zone_en_chantier()
 {
     // Entrée utilisateur
     char y;
@@ -139,4 +138,4 @@ void zone_en_chantier()
        wprintf(L"Où voulez vous déplacer votre %s ?", pieces[pion]);
        // Inserer le code de mouvement 
     }
-}
+}*/
