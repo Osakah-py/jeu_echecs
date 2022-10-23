@@ -1,6 +1,6 @@
 # include <stdio.h>
-# define Hpos(a) (a % 8) // l'abscisse de la position sur l'echequier
-# define Vpos(a) (a / 8) // l'ordonnee ...
+# define HPOS(a) (a) % 8 // l'abscisse de la position sur l'echequier
+# define VPOS(a) (a) / 8 // l'ordonnee ...
 
 /* note :
 pos = x
@@ -46,10 +46,10 @@ int get_piece_key(const char signature)
 
 int one_move(const int position, const int destination, const int movement[4])
 {
-    int init_posH = posH(position);
-    int init_posV = posV(position);
-    int dest_posH = posH(destination);
-    int dest_posV = posV(destination);
+    int init_posH = HPOS(position);
+    int init_posV = VPOS(position);
+    int dest_posH = HPOS(destination);
+    int dest_posV = VPOS(destination);
 
     if (movement[3] == 0)
     {
