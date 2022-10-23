@@ -18,7 +18,7 @@ char chessboard[8][8];
 
 
 // FONCTIONS SECONDAIRES ----------------------------------------------------------------------------------
-
+int input();
 
 // MAIN FONCTION ------------------------------------------------------------------------------------------
 int main(int argc, char** argv)
@@ -37,8 +37,15 @@ int main(int argc, char** argv)
 
     //Affichage de l'échequier
     affichage(chessboard);
+    int entree = input();
+    if (entree){
+    // Inserer le code de mouvement 
+    }
+    return 0;
+}
 
-        // Entrée utilisateur
+int input (){
+    // Entrée utilisateur
     char y;
     int x;
     wprintf(L"Quel pièce voulez vous déplacer ? \n");
@@ -50,11 +57,10 @@ int main(int argc, char** argv)
     
     // On demande ou il veut déplacer son pion si c'est juste
     if (pion == -1){
-        wprintf(L"Vous ne pouver rien déplacer ici");
+        wprintf(L"Aucune pièce à vous en %c%d", y, x);
+        return 0;
     } else {
        wprintf(L"Où voulez vous déplacer votre %s ? \n", pieces[pion]);
-       // Inserer le code de mouvement 
+       return 1;
     }
-    
-    return 0;
 }
