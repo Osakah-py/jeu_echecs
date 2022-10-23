@@ -5,7 +5,6 @@
 // UNICODE DE CHAQUE PIECE ---------------------------------------------------------------------------------
 const char lettre[13] = {'R', 'D', 'T', 'F', 'C', 'P', 'r', 'd', 't', 'f', 'c', 'p', '0'};
 const wchar_t unicode[13] = {0x2654, 0x2655, 0x2656, 0x2657, 0x2658, 0x2659, 0x265A, 0x265B, 0x265C, 0x265D, 0x265E, 0x265F, 0x0020};
-
 // INITIALISATION ECHEQUIER --------------------------------------------------------------------------------
 void init_echequier (char chessboard[][8]){
     
@@ -34,8 +33,7 @@ void init_echequier (char chessboard[][8]){
     fclose ( flux_entree );
 }
 
-
-// AFFICHAGE ECHEQUIER -------------------------------------------------------------------------------------
+// FONCTION ANNEXES AFFICHAGE ECHEQUIER -------------------------------------------------------------------------------------
 //Permet d'afficher le cadre supérieur de l'échéquier
 void interface_topedge () {
     wprintf(L"  \x2554");
@@ -76,7 +74,7 @@ int indice (char let){
     return ind;
 }
 
-// MAIN FUNCTION ------------------------------------------------------------------------------------------
+// FONCTION PRINCIPAL AFFICHAGE ECHEQUIER ------------------------------------------------------------------------------------------
 void affichage (char chessboard[][8]){
     // Affichage de l'échequier
     interface_topedge(); 
@@ -97,3 +95,20 @@ void affichage (char chessboard[][8]){
     }
     interface_botedge();
 }   
+
+int detection (int y, int x, int color, char chessboard[][8]){
+    
+    // Verifions si il s'agit bien d'une pièce
+    if (chessboard[y][x] == '0'){
+        return -1;
+    }
+    // Veérifion que la couleur de la pièce corespond à celle du joueur
+    if ( isupper(chessboard[y][x]) && color == 1){
+        return indice(chessboard[y][x]);
+    } 
+    else if (!isupper(chessboard[y][x]) && color == 0){
+        return indice(chessboard[y][x]) - 6; // (déphasage de 6 pièces)
+    }
+    wprintf(L"noon : %d %d \n",y ,x);
+    return -1;
+}
