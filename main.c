@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 
     //Affichage de l'échequier
     affichage(chessboard);
-    int entree = input_a_deplacer(chessboard);
+    int entree = input_a_deplacer(chessboard, 1);
     if (entree){
     // Inserer le code de mouvement 
     }

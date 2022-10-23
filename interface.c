@@ -96,3 +96,20 @@ void affichage (char chessboard[][8]){
     }
     interface_botedge();
 }   
+
+int detection (int y, int x, int color, char chessboard[][8]){
+    
+    // Verifions si il s'agit bien d'une pièce
+    if (chessboard[y][x] == '0'){
+        return -1;
+    }
+    // Veérifion que la couleur de la pièce corespond à celle du joueur
+    if ( isupper(chessboard[y][x]) && color == 1){
+        return indice(chessboard[y][x]);
+    } 
+    else if (!isupper(chessboard[y][x]) && color == 0){
+        return indice(chessboard[y][x]) - 6; // (déphasage de 6 pièces)
+    }
+    wprintf(L"noon : %d %d \n",y ,x);
+    return -1;
+}

@@ -2,7 +2,7 @@
 
 const wchar_t pieces [6][8] = {L"roi", L"dame", L"tour", L"fou", L"cavalier", L"pion"};
 
-int input_a_deplacer (char chessboard[][8]){
+int input_a_deplacer (char chessboard[][8], int color){
 
     // Entrée utilisateur
     char y;
@@ -12,7 +12,7 @@ int input_a_deplacer (char chessboard[][8]){
 
     // On vérifie que l'entrée est correcte
     int pion;
-    pion = detection(x - 1, (int) y - 65, 1, chessboard);
+    pion = detection(x - 1, (int) toupper(y) - 65, color, chessboard);
     
     // On demande ou il veut déplacer son pion si c'est juste
     if (pion == -1){
