@@ -40,7 +40,9 @@ int main(int argc, char** argv)
     affichage(chessboard);
     int entree = input_a_deplacer(chessboard, 1);
     if (entree){
-    // Inserer le code de mouvement 
-    }
+        // Inserer le code de mouvement 
+           
+    } 
+
     return 0;
 }

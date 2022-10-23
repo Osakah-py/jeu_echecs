@@ -1,8 +1,4 @@
-# include <stdio.h>
-# include <ctype.h>
-
-# define HPOS(a) (a) % 8 // l'abscisse de la position sur l'echequier
-# define VPOS(a) (a) / 8 // l'ordonnee ...
+# include "movements.h"
 
 /* note :
 pos = x
@@ -190,8 +186,8 @@ int check_movement(int position, const int destination, const char signature, co
             return 1;
         }
         // les deux pieces ne sont pas de meme couleur
-        else if ( isupper(signature) && !isupper(target)
-                || !isupper(signature) && isupper(target) )
+        else if ( (isupper(signature) && !isupper(target))
+                || (!isupper(signature) && isupper(target)) )
         {
             // noter la piece mangee 
             return 1;            
@@ -203,6 +199,7 @@ int check_movement(int position, const int destination, const char signature, co
 
 
 // IS CHECK ---------------------------------------------------------------------------------- 
+/*
 int is_check(const int position, const int movement[4])
 {
     if(0) // s'il y a un check au roi
@@ -211,3 +208,4 @@ int is_check(const int position, const int movement[4])
     }
     return 0;
 }
+*/
