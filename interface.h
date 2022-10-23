@@ -12,11 +12,10 @@
 # include <fcntl.h>
 
 // Linux library
-#ifdef unix
+#if defined(unix) || defined(__unix__) || defined(__unix)
     # include <locale.h>
-
 // Windows Libraries
-#elif _WIN32
+#elif defined(_WIN32)
     # include <io.h>
 #endif
 

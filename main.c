@@ -25,11 +25,12 @@ int main(int argc, char** argv)
         // On passe la console Windows en Unicode 
         _setmode(_fileno(stdout), 0x00020000); // _O_U16TEXT
       
-    #elif defined(unix)
+    #elif defined(unix) || defined(__unix__) || defined(__unix)
         // On passe la console Linux en Unicode
+        printf("unicode in linux console here !\n");
         setlocale(LC_CTYPE, "");
     #endif
-    
+        
     // Initialisation de l'échéquier
     char chessboard[8][8];
     init_echequier (chessboard);
