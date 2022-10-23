@@ -5,11 +5,9 @@
 // UNICODE DE CHAQUE PIECE ---------------------------------------------------------------------------------
 const char lettre[13] = {'R', 'D', 'T', 'F', 'C', 'P', 'r', 'd', 't', 'f', 'c', 'p', '0'};
 const wchar_t unicode[13] = {0x2654, 0x2655, 0x2656, 0x2657, 0x2658, 0x2659, 0x265A, 0x265B, 0x265C, 0x265D, 0x265E, 0x265F, 0x0020};
-//const wchar_t pieces [6][8] = {L"roi", L"dame", L"tour", L"fou", L"cavalier", L"pion"};
-extern char chessboard[][8];
 
 // INITIALISATION ECHEQUIER --------------------------------------------------------------------------------
-void init_echequier (){
+void init_echequier (char chessboard[][8]){
     
     // Gestion d'une erreur éventuelle
     errno = 0;
