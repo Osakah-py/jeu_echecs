@@ -32,9 +32,10 @@ char chessboard[8][8];
 // PROTOTYPES ------------------------------------------------------------------------------------
 void duplicate_chessboard(char target[8][8], const char original[8][8]);
 int get_piece_key(const char signature);
-int repeat_move(int position, const int destination, const int movement[3]);
-int multidirectionnal(int position, const int destination, const int movement[4]);
-int direction_move(const int position, const int destination, const int movement[4]); // -1
+int move_piece(int position, const int destination, const int movement[3]);
+int find_final_pos(int position, const int destination, const int movement[4]);
+int find_pos_manager(const int position, const int destination, const int movement[4]); // -1
+// renvoie 0 si le mouvement n'est pas valide, sinon 1
 int check_movement(int position, const int destination, const char signature, char tableau[8][8]); // faux --> 0 et vrai --> autres valeurs
 
 
@@ -64,7 +65,7 @@ int get_piece_key(const char signature)
 }
 
 
-int repeat_move(int position, const int destination, const int movement[3])
+int move_piece(int position, const int destination, const int movement[3])
 {
     if(movement[3] == 0)
     {
@@ -77,7 +78,7 @@ int repeat_move(int position, const int destination, const int movement[3])
             position += (movement[0] + movement[1] * 8);
             if(chessboard[VPOS(position)][HPOS(position)] != '0')
             {
-// la piece a rencontree une autre piece durant son mouvement, qui n'est donc pas valide
+// la piece a rencontre une autre piece durant son mouvement, qui n'est donc pas valide
                 return -1; 
             }
         }
@@ -86,7 +87,7 @@ int repeat_move(int position, const int destination, const int movement[3])
     {
         while(position < destination)
         {
-            // le signe de x et y sont bien definis dans multidirectionnal
+            // le signe de x et y sont bien definis dans find_final_move
             position += (movement[0] + movement[1] * 8); 
             if(chessboard[VPOS(position)][HPOS(position)] != '0')
             {
@@ -100,7 +101,7 @@ int repeat_move(int position, const int destination, const int movement[3])
 }
 
 
-int multidirectionnal(const int position, const int destination, const int movement[4])
+int find_final_pos(const int position, const int destination, const int movement[4])
 {
     const int init_posH = HPOS(position);
     const int init_posV = VPOS(position);
@@ -111,7 +112,7 @@ int multidirectionnal(const int position, const int destination, const int movem
     if (init_posH + movement[0] <= dest_posH  &&  init_posV + movement[1] <= dest_posV)
     {
         //la piece est en bas a gauche de la destination
-        return repeat_move(position, destination, final_movement);
+        return find_final_pos(position, destination, final_movement);
     }
 
     if(movement[3] == 0) // la piece ne peut pas etre multidirectionnelle
@@ -121,18 +122,19 @@ int multidirectionnal(const int position, const int destination, const int movem
             // la piece est en haut a droite de la destination
             final_movement[0] = - movement[0];
             final_movement[1] = - movement[1];
-            return repeat_move(position, destination, final_movement);
+            return find_final_pos(position, destination, final_movement);
         }
         if (init_posH - movement[0] >= dest_posH  &&  init_posV + movement[1] <= dest_posV)
         {
             // la piece est en bas a droite de la destination
             final_movement[0] = - movement[0];
-            return position - movement[0] + movement[1] * 8;
+            return find_final_pos(position, destination, final_movement);
         }
         if (init_posH + movement[0] <= dest_posH  &&  init_posV - movement[1] >= dest_posV)
         {
             //la piece est en haut a gauche de la destination
-            return position + movement[0] - movement[1] * 8;
+            final_movement[1] = - movement[1];
+            return find_final_pos(position, destination, final_movement);
         }
     }
 
@@ -140,17 +142,20 @@ int multidirectionnal(const int position, const int destination, const int movem
 }
 
 
-int direction_move(int position, const int destination, const int movement[4])
+int find_pos_controller(int position, const int destination, const int movement[4])
 {
     int movement_adjusted[4] = {movement[0], movement[1], movement[2], movement[3]}; 
-    position = multidirectionnal(position, destination, movement_adjusted);
-    if (movement[3] != 0 && position == -1) // la pièce est multi-directionnelle
+    position = find_final_pos(position, destination, movement_adjusted);
+
+    // la pièce est multi-directionnelle et pas de pos final trouvee
+    if (movement[3] != 0 && position == -1)
     {
         //on ajuste movement pour l'adapter a multidirectionnal
-    movement_adjusted[0] = movement[1];
-    movement_adjusted[1] = movement[0]; // on inverse pour avoir toutes les possibilites
-    multidirectionnal(position, destination, movement_adjusted);
+        movement_adjusted[0] = movement[1];
+        movement_adjusted[1] = movement[0]; // on inverse pour avoir toutes les possibilites
+        find_final_pos(position, destination, movement_adjusted);
     }
+    
     return position; // le mouvement ne peut pas aller au-dela de la destination    
 }
 
@@ -174,7 +179,7 @@ int check_movement(int position, const int destination, const char signature, ch
     }
     else
     {
-        position = direction_move(position, destination, movement_value[ind_key]);
+        position = find_pos_controller(position, destination, movement_value[ind_key]);
     }
 
     if (position == destination)
