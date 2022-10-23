@@ -77,10 +77,7 @@ int indice (char let){
 }
 
 // MAIN FUNCTION ------------------------------------------------------------------------------------------
-void test (){
-    // Initialisation de l'échéquier
-    char chessboard[8][8];
-    init_echequier (chessboard);
+void affichage (char chessboard[][8]){
     // Affichage de l'échequier
     interface_topedge(); 
 

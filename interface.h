@@ -16,4 +16,5 @@
     # include <io.h>
 #endif
 
-void test();
+void affichage(char chessboard[][8]);
+void init_echequier (char chessboard[][8]);

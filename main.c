@@ -21,15 +21,22 @@ const int size_chessboard = 64; // 8 * 8
 
 // MAIN FONCTION ------------------------------------------------------------------------------------------
 int main(int argc, char** argv)
-{
-        // On passe la console Windows en Unicode  
-#if defined(_WIN32)
-    _setmode(_fileno(stdout), 0x00020000); // _O_U16TEXT
+{ 
+    #if defined(_WIN32)
+        // On passe la console Windows en Unicode 
+        _setmode(_fileno(stdout), 0x00020000); // _O_U16TEXT
+      
+    #elif defined(unix)
+        // On passe la console Linux en Unicode
+        setlocale(LC_CTYPE, "");
+    #endif
     
-    // On passe la console Linux en Unicode  
-#elif defined(unix)
-    //setlocale(LC_CTYPE, "");
-#endif
-    test();
+    // Initialisation de l'échéquier
+    char chessboard[8][8];
+    init_echequier (chessboard);
+
+    //Affichage de l'échequier
+    affichage(chessboard);
+
     return 0;
 }
