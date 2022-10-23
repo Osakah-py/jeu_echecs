@@ -17,7 +17,7 @@ void init_echequier (){
     const char *nom_fichier = "Default.txt";
     FILE* flux_entree = fopen ( nom_fichier, "r");
     if ( flux_entree == NULL ){
-        printf (" Une erreur s'est produite à l'ouverture du fichier %s : %s\n", nom_fichier, strerror ( errno ) ) ;
+        wprintf (L" Une erreur s'est produite à l'ouverture du fichier %s : %s\n", nom_fichier, strerror ( errno ) ) ;
         exit(EXIT_FAILURE); }
     
     //Récupération des données 
