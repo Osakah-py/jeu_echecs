@@ -36,9 +36,9 @@ int get_piece_key(const char signature)
 {
     for (int i = 0; i <size_dict_movement; i++)
     {
-        if(piece_key[i] == signature)
+        if(piece_key[i] == signature || )
         {
-            return i = 0;
+            return i;
         }
     }
     return -1; // il n'a pas d'indice...
