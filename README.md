@@ -18,6 +18,9 @@ Un jeu d'échecs en C
 - Afficher echequier avec chaque piece a sa place actuelle
 - tableaux contenant les pieces et leurs positions
   - tableau de 8 tableaux contenant chacun 8 element de 1 a 8
+###### Inputs
+- Gère les entrées utilisateur
+
 
 # Premiers rendus graphique
 ###### Test affichage à partir de la table de tables 

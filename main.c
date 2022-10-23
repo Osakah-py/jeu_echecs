@@ -1,4 +1,6 @@
 # include "interface.h"
+# include "inputs.h"
+
 /* note : 
 '0' --> case vide
 'lowercase' --> piece noire
@@ -13,7 +15,6 @@
 
 
 // VARIABLES GLOBALES -------------------------------------------------------------------------------------
-const wchar_t pieces [6][8] = {L"roi", L"dame", L"tour", L"fou", L"cavalier", L"pion"};
 char chessboard[8][8];
 
 
@@ -37,30 +38,9 @@ int main(int argc, char** argv)
 
     //Affichage de l'échequier
     affichage(chessboard);
-    int entree = input();
+    int entree = input_a_deplacer(chessboard);
     if (entree){
     // Inserer le code de mouvement 
     }
     return 0;
-}
-
-int input (){
-    // Entrée utilisateur
-    char y;
-    int x;
-    wprintf(L"Quel pièce voulez vous déplacer ? \n");
-    scanf("%c %d", &y, &x);
-
-    // On vérifie que l'entrée est correcte
-    int pion;
-    pion = detection (x - 1, (int) y - 65, 1, chessboard);
-    
-    // On demande ou il veut déplacer son pion si c'est juste
-    if (pion == -1){
-        wprintf(L"Aucune pièce à vous en %c%d", y, x);
-        return 0;
-    } else {
-       wprintf(L"Où voulez vous déplacer votre %s ? \n", pieces[pion]);
-       return 1;
-    }
 }
