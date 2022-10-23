@@ -22,20 +22,35 @@ nb : if x = 0 et y = 0 --> la piece peut bouger dans toutes les directions !
 // un dictionnaire de mouvement pour chaque piece
 const int size_dict_movement = 6;
 const char piece_key[6] = {       'p',          'r',          'n',          'b',          'k',          'q'};
-const int movement_value[6][4] = {{1, 0, 0, 0}, {1, 0, 1, 1}, {2, 1, 0, 1}, {1, 1, 1, 1}, {0, 0, 0, 1}, {0, 0, 1, 1}};
 /* NB : pour la suite, le fait que les x y sont positives sera tres important !!!
-(surtout pour la fonction one_move) */
+(surtout pour check les mouvements) */
+const int movement_value[6][4] = {{1, 0, 0, 0}, {1, 0, 1, 1}, {2, 1, 0, 1}, {1, 1, 1, 1}, {0, 0, 0, 1}, {0, 0, 1, 1}};
+
+char chessboard[8][8];
 
 
 // PROTOTYPES ------------------------------------------------------------------------------------
+void duplicate_chessboard(char target[8][8], const char original[8][8]);
 int get_piece_key(const char signature);
-int repeat_move(const int position, const int destination, const movement[2]);
-int multidirectionnal(int position, const int destination, const movement[2]);
+int repeat_move(int position, const int destination, const int movement[3]);
+int multidirectionnal(int position, const int destination, const int movement[4]);
 int direction_move(const int position, const int destination, const int movement[4]); // -1
-int check_movement(int position, const int destination, const char signature); // faux --> 0 et vrai --> autres valeurs
+int check_movement(int position, const int destination, const char signature, char tableau[8][8]); // faux --> 0 et vrai --> autres valeurs
 
 
 // FONCTIONS -------------------------------------------------------------------------------------
+void duplicate_chessboard(char target[8][8], const char original[8][8])
+{
+    for(int i = 0; i < 8; i++)
+    {
+        for(int j = 0; j < 8; j++)
+        {
+            target[i][j] = original[i][j];
+        }
+    }
+}
+
+
 int get_piece_key(const char signature)
 {
     for (int i = 0; i <size_dict_movement; i++)
@@ -48,57 +63,93 @@ int get_piece_key(const char signature)
     return -1; // il n'a pas d'indice...
 }
 
-int repeat_move(const int position, const int destination, const movement[2])
-{
-    while(0)
-    {
 
+int repeat_move(int position, const int destination, const int movement[3])
+{
+    if(movement[3] == 0)
+    {
+        return position += (movement[0] + movement[1] * 8);
     }
+    if(position > destination)
+    {
+        while(position < destination)
+        {
+            position += (movement[0] + movement[1] * 8);
+            if(chessboard[VPOS(position)][HPOS(position)] != '0')
+            {
+// la piece a rencontree une autre piece durant son mouvement, qui n'est donc pas valide
+                return -1; 
+            }
+        }
+    }
+    else
+    {
+        while(position < destination)
+        {
+            // le signe de x et y sont bien definis dans multidirectionnal
+            position += (movement[0] + movement[1] * 8); 
+            if(chessboard[VPOS(position)][HPOS(position)] != '0')
+            {
+// la piece a rencontree une autre piece durant son mouvement, qui n'est donc pas valide
+                return -1; 
+            }
+        }
+    }
+
+    return position;
 }
 
-int multidirectionnal(const int position, const int destination, const int movement[3])
+
+int multidirectionnal(const int position, const int destination, const int movement[4])
 {
     const int init_posH = HPOS(position);
     const int init_posV = VPOS(position);
     const int dest_posH = HPOS(destination);
     const int dest_posV = VPOS(destination);
-    if(movement[2] == 0)
-    {
-        return -1;
-    }
-    if (init_posH - movement[0] > dest_posH  &&  init_posV - movement[1] > dest_posV)
-    {
-        // la piece est en haut a droite de la destination
-        return (position - movement[0] - movement[1] * 8); 
-    }
-    if (init_posH - movement[0] > dest_posH  &&  init_posV + movement[1] < dest_posV)
-    {
-        // la piece est en bas a droite de la destination
-        return(position + movement[1] + movement[0] * 8);
-    }
-    if (init_posH + movement[0] < dest_posH  &&  init_posV - movement[1] > dest_posV)
-    {
-        //la piece est en haut a gauche de la destination
-        return(position - movement[0] + movement[1] * 8)
-    }
-    if (init_posH + movement[0] < dest_posH  &&  init_posV + movement[1] < dest_posV)
+    
+    int final_movement[3] = {movement[0], movement[1], movement[2]};
+    if (init_posH + movement[0] <= dest_posH  &&  init_posV + movement[1] <= dest_posV)
     {
         //la piece est en bas a gauche de la destination
-        return (position - movement[0] + movement[1] * 8)
+        return repeat_move(position, destination, final_movement);
     }
+
+    if(movement[3] == 0) // la piece ne peut pas etre multidirectionnelle
+    {
+        if (init_posH - movement[0] >= dest_posH  &&  init_posV - movement[1] >= dest_posV)
+        {
+            // la piece est en haut a droite de la destination
+            final_movement[0] = - movement[0];
+            final_movement[1] = - movement[1];
+            return repeat_move(position, destination, final_movement);
+        }
+        if (init_posH - movement[0] >= dest_posH  &&  init_posV + movement[1] <= dest_posV)
+        {
+            // la piece est en bas a droite de la destination
+            final_movement[0] = - movement[0];
+            return position - movement[0] + movement[1] * 8;
+        }
+        if (init_posH + movement[0] <= dest_posH  &&  init_posV - movement[1] >= dest_posV)
+        {
+            //la piece est en haut a gauche de la destination
+            return position + movement[0] - movement[1] * 8;
+        }
+    }
+
     return -1;
 }
 
+
 int direction_move(int position, const int destination, const int movement[4])
 {
-    int movement_adjusted[4] = movement; 
-    position = multidirectionnal(position, destination, movement_default);
+    int movement_adjusted[4] = {movement[0], movement[1], movement[2], movement[3]}; 
+    position = multidirectionnal(position, destination, movement_adjusted);
     if (movement[3] != 0 && position == -1) // la pièce est multi-directionnelle
     {
         //on ajuste movement pour l'adapter a multidirectionnal
     movement_adjusted[0] = movement[1];
     movement_adjusted[1] = movement[0]; // on inverse pour avoir toutes les possibilites
-    multidirectionnal(position, destination, movement_default);
+    multidirectionnal(position, destination, movement_adjusted);
     }
     return position; // le mouvement ne peut pas aller au-dela de la destination    
 }
@@ -108,10 +159,11 @@ int direction_move(int position, const int destination, const int movement[4])
 int check_movement(int position, const int destination, const char signature, char tableau[8][8])
 {
     const int ind_key = get_piece_key(signature); // cherche le mouvement de la piece
-    const char target = tableau[HPOS(destination)][VPOS(destination)];
+    duplicate_chessboard(chessboard, tableau);
+    const char target = chessboard[HPOS(destination)][VPOS(destination)];
 
     // Il faut check le cas ou le pion peut manger en diagonale (peut-etre une fonction a part)
-    if ((signature = 'p' || signature = 'P') 
+    if ((signature == 'p' || signature == 'P') 
         && (position-1 + 1*8 == destination || position+1 + 1*8 == destination) )
     {
         if(target == '0')
@@ -122,12 +174,12 @@ int check_movement(int position, const int destination, const char signature, ch
     }
     else
     {
-        position = direction_move(position, destination, movement_value[ind_key])
+        position = direction_move(position, destination, movement_value[ind_key]);
     }
 
     if (position == destination)
     {
-        if (target == '0')
+        if (target == '0') //case vide ! 
         {
             return 1;
         }
