@@ -14,7 +14,7 @@
 
 // VARIABLES GLOBALES -------------------------------------------------------------------------------------
 const wchar_t pieces [6][8] = {L"roi", L"dame", L"tour", L"fou", L"cavalier", L"pion"};
-const char chessboard[8][8];
+char chessboard[8][8];
 
 
 // FONCTIONS SECONDAIRES ----------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ int main(int argc, char** argv)
     if (pion == -1){
         wprintf(L"Vous ne pouver rien déplacer ici");
     } else {
-       wprintf(L"Où voulez vous déplacer votre %s ?", pieces[pion]);
+       wprintf(L"Où voulez vous déplacer votre %s ? \n", pieces[pion]);
        // Inserer le code de mouvement 
     }
     
