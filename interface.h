@@ -1,3 +1,6 @@
+#ifndef interface 
+#define DEF_NOMDUFICHIER
+
 # include <stdio.h>
 # include <string.h>
 
@@ -18,3 +21,4 @@
 
 void affichage(char chessboard[][8]);
 void init_echequier (char chessboard[][8]);
+#endif
