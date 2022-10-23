@@ -1,5 +1,6 @@
 # include "interface.h"
 # include "inputs.h"
+# include "movements.h"
 
 /* note : 
 '0' --> case vide
@@ -34,15 +35,23 @@ int main(int argc, char** argv)
     #endif
         
     // Initialisation de l'échéquier
-    init_echequier (chessboard);
+    init_echequier(chessboard);
 
     //Affichage de l'échequier
     affichage(chessboard);
-    int entree = input_a_deplacer(chessboard, 1);
-    if (entree){
-        // Inserer le code de mouvement 
-           
-    } 
-
+    //int entree = input_a_deplacer(chessboard, 1);
+    //if (entree){
+        // Inserer le code de mouvement
+        int pos = 2 + 5 * 8;
+        int dest = 1 + 4 * 8;
+        if(!check_movement(pos, dest, 'k', chessboard))
+        {
+            wprintf(L"mouvement avorté :(\n");
+        }   
+        else
+        {
+            wprintf(L"movement réussi !\n");
+        }
+    //} 
     return 0;
 }
