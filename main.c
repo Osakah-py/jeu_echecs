@@ -39,11 +39,19 @@ int main(int argc, char** argv)
 
     //Affichage de l'échequier
     affichage(chessboard);
-    //int entree = input_a_deplacer(chessboard, 1);
-    //if (entree){
+    int y1;
+    int x1;
+    int entree = input_a_deplacer(chessboard, 0, &y1, &x1);
+    if (entree){
         // Inserer le code de mouvement
-        int pos = 4 + 8 * 6;
-        int dest = 4 + 8 * 4;
+        char x2 = 'A';
+        int y2 = 0;
+        scanf("%c%d", &x2, &y2);
+        int pos = x1 + 8 * y1;
+        int dest = x2 - 1 + 8 * ((int) toupper(y2) - 65);
+        
+        wprintf(L"dest = x:%d y:%d \n", dest % 8, dest / 8);
+        
         if(!check_movement(pos, dest, 'p', chessboard))
         {
             wprintf(L"mouvement avorté :(\n");
@@ -52,6 +60,8 @@ int main(int argc, char** argv)
         {
             wprintf(L"movement réussi !\n");
         }
-    //} 
+    } else {
+        wprintf(L"Apprend ou sont tes pions toi");
+    }
     return 0;
 }
