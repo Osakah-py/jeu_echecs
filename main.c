@@ -16,7 +16,6 @@
 
 
 // VARIABLES GLOBALES -------------------------------------------------------------------------------------
-char chessboard[8][8];
 
 
 // FONCTIONS SECONDAIRES ----------------------------------------------------------------------------------
@@ -33,6 +32,8 @@ int main(int argc, char** argv)
         // On passe la console Linux en Unicode
         setlocale(LC_CTYPE, "");
     #endif
+    
+    char chessboard[8][8];
         
     // Initialisation de l'échéquier
     init_echequier(chessboard);
@@ -42,9 +43,9 @@ int main(int argc, char** argv)
     //int entree = input_a_deplacer(chessboard, 1);
     //if (entree){
         // Inserer le code de mouvement
-        int pos = 4 + 8 * 6;
-        int dest = 4 + 8 * 4;
-        if(!check_movement(pos, dest, 'p', chessboard))
+        int pos = 0 + 8 * 4;
+        int dest = 7 + 8 * 3;
+        if(!check_movement(pos, dest, 'r', chessboard))
         {
             wprintf(L"mouvement avorté :(\n");
         }   

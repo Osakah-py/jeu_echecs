@@ -1,4 +1,5 @@
 # include "movements.h"
+//juste pour debug
 # include <wchar.h>
 
 /* note :
@@ -22,8 +23,24 @@ const char piece_key[6] = {       'p',          'r',          'n',          'b',
 /* NB : pour la suite, le fait que les x y sont positives sera tres important !!!
 (surtout pour check les mouvements) */
 const int movement_value[6][4] = {{1, 0, 0, 0}, {1, 0, 1, 1}, {2, 1, 0, 1}, {1, 1, 1, 1}, {0, 0, 0, 1}, {0, 0, 1, 1}};
-
 char chessboard_mv[8][8];
+
+struct piece
+{
+    const char signature; // le type de piece
+    int posX; // entre 0 et 7
+    int posY; // entre 0 et 7
+};
+
+// b = black et w = white
+const int number_pieces = 32; 
+struct piece bKnight0 = {'n', 1, 7};
+struct piece bKnight1 = {'n', 6, 7};
+struct piece bKing = {'k', 4, 7};
+
+struct piece wKnight0 = {'N', 1, 0};
+struct piece wKnight1 = {'N', 6, 0};
+struct piece wKing = {'K', 4, 0}; 
 
 
 // PROTOTYPES ------------------------------------------------------------------------------------
@@ -278,8 +295,23 @@ int check_movement(int position, const int destination, const char signature, co
 
 
 // IS CHECK ---------------------------------------------------------------------------------- 
+
+// On suppose qu'il est appele apres check_movement, et donc chessboard_mv est bien actualise
+int is_king_safe(int is_white_king)
+{
+    if(is_white_king)
+    {        
+        for (int i = 0; i < 8; i ++)
+        {
+            if(!isupper(chessboard_mv[i][wKing.posX]) )
+            {
+                
+            }
+        }
+    }
+}
 /*
-int is_check(const int position, const int movement[4])
+int is_check()
 {
     if(0) // s'il y a un check au roi
     {
