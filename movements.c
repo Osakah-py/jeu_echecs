@@ -19,7 +19,7 @@ nb : if x = 0 et y = 0 --> la piece peut bouger dans toutes les directions !
 // VARIABLES GLOBALES -----------------------------------------------------------------------------
 // un dictionnaire de mouvement pour chaque piece
 const int size_dict_movement = 6;
-const char piece_key[6] = {       'p',          't',          'k',          'f',          'r',          'd'};
+const char piece_key[6] = {       'p',          't',          'c',          'f',          'r',          'd'};
 /* NB : pour la suite, le fait que les x y sont positives sera tres important !!!
 (surtout pour check les mouvements) */
 const int movement_value[6][4] = {{1, 0, 0, 0}, {1, 0, 1, 1}, {2, 1, 0, 1}, {1, 1, 1, 1}, {0, 0, 0, 1}, {0, 0, 1, 1}};
