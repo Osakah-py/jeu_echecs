@@ -19,7 +19,7 @@ nb : if x = 0 et y = 0 --> la piece peut bouger dans toutes les directions !
 // VARIABLES GLOBALES -----------------------------------------------------------------------------
 // un dictionnaire de mouvement pour chaque piece
 const int size_dict_movement = 6;
-const char piece_key[6] = {       'p',          'r',          'n',          'b',          'k',          'q'};
+const char piece_key[6] = {       'p',          't',          'k',          'f',          'r',          'd'};
 /* NB : pour la suite, le fait que les x y sont positives sera tres important !!!
 (surtout pour check les mouvements) */
 const int movement_value[6][4] = {{1, 0, 0, 0}, {1, 0, 1, 1}, {2, 1, 0, 1}, {1, 1, 1, 1}, {0, 0, 0, 1}, {0, 0, 1, 1}};
@@ -34,13 +34,13 @@ struct piece
 
 // b = black et w = white
 const int number_pieces = 32; 
-struct piece bKnight0 = {'n', 1, 7};
-struct piece bKnight1 = {'n', 6, 7};
-struct piece bKing = {'k', 4, 7};
+struct piece bKnight0 = {'k', 1, 7};
+struct piece bKnight1 = {'k', 6, 7};
+struct piece bKing = {'r', 4, 7};
 
-struct piece wKnight0 = {'N', 1, 0};
-struct piece wKnight1 = {'N', 6, 0};
-struct piece wKing = {'K', 4, 0}; 
+struct piece wKnight0 = {'C', 1, 0};
+struct piece wKnight1 = {'C', 6, 0};
+struct piece wKing = {'R', 4, 0}; 
 
 
 // PROTOTYPES ------------------------------------------------------------------------------------

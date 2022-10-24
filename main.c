@@ -41,7 +41,7 @@ int main(int argc, char** argv)
     //Affichage de l'échequier
     affichage(chessboard);
     
-    for (int i = 0; i < 5; i++){
+    while(1){
     int y1;
     int x1;
     char piece;
