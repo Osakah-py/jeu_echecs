@@ -192,7 +192,7 @@ int find_pos_controller(const int position, const int destination, const int mov
         movement_adjusted[0] = movement_adjusted[1];
         movement_adjusted[1] = tmp; // on inverse pour avoir toutes les possibilites        
         
-        inter_pos = find_final_pos(position, destination, movement_adjusted); /
+        inter_pos = find_final_pos(position, destination, movement_adjusted);
     }
 
     return inter_pos;
