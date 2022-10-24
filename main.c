@@ -16,7 +16,6 @@
 
 
 // VARIABLES GLOBALES -------------------------------------------------------------------------------------
-char chessboard[8][8];
 
 
 // FONCTIONS SECONDAIRES ----------------------------------------------------------------------------------
@@ -33,6 +32,8 @@ int main(int argc, char** argv)
         // On passe la console Linux en Unicode
         setlocale(LC_CTYPE, "");
     #endif
+    
+    char chessboard[8][8];
         
     // Initialisation de l'échéquier
     init_echequier(chessboard);
