@@ -52,7 +52,7 @@ int main(int argc, char** argv)
         int pos = x1 + 8 * y1;
         int dest = input_ou_deplacer();
         
-        wprintf(L"\x1b[31mdest = x:%d y:%d \x1b[39m \n", dest % 8, dest / 8);
+        wprintf(L"\x1b[44mdest = x:%d y:%d\x1b[49m \n", dest % 8, dest / 8);
         
         if(!check_movement(pos, dest, piece, chessboard))
         {
