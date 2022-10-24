@@ -47,7 +47,7 @@ struct piece wKing = {'R', 4, 0};
 void update_chessboard(const int position, const int destination, char chessboard[8][8]);
 void duplicate_chessboard(char target[8][8], const char original[8][8]);
 int get_piece_key(const char signature);
-int move_piece(int position, const int destination, const int movement[3]);
+int move_piece(const int position, const int destination, const int movement[3]);
 int find_final_pos(int position, const int destination, const int movement[4]);
 int find_pos_controller(const int position, const int destination, const int movement[4], const char signature);
 // revoie 0 si le pion n'est pas dans le cas ou il doit manger en diagonale (yum yum :D)
@@ -93,48 +93,60 @@ int get_piece_key(const char signature)
 }
 
 
-int move_piece(int position, const int destination, const int movement[3])
+int move_piece(const int position, const int destination, const int movement[3])
 {
+    const int movX = movement[0]; 
+    const int movY = movement[1];
+    int posX = HPOS(position);   
+    int posY = VPOS(position);
     // le mouvement ne peut pas etre repete
-    if(movement[2] == 0 && (position + movement[0])/8 != position/8)
+    posX += movX;
+    posY += movY;
+    if (movement[2] == 0)
     {
-        return position += (movement[0] + movement[1] * 8);
+        if (posX >= 0 && posX < 8 && posY >= 0 && posX < 8) // on verifie si la piece ne sort pas de l'echiquier
+        {
+            return posX + posY * 8;
+        }
+        return -1; // elle sort !
     }
 
     if(position > destination)
     {
-        while(position > destination) // On veut trouver la position la plus proche vers destination
+        while(posX + posY * 8 > destination) // On veut trouver la position la plus proche vers destination
         {
-            if ((position + movement[0])/8 != position/8) // la piece sort de l'echequier
+            if (posX < 0 && posX >= 8 && posY < 0 && posX >= 8) // la piece sort de l'echequier
             {
                 return position;
             }
-            position += (movement[0] + movement[1] * 8);
-            if (chessboard_mv[VPOS(position)][HPOS(position)] != '0')
+            if (chessboard_mv[posY][posX] != '0')
             {
                 // la piece a rencontre une autre piece durant son mouvement !
                 return -1; 
             }
+            posX += movX;
+            posY += movY;
         }
     }
     else
     {
-        while(position < destination)
+        while(posX + posY * 8 < destination)
         {
             // le signe de x et y sont bien definis dans find_final_move
-            if ((position + movement[0])/8 != position/8)
+            if (posX < 0 && posX >= 8 && posY < 0 && posX >= 8)
             {
                 return position;
             }
-            position += (movement[0] + movement[1] * 8); 
-            if(chessboard_mv[VPOS(position)][HPOS(position)] != '0')
+            if(chessboard_mv[posY][posX] != '0')
             {
                 return -1; 
             }
+            posX += movX;
+            posY += movY;
         }
     }
 
-    return position;
+    return posX + posY * 8;
 }
 
 
@@ -182,7 +194,7 @@ int find_pos_controller(const int position, const int destination, const int mov
         movement_adjusted[0] = - movement[0];
         movement_adjusted[1] = - movement[1];
     }
-        if(movement[0] + movement[1] == 0) // on regarde si la piece peut se diriger dans toutes les dir.
+        if(movement[0] == 0 && movement[1] == 0) // on regarde si la piece peut se diriger dans toutes les dir.
     {
         //deplacement en diagonale pour un premier cas
         movement_adjusted[0] = 1; 
@@ -196,7 +208,7 @@ int find_pos_controller(const int position, const int destination, const int mov
         return destination;
     }
     // deux autres cas pour la piece (0, 0) : vertical et hoziontal  
-    else if(movement[0] + movement[1] == 0) 
+    else if(movement[0] == 0 && movement[1] == 0) 
     {
         movement_adjusted[0] = 1;
         movement_adjusted[1] = 0;

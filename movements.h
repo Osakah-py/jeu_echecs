@@ -7,7 +7,7 @@
 # define VPOS(a) (a) / 8 // l'ordonnee ...
 
 // faux --> 0 et vrai --> autres valeurs
-void update_chessboard(const int position, const int destination, cahr chessboard[8][8])
+void update_chessboard(const int position, const int destination, char chessboard[8][8]);
 int check_movement(int position, const int destination, const char signature, const char tableau[8][8]); 
 
 #endif
