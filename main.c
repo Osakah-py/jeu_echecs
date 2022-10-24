@@ -42,9 +42,9 @@ int main(int argc, char** argv)
     //int entree = input_a_deplacer(chessboard, 1);
     //if (entree){
         // Inserer le code de mouvement
-        int pos = 2 + 5 * 8;
-        int dest = 1 + 4 * 8;
-        if(!check_movement(pos, dest, 'k', chessboard))
+        int pos = 4 + 8 * 6;
+        int dest = 4 + 8 * 4;
+        if(!check_movement(pos, dest, 'p', chessboard))
         {
             wprintf(L"mouvement avorté :(\n");
         }   
