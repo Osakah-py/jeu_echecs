@@ -22,7 +22,7 @@ const int size_dict_movement = 6;
 const char piece_key[6] = {       'p',          't',          'c',          'f',          'r',          'd'};
 /* NB : pour la suite, le fait que les x y sont positives sera tres important !!!
 (surtout pour check les mouvements) */
-const int movement_value[6][4] = {{1, 0, 0, 0}, {1, 0, 1, 1}, {2, 1, 0, 1}, {1, 1, 1, 1}, {0, 0, 0, 1}, {0, 0, 1, 1}};
+const int movement_value[6][4] = {{0, 1, 0, 0}, {1, 0, 1, 1}, {2, 1, 0, 1}, {1, 1, 1, 1}, {0, 0, 0, 1}, {0, 0, 1, 1}};
 char chessboard_mv[8][8];
 
 struct piece
@@ -250,8 +250,8 @@ int find_final_pos_pawn(const int position, const int destination, const char si
         return destination;
     }
     // le pion peut avancer de deux cases au début
-    else if ( (isupper(signature) && position/8 == 1 && position + 2*8 == destination)
-          || (!isupper(signature) && position/8 == 6 && position - 2*8 == destination) )
+    else if ( (isupper(signature) && position/8 == 1 && (position + 2*8) == destination)
+          || (!isupper(signature) && position/8 == 6 && (position - 2*8) == destination) )
     {
         if(target != '0')
         {
@@ -266,12 +266,16 @@ int check_movement(int position, const int destination, const char signature, co
 {
     const int ind_key = get_piece_key(signature); // cherche le mouvement de la piece
     duplicate_chessboard(chessboard_mv, tableau);
-    const char target = chessboard_mv[HPOS(destination)][VPOS(destination)];
+    const char target = chessboard_mv[VPOS(destination)][HPOS(destination)];
     
     // le pion a des movements speciaux a traiter a part
     if (signature == 'p' || signature == 'P') 
     {
         position = find_final_pos_pawn(position, destination, signature, target);
+        if(position == destination)
+        {
+            return 1;
+        }
     }
     
     position = find_pos_controller(position, destination, movement_value[ind_key], signature);
