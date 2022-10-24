@@ -44,6 +44,7 @@ struct piece wKing = {'R', 4, 0};
 
 
 // PROTOTYPES ------------------------------------------------------------------------------------
+void update_chessboard(const int position, const int destination, char chessboard[8][8]);
 void duplicate_chessboard(char target[8][8], const char original[8][8]);
 int get_piece_key(const char signature);
 int move_piece(int position, const int destination, const int movement[3]);
@@ -61,6 +62,12 @@ int is_king_safe(const struct piece king);
 
 
 // FONCTIONS -------------------------------------------------------------------------------------
+void update_chessboard(const int position, const int destination, char chessboard[8][8])
+{
+    chessboard[VPOS(destination)][HPOS(destination)] = chessboard[VPOS(position)][HPOS(position)];
+    chessboard[VPOS(position)][HPOS(position)] = '0';    
+}
+
 void duplicate_chessboard(char target[8][8], const char original[8][8])
 {
     for(int i = 0; i < 8; i++)

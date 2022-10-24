@@ -19,7 +19,8 @@
 
 
 // FONCTIONS SECONDAIRES ----------------------------------------------------------------------------------
-int input();
+
+
 
 // MAIN FONCTION ------------------------------------------------------------------------------------------
 int main(int argc, char** argv)
@@ -62,7 +63,7 @@ int main(int argc, char** argv)
         else
         {
             wprintf(L"movement réussi !\n");
-            mouv(y1,x1,dest,* chessboard);
+            update_chessboard(pos, dest, chessboard);
         }
     } else {
         wprintf(L"Apprend ou sont tes pions toi");
@@ -70,10 +71,4 @@ int main(int argc, char** argv)
     affichage(chessboard);
     }
     return 0;
-}
-
-void mouv(int y1, int x1, int dest, char * chessboard){
-    wprintf(L"mouv x2 = %d y2 = %d \n x1 = %d y1 = %d \n", dest % 8, dest / 8, x1, y1);
-    chessboard[dest] = chessboard[8 * y1 + x1];
-    chessboard[y1 * 8 + x1] = '0';
 }
