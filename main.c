@@ -19,7 +19,7 @@
 
 
 // FONCTIONS SECONDAIRES ----------------------------------------------------------------------------------
-int input();
+void mouv(int y1, int x1, int dest, char * chessboard);
 
 // MAIN FONCTION ------------------------------------------------------------------------------------------
 int main(int argc, char** argv)

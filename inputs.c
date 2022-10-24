@@ -44,8 +44,8 @@ int input_ou_deplacer(){
     fgets(entree, 3, stdin);
     viderBuffer();
     
-    int x = (int) toupper(entree[0]) - 65;
-    int y = (int) entree[1] - 1 - 48;
+    int x = (int) toupper(entree[0]) - 65; // 65 corespond au code ASCII du A
+    int y = (int) entree[1] - 1 - 48; // 48 corespond au code ASCII du 0
 
     return x + 8 * y;
 
