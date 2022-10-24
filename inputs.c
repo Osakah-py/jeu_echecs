@@ -13,7 +13,7 @@ void viderBuffer()
     }
 }
 // UTILISATEUR CHOISI PIECE A DEPLACER ----------------------------------------------------------------
-int input_a_deplacer (char chessboard[][8], int color, int * y, int * x){
+int input_a_deplacer (char chessboard[][8], int color, int * y, int * x, char * piece){
 
     // Entrée utilisateur
     wprintf(L"Quel pièce voulez vous déplacer ? \n");
@@ -27,7 +27,7 @@ int input_a_deplacer (char chessboard[][8], int color, int * y, int * x){
     
     // On vérifie que l'entrée est correcte
     int pion;
-    pion = detection(*y, *x, color, chessboard);
+    pion = detection(*y, *x, color, chessboard, piece);
     
     // On demande ou il veut déplacer son pion si c'est juste
     if (pion == -1){
@@ -39,6 +39,15 @@ int input_a_deplacer (char chessboard[][8], int color, int * y, int * x){
     }
 }
 
-void input_ou_deplacer(){
+int input_ou_deplacer(){
+    char entree[3];
+    
+    fgets(entree, 3, stdin);
+    viderBuffer();
+    
+    int x = (int) toupper(entree[0]) - 65;
+    int y = (int) entree[1] - 1 - 48;
+
+    return x + 8 * y;
 
 }

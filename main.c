@@ -42,18 +42,17 @@ int main(int argc, char** argv)
     affichage(chessboard);
     int y1;
     int x1;
-    int entree = input_a_deplacer(chessboard, 0, &y1, &x1);
+    char piece;
+    int entree = input_a_deplacer(chessboard, 0, &y1, &x1, &piece);
     if (entree){
         // Inserer le code de mouvement
-        char x2 = 'A';
-        int y2 = 0;
-        scanf("%c%d", &x2, &y2);
+
         int pos = x1 + 8 * y1;
-        int dest = x2 - 1 + 8 * ((int) toupper(y2) - 65);
+        int dest = input_ou_deplacer();
         
         wprintf(L"dest = x:%d y:%d \n", dest % 8, dest / 8);
         
-        if(!check_movement(pos, dest, 'p', chessboard))
+        if(!check_movement(pos, dest, piece, chessboard))
         {
             wprintf(L"mouvement avorté :(\n");
         }   

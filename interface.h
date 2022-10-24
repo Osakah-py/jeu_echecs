@@ -23,6 +23,6 @@
 // FONCTIONS ------------------------------------------------------------------
 void affichage(char chessboard[][8]);
 void init_echequier (char chessboard[][8]);
-int detection (int y, int x, int color, char chessboard[][8]);
+int detection (int y, int x, int color, char chessboard[][8], char * piece);
 
 #endif

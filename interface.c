@@ -97,7 +97,7 @@ void affichage (char chessboard[][8]){
     interface_botedge();
 }   
 
-int detection (int y, int x, int color, char chessboard[][8]){
+int detection (int y, int x, int color, char chessboard[][8], char * piece){
     
     // Verifions si il s'agit bien d'une pièce
     if (chessboard[y][x] == '0'){
@@ -105,9 +105,11 @@ int detection (int y, int x, int color, char chessboard[][8]){
     }
     // Veérifion que la couleur de la pièce corespond à celle du joueur
     if ( isupper(chessboard[y][x]) && color == 1){
+        *piece = chessboard[y][x];
         return indice(chessboard[y][x]);
     } 
     else if (!isupper(chessboard[y][x]) && color == 0){
+        *piece = chessboard[y][x];
         return indice(chessboard[y][x]) - 6; // (déphasage de 6 pièces)
     }
     return -1;
