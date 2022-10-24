@@ -19,7 +19,7 @@
 
 
 // FONCTIONS SECONDAIRES ----------------------------------------------------------------------------------
-void mouv(int y1, int x1, int dest, char * chessboard);
+int input();
 
 // MAIN FONCTION ------------------------------------------------------------------------------------------
 int main(int argc, char** argv)
@@ -30,7 +30,7 @@ int main(int argc, char** argv)
       
     #elif defined(__linux__)
         // On passe la console Linux en Unicode
-        setlocale(LC_CTYPE, "");
+        setlocale(LC_CTYPE, "");    
     #endif
     
     char chessboard[8][8];
