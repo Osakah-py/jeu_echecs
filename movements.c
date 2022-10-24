@@ -32,12 +32,14 @@ int get_piece_key(const char signature);
 int move_piece(int position, const int destination, const int movement[3]);
 int find_final_pos(int position, const int destination, const int movement[4]);
 int find_pos_controller(const int position, const int destination, const int movement[4], const char signature);
+// revoie 0 si le pion n'est pas dans le cas ou il doit manger en diagonale (yum yum :D)
 int diagonale_cond(const int position, const int destination, const char signature);
 int find_final_pos_pawn(const int position, const int destination, const char signature, const char target);
 // renvoie 0 si le mouvement n'est pas valide, sinon 1
 int check_movement(int position, const int destination, const char signature, const char tableau[8][8]); // faux --> 0 et vrai --> autres valeurs
 
 int is_check(const int position, const int movement[4]);
+
 
 // FONCTIONS -------------------------------------------------------------------------------------
 void duplicate_chessboard(char target[8][8], const char original[8][8])
@@ -67,14 +69,15 @@ int get_piece_key(const char signature)
 
 int move_piece(int position, const int destination, const int movement[3])
 {
-    if(movement[2] == 0 && position + (movement[0])/8 != position/8)
+    // le mouvement ne peut pas etre repete
+    if(movement[2] == 0 && (position + movement[0])/8 != position/8)
     {
         return position += (movement[0] + movement[1] * 8);
     }
 
     if(position > destination)
     {
-        while(position > destination)
+        while(position > destination) // On veut trouver la position la plus proche vers destination
         {
             if ((position + movement[0])/8 != position/8) // la piece sort de l'echequier
             {
@@ -111,6 +114,7 @@ int move_piece(int position, const int destination, const int movement[3])
 
 int find_final_pos(const int position, const int destination, const int movement[4])
 {
+    // On trouve les coordonnees de position et destination sur l'echequier
     const int init_posH = HPOS(position);
     const int init_posV = VPOS(position);
     const int dest_posH = HPOS(destination);
@@ -122,15 +126,16 @@ int find_final_pos(const int position, const int destination, const int movement
 
     if(movement[3] != 0) // la piece est multidirectionnelle ?
     {
+        // on veut savoir la position relative de la piece par rapport a la destination
         sign_posH = dest_posH - init_posH; 
         sign_posV = dest_posV - init_posV; 
     }
 
-    if(sign_posH * final_movement[0] < 0) // si sign_posH = 0, on garde la valeur intiale
+    if(sign_posH * final_movement[0] < 0) // si sign_posH = 0, on garde la valeur initiale
     {
-        final_movement[0] *= -1;
+        final_movement[0] *= -1; // la position relative et le mouvement x doit etre reajuste
     }
-    if(sign_posV * final_movement[1] < 0) // si sign_posV = 0, on garde la valeur intiale
+    if(sign_posV * final_movement[1] < 0) // si sign_posV = 0, on garde la valeur initiale
     {
         final_movement[1] *= -1;
     }
@@ -153,7 +158,8 @@ int find_pos_controller(const int position, const int destination, const int mov
     }
         if(movement[0] + movement[1] == 0) // on regarde si la piece peut se diriger dans toutes les dir.
     {
-        movement_adjusted[0] = 1;
+        //deplacement en diagonale pour un premier cas
+        movement_adjusted[0] = 1; 
         movement_adjusted[1] = 1;
     }
 
@@ -163,17 +169,19 @@ int find_pos_controller(const int position, const int destination, const int mov
     {
         return destination;
     }
-    else if(movement[0] + movement[1] == 0) // on va retraiter deux cas comme pour la tour
+    // deux autres cas pour la piece (0, 0) : vertical et hoziontal  
+    else if(movement[0] + movement[1] == 0) 
     {
         movement_adjusted[0] = 1;
         movement_adjusted[1] = 0;
         inter_pos = find_final_pos(position, destination, movement_adjusted);
-        if(inter_pos == destination)
+        if(inter_pos == destination) // il a trouve son mvt ?
         {
             return destination;
         }
         movement_adjusted[0] = 0;
         movement_adjusted[1] = 1;
+        
         inter_pos = find_final_pos(position, destination, movement_adjusted);
     }
     // la pièce est multi-directionnelle et pas de pos final trouvee
@@ -183,11 +191,11 @@ int find_pos_controller(const int position, const int destination, const int mov
         int tmp = movement_adjusted[0];
         movement_adjusted[0] = movement_adjusted[1];
         movement_adjusted[1] = tmp; // on inverse pour avoir toutes les possibilites        
-        inter_pos = find_final_pos(position, destination, movement_adjusted); // le mouvement ne peut pas aller au-dela de la destination    
+        
+        inter_pos = find_final_pos(position, destination, movement_adjusted); /
     }
 
     return inter_pos;
-    
 }
 
 int diagonale_cond(const int position, const int destination, const char signature)
