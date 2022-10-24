@@ -40,8 +40,9 @@ int main(int argc, char** argv)
 
     //Affichage de l'échequier
     affichage(chessboard);
-    
+
     while(1){
+    
     int y1;
     int x1;
     char piece;

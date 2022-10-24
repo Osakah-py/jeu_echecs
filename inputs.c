@@ -4,8 +4,7 @@
 const wchar_t pieces [6][9] = {L"roi", L"dame", L"tour", L"fou", L"cavalier", L"pion"};
 
 // VIDAGE DU BUFFER A CHAQUE ENTREE -------------------------------------------------------------------
-void viderBuffer()
-{
+void viderBuffer() {
     int c = 0;
     while (c != '\n' && c != EOF)
     {
