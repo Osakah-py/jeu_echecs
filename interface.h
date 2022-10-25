@@ -21,15 +21,13 @@
 
 // LES COULEURS ---------------------------------------------------------------
 # define _RED_() "\x1b[31m"
-# define _BLUE_() L"\x1b[34m"
+# define _YELLOW_() L"\x1b[33m"
 # define _DEFAULT_() "\x1b[39m"
 
 // FONCTIONS ------------------------------------------------------------------
 void affichage(char chessboard[][8], int highlight);
 void clear();
-
 void init_echequier (char chessboard[][8]);
-
 int detection (int y, int x, int color, char chessboard[][8], char * piece);
 
 #endif

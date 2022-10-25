@@ -87,7 +87,7 @@ void affichage (char chessboard[][8], int highlight){
         wprintf(L"%d \x2551 ", i+1); // Ce bord la :p
         
         if (i * 8 == highlight){
-                wprintf (_BLUE_()); // si c la pièce à highlight on la met en bleu
+                wprintf (_YELLOW_()); // si c la pièce à highlight on la met en bleu
             }
 
         wprintf(L"%lc"_DEFAULT_(), unicode[indice(chessboard [i][0])]); 
@@ -97,7 +97,7 @@ void affichage (char chessboard[][8], int highlight){
             wprintf(L"  \x2502 "); // On affiche le bord
 
             if (i * 8 + j == highlight){
-                wprintf (_BLUE_()); // si c la pièce à highlight on la met en bleu
+                wprintf (_YELLOW_()); // si c la pièce à highlight on la met en bleu
             }
 
             wprintf(L"%lc" _DEFAULT_(), unicode[indice(chessboard [i][j])]); // on affiche chaque indice unicode des pièces
