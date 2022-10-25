@@ -98,6 +98,15 @@ void affichage (char chessboard[][8]){
     interface_botedge();
 }   
 
+void clear() { // permet de renvoyer en haut la console a chaque tour
+    #if defined(_WIN32)
+        system("cls");
+      
+    #elif defined(__linux__)
+        system("clear");   
+    #endif
+}
+
 int detection (int y, int x, int color, char chessboard[][8], char * piece){
     
     // Documentation détailée de cette fonction : https://bit.ly/3sqhpW6

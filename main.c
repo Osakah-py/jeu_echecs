@@ -61,9 +61,11 @@ int main(int argc, char** argv)
             {
                 wprintf(_RED_() L"Impossible de déplacer votre pièce ici ! \nRéessayez : \n" _DEFAULT_());
             } else {
-                update_chessboard(coordonees_init, dest, chessboard);
-                affichage(chessboard);
-                trait ++;
+                
+                update_chessboard(coordonees_init, dest, chessboard); // on met a jour l'échéquier
+                clear(); // On reset l'affichage
+                affichage(chessboard); // On affiche l'échéquier
+                trait ++; // On passe au tour suivant
             }
         } 
     }
