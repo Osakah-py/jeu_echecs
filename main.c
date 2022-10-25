@@ -41,7 +41,7 @@ int main(int argc, char** argv)
     int trait = 1; // trait au blac
 
     //Affichage de l'échequier une première fois
-    affichage(chessboard);
+    affichage(chessboard, -1); // -1 car on ne veut rien en bleu
 
     // Boucle principale
     while(1){
@@ -64,7 +64,7 @@ int main(int argc, char** argv)
                 
                 update_chessboard(coordonees_init, dest, chessboard); // on met a jour l'échéquier
                 clear(); // On reset l'affichage
-                affichage(chessboard); // On affiche l'échéquier
+                affichage(chessboard, dest); // On affiche l'échéquier
                 trait ++; // On passe au tour suivant
             }
         } 

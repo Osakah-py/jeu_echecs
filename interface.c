@@ -77,16 +77,30 @@ int indice (char let){
 }
 
 // FONCTION PRINCIPAL AFFICHAGE ECHEQUIER ------------------------------------------------------------------------------------------
-void affichage (char chessboard[][8]){
+void affichage (char chessboard[][8], int highlight){
     // Affichage de l'échequier
     interface_topedge(); 
 
     for (int i = 0; i < 8; i++){
         
-        wprintf(L"%d \x2551 %lc", i+1, unicode[indice(chessboard [i][0])]); // Affichage du premier élement (on le sépare du reste pour avoir le bord)
+        // Affichage du premier élement (on le sépare du reste pour avoir le bord)
+        wprintf(L"%d \x2551 ", i+1); // Ce bord la :p
         
+        if (i * 8 == highlight){
+                wprintf (_BLUE_()); // si c la pièce à highlight on la met en bleu
+            }
+
+        wprintf(L"%lc"_DEFAULT_(), unicode[indice(chessboard [i][0])]); 
+
         for (int j = 1; j < 8; j++){
-            wprintf(L"  \x2502 %lc", unicode[indice(chessboard [i][j])]); // on affiche chaque indice unicode des pièces
+            
+            wprintf(L"  \x2502 "); // On affiche le bord
+
+            if (i * 8 + j == highlight){
+                wprintf (_BLUE_()); // si c la pièce à highlight on la met en bleu
+            }
+
+            wprintf(L"%lc" _DEFAULT_(), unicode[indice(chessboard [i][j])]); // on affiche chaque indice unicode des pièces
         }
 
         wprintf(L"  \x2551 \n"); // On ferme le cadre

@@ -21,11 +21,11 @@
 
 // LES COULEURS ---------------------------------------------------------------
 # define _RED_() "\x1b[31m"
-# define _BLUE_ ()"\x1b[34m"
+# define _BLUE_() L"\x1b[34m"
 # define _DEFAULT_() "\x1b[39m"
 
 // FONCTIONS ------------------------------------------------------------------
-void affichage(char chessboard[][8]);
+void affichage(char chessboard[][8], int highlight);
 void clear();
 
 void init_echequier (char chessboard[][8]);
