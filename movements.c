@@ -55,10 +55,12 @@ int diagonale_cond(const int position, const int destination, const char signatu
 int find_final_pos_pawn(const int position, const int destination, const char signature, const char target);
 // renvoie 0 si le mouvement n'est pas valide, sinon 1
 int check_movement(int position, const int destination, const char signature, const char tableau[8][8]); // faux --> 0 et vrai --> autres valeurs
+
 void upper_enemies_or_not(const struct piece target, char *enemies, const int size);
 int check_moveset(const struct piece target, const int movX, const int movY, char *enemies, const int nb_enemies, const int range);
+int pawn_check_king(const struct piece king);
 int is_king_safe(const struct piece king);
-//int is_check(const int position, const int movement[4]);
+int check_king(const int is_white);
 
 
 // FONCTIONS -------------------------------------------------------------------------------------
@@ -340,7 +342,8 @@ void upper_enemies_or_not(const struct piece target, char *enemies, const int si
 }
 
 // pour un mouvement en particulier a partir du roi (0 si le roi est en echec)
-int check_moveset(const struct piece target, const int movX, const int movY, char *enemies, const int nb_enemies, const int range)
+int check_moveset(const struct piece target, const int movX, const int movY, 
+char *enemies, const int nb_enemies, const int range)
 {
     int posX; int posY; 
     int movX_bis; int movY_bis; 
@@ -386,12 +389,26 @@ int check_moveset(const struct piece target, const int movX, const int movY, cha
     return 1;
 }
 
-//int is_king_
+
+// Si les pions adverses mettent en danger la cible, alors on revoie 0
+int not_threat_target(const struct piece target)
+{
+    const int posX = target.posX;
+    const int posY = target.posY; 
+    const char signature = target.signature;
+    if( (isupper(signature) && (chessboard_mv[posY+1][posX-1] == 'p' || chessboard_mv[posY+1][posX+1] == 'p'))
+     ||(!isupper(signature) && (chessboard_mv[posY-1][posX-1] == 'P' || chessboard_mv[posY-1][posX+1] == 'P')) )
+    {
+        return 0;
+    }
+    return 1;
+}
+
 
 // On suppose qu'il est appele apres check_movement, et donc chessboard_mv est bien actualise
 int is_king_safe(const struct piece king)
 {
-    int tmp = 0;
+    int tmp;
     char enemies2[2] = {'0','0'};
     char enemy[1] = {'0'};
     
@@ -418,11 +435,16 @@ int is_king_safe(const struct piece king)
         return 0;
     }
     // On regarde les pions qui peuvent atteindre le roi
+    tmp = not_threat_target(king);
+    if(tmp == 0)
+    {
+        return 0;
+    }
     return 1;
 }
 
 // 0 : not check
-int check_king(int is_white)
+int check_king(const int is_white)
 {
     int cond; 
     
