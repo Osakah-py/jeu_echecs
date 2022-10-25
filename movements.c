@@ -32,7 +32,7 @@ struct piece
     int posY; // entre 0 et 7
 };
 
-// b = black et w = white
+// b = black et w = white, on peut accéder simplement la position des roi sans parcourir chessboard_mv
 struct piece bKing = {'r', 4, 7};
 struct piece wKing = {'R', 4, 0}; 
 
@@ -274,20 +274,11 @@ int find_final_pos_pawn(const int position, const int destination, const char si
     return position; // pas mouvements speciaux trouves
 }
 
-int check_movement(const int position, const int destination, const char signature, const char tableau[8][8])
-{
-    if(position == destination) // on ne peut pas se manger !!!
-    {
-        return 0;   
-    }
-    
-    const int ind_key = get_piece_key(signature); // cherche le mouvement de la piece
-    duplicate_chessboard(chessboard_mv, tableau);
-    const char target = chessboard_mv[VPOS(destination)][HPOS(destination)];
-    int pos_tmp;
 
-    // On actualise la position du roi
-    if (signature == 'r')
+// On actualise la position du roi, si c'en est un !
+void update_king_pos(const int position, const char signature)
+{
+        if (signature == 'r')
     {
         bKing.posX = HPOS(position);
         bKing.posY = VPOS(position);
@@ -297,6 +288,22 @@ int check_movement(const int position, const int destination, const char signatu
         wKing.posX = HPOS(position);
         wKing.posY = VPOS(position);
     }
+
+}
+
+
+int check_movement(const int position, const int destination, const char signature, const char tableau[8][8])
+{
+    if(position == destination) // on ne peut pas se manger !!!
+    {
+        return 0;   
+    }
+    
+    const int ind_key = get_piece_key(signature); // cherche le mouvement de la piece
+    duplicate_chessboard(chessboard_mv, tableau); // on actualise l'echiquier 
+    const char target = chessboard_mv[VPOS(destination)][HPOS(destination)];
+    int pos_tmp;
+
     // le pion a des movements speciaux a traiter a part
     if (signature == 'p' || signature == 'P') 
     {
@@ -312,12 +319,15 @@ int check_movement(const int position, const int destination, const char signatu
     if (pos_tmp == destination)
     {
         // on update l'echiquier localement dans la logique pour voir d'eventuels echecs !
+        update_king_pos(destination, signature);
         update_chessboard(position, destination, chessboard_mv); 
         if(check_king(isupper(signature)))
         {
             wprintf(L"ton roi est en echec !\n");
+            update_king_pos(position, signature); // le roi revient à sa position initiale
             return 0;
         }
+        
         if (target == '0') //case vide ! 
         {
             return 1;
@@ -418,7 +428,7 @@ int pawn_not_threat_target(const struct piece target)
 }
 
 
-// On suppose qu'il est appele apres check_movement, et donc chessboard_mv est bien actualise
+// On suppose que chessboard_mv est bien actualise 
 int is_king_safe(const struct piece king)
 {
     int tmp;
@@ -479,12 +489,8 @@ int check_king(const int is_white)
 }
 
 
-// ECHEC ET MAT ---------------------------------------------------------------------
 
-// 0 si ce n'est pas un echec et mat
-int checkmate()
-{
-    //trivial
-    return 0;
-}
+
+
+
 
