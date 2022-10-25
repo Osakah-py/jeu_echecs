@@ -100,6 +100,8 @@ void affichage (char chessboard[][8]){
 
 int detection (int y, int x, int color, char chessboard[][8], char * piece){
     
+    // Documentation détailée de cette fonction : https://bit.ly/3sqhpW6
+
     // Verifions si il s'agit bien d'une pièce
     if (chessboard[y][x] != '0') {
     
