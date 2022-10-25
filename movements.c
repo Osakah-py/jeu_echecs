@@ -283,6 +283,11 @@ int find_final_pos_pawn(const int position, const int destination, const char si
 
 int check_movement(int position, const int destination, const char signature, const char tableau[8][8])
 {
+    if(position == destination) // on ne peut pas se manger !!!
+    {
+        return 0;   
+    }
+    
     const int ind_key = get_piece_key(signature); // cherche le mouvement de la piece
     duplicate_chessboard(chessboard_mv, tableau);
     const char target = chessboard_mv[VPOS(destination)][HPOS(destination)];
