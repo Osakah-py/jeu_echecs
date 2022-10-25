@@ -45,7 +45,11 @@ int main(int argc, char** argv)
 
     // Boucle principale
     while(1){
-    
+        if (trait % 2 == 1){
+            wprintf(L"---- Trait au blanc ---- \n");
+        } else {
+            wprintf(L"---- Trait au noir ---- \n");
+        }
         // Entrée utilisateur
         wprintf(L"Quel pièce voulez vous déplacer ? \n");
         int coordonees_init = input();
