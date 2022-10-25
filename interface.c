@@ -101,21 +101,19 @@ void affichage (char chessboard[][8]){
 int detection (int y, int x, int color, char chessboard[][8], char * piece){
     
     // Verifions si il s'agit bien d'une pièce
-    if (chessboard[y][x] == '0'){
-        wprintf(_RED_() L"Aucune pièce à vous en %c%d \nRéessayez : \n" _DEFAULT_(), x + 65, y);
-        return 0;
-    }
+    if (chessboard[y][x] != '0') {
     
-    // Veérifions que la couleur de la pièce corespond à celle du joueur
-    if ( isupper(chessboard[y][x]) && color == 1){
-        *piece = chessboard[y][x];
-        wprintf(L"Où voulez vous déplacer votre %s ? \n", pieces[indice(chessboard[y][x])]);
-        return 1;
-    } 
-    else if (!isupper(chessboard[y][x]) && color == 0){
-        *piece = chessboard[y][x];
-        wprintf(L"Où voulez vous déplacer votre %s ? \n", pieces[indice(chessboard[y][x]) - 6]); // (déphasage de 6 pièces)
-        return 1; 
+        // Veérifions que la couleur de la pièce corespond à celle du joueur
+        if ( isupper(chessboard[y][x]) && color == 1){
+            *piece = chessboard[y][x];
+            wprintf(L"Où voulez vous déplacer votre %s ? \n", pieces[indice(chessboard[y][x])]);
+            return 1;
+        } 
+        else if (!isupper(chessboard[y][x]) && color == 0){
+            *piece = chessboard[y][x];
+            wprintf(L"Où voulez vous déplacer votre %s ? \n", pieces[indice(chessboard[y][x]) - 6]); // (déphasage de 6 pièces)
+            return 1; 
+        }
     }
     wprintf(_RED_() L"Aucune pièce à vous en %c%d \nRéessayez : \n" _DEFAULT_(), x + 65, y + 1);
     return 0;

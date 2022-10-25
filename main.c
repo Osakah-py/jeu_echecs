@@ -61,7 +61,7 @@ int main(int argc, char** argv)
             {
                 wprintf(_RED_() L"Impossible de déplacer votre pièce ici ! \nRéessayez : \n" _DEFAULT_());
             } else {
-                update_chessboard(pos, dest, chessboard);
+                update_chessboard(coordonees_init, dest, chessboard);
                 affichage(chessboard);
                 trait ++;
             }
