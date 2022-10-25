@@ -5,6 +5,7 @@
 // UNICODE DE CHAQUE PIECE ---------------------------------------------------------------------------------
 const char lettre[13] = {'R', 'D', 'T', 'F', 'C', 'P', 'r', 'd', 't', 'f', 'c', 'p', '0'};
 const wchar_t unicode[13] = {0x2654, 0x2655, 0x2656, 0x2657, 0x2658, 0x2659, 0x265A, 0x265B, 0x265C, 0x265D, 0x265E, 0x265F, 0x0020};
+const wchar_t pieces [6][9] = {L"roi", L"dame", L"tour", L"fou", L"cavalier", L"pion"};
 
 // INITIALISATION ECHEQUIER --------------------------------------------------------------------------------
 void init_echequier (char chessboard[][8]){
@@ -101,16 +102,21 @@ int detection (int y, int x, int color, char chessboard[][8], char * piece){
     
     // Verifions si il s'agit bien d'une pièce
     if (chessboard[y][x] == '0'){
-        return -1;
+        wprintf(_RED_() L"Aucune pièce à vous en %c%d \nRéessayez : \n" _DEFAULT_(), x + 65, y);
+        return 0;
     }
-    // Veérifion que la couleur de la pièce corespond à celle du joueur
+    
+    // Veérifions que la couleur de la pièce corespond à celle du joueur
     if ( isupper(chessboard[y][x]) && color == 1){
         *piece = chessboard[y][x];
-        return indice(chessboard[y][x]);
+        wprintf(L"Où voulez vous déplacer votre %s ? \n", pieces[indice(chessboard[y][x])]);
+        return 1;
     } 
     else if (!isupper(chessboard[y][x]) && color == 0){
         *piece = chessboard[y][x];
-        return indice(chessboard[y][x]) - 6; // (déphasage de 6 pièces)
+        wprintf(L"Où voulez vous déplacer votre %s ? \n", pieces[indice(chessboard[y][x]) - 6]); // (déphasage de 6 pièces)
+        return 1; 
     }
-    return -1;
+    wprintf(_RED_() L"Aucune pièce à vous en %c%d \nRéessayez : \n" _DEFAULT_(), x + 65, y + 1);
+    return 0;
 }

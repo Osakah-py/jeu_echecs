@@ -19,6 +19,10 @@
     # include <io.h>
 #endif
 
+// LES COULEURS ---------------------------------------------------------------
+# define _RED_() "\x1b[31m"
+# define _BLUE_ ()"\x1b[34m"
+# define _DEFAULT_() "\x1b[39m"
 
 // FONCTIONS ------------------------------------------------------------------
 void affichage(char chessboard[][8]);

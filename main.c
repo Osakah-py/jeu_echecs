@@ -20,11 +20,11 @@
 
 // FONCTIONS SECONDAIRES ----------------------------------------------------------------------------------
 
-
-
 // MAIN FONCTION ------------------------------------------------------------------------------------------
 int main(int argc, char** argv)
 { 
+    
+    // INTITIALISATION DES CONSOLES
     #if defined(_WIN32)
         // On passe la console Windows en Unicode 
         _setmode(_fileno(stdout), 0x00020000); // _O_U16TEXT
@@ -38,37 +38,34 @@ int main(int argc, char** argv)
         
     // Initialisation de l'échéquier
     init_echequier(chessboard);
+    int trait = 1; // trait au blac
 
-    //Affichage de l'échequier
+    //Affichage de l'échequier une première fois
     affichage(chessboard);
 
+    // Boucle principale
     while(1){
     
-    int y1;
-    int x1;
-    char piece;
-    int entree = input_a_deplacer(chessboard, 0, &y1, &x1, &piece);
-    if (entree){
-        // Inserer le code de mouvement
+        // Entrée utilisateur
+        wprintf(L"Quel pièce voulez vous déplacer ? \n");
+        int coordonees_init = input();
+        // On vérifie que l'entrée est correcte
+        char piece;
+        int verif;
+        verif = detection(coordonees_init / 8, coordonees_init % 8, trait % 2, chessboard, &piece);
 
-        int pos = x1 + 8 * y1;
-        int dest = input_ou_deplacer();
+        if (verif){ // la coordonnee est dans le tableau
+            int dest = input();
         
-        wprintf(L"\x1b[44mdest = x:%d y:%d\x1b[49m \n", dest % 8, dest / 8);
-        
-        if(!check_movement(pos, dest, piece, chessboard))
-        {
-            wprintf(L"mouvement avorté :(\n");
-        }   
-        else
-        {
-            wprintf(L"movement réussi !\n");
-            update_chessboard(pos, dest, chessboard);
-        }
-    } else {
-        wprintf(L"Apprend ou sont tes pions toi");
-    }
-    affichage(chessboard);
+            if(!check_movement(coordonees_init, dest, piece, chessboard))
+            {
+                wprintf(_RED_() L"Impossible de déplacer votre pièce ici ! \nRéessayez : \n" _DEFAULT_());
+            } else {
+                update_chessboard(pos, dest, chessboard);
+                affichage(chessboard);
+                trait ++;
+            }
+        } 
     }
     return 0;
 }
