@@ -54,11 +54,11 @@ int find_pos_controller(const int position, const int destination, const int mov
 int diagonale_cond(const int position, const int destination, const char signature);
 int find_final_pos_pawn(const int position, const int destination, const char signature, const char target);
 // renvoie 0 si le mouvement n'est pas valide, sinon 1
-int check_movement(int position, const int destination, const char signature, const char tableau[8][8]); // faux --> 0 et vrai --> autres valeurs
+int check_movement(const int position, const int destination, const char signature, const char tableau[8][8]); // faux --> 0 et vrai --> autres valeurs
 
 void upper_enemies_or_not(const struct piece target, char *enemies, const int size);
 int check_moveset(const struct piece target, const int movX, const int movY, char *enemies, const int nb_enemies, const int range);
-int pawn_check_king(const struct piece king);
+int pawn_not_threat_target(const struct piece target);
 int is_king_safe(const struct piece king);
 int check_king(const int is_white);
 
@@ -283,7 +283,7 @@ int find_final_pos_pawn(const int position, const int destination, const char si
     return position; // pas mouvements speciaux trouves
 }
 
-int check_movement(int position, const int destination, const char signature, const char tableau[8][8])
+int check_movement(const int position, const int destination, const char signature, const char tableau[8][8])
 {
     if(position == destination) // on ne peut pas se manger !!!
     {
@@ -293,22 +293,31 @@ int check_movement(int position, const int destination, const char signature, co
     const int ind_key = get_piece_key(signature); // cherche le mouvement de la piece
     duplicate_chessboard(chessboard_mv, tableau);
     const char target = chessboard_mv[VPOS(destination)][HPOS(destination)];
-    
+    int pos_tmp;
+
     // le pion a des movements speciaux a traiter a part
     if (signature == 'p' || signature == 'P') 
     {
-        position = find_final_pos_pawn(position, destination, signature, target);
-        if(position == destination)
+        pos_tmp = find_final_pos_pawn(position, destination, signature, target);
+        if(pos_tmp == destination)
         {
             return 1;
         }
     }
     
-    position = find_pos_controller(position, destination, movement_value[ind_key], signature);
-    wprintf(L"pos final : %d\n", position);
+    pos_tmp = find_pos_controller(position, destination, movement_value[ind_key], signature);
+    wprintf(L"pos final : %d\n", pos_tmp);
 
-    if (position == destination)
+    if (pos_tmp == destination)
     {
+        // on update l'echiquier localement dans la logique pour voir d'eventuels echecs !
+        update_chessboard(position, destination, chessboard_mv); 
+        wprintf(L"check_king in check_movement() : %d\n", check_king(isupper(signature)));
+        if(check_king(isupper(signature)))
+        {
+            wprintf(L"ton roi est en echec !\n");
+            return 0;
+        }
         if (target == '0') //case vide ! 
         {
             return 1;
@@ -362,16 +371,20 @@ char *enemies, const int nb_enemies, const int range)
         posY = target.posY;
         movX_bis = move_combo[a][0];
         movY_bis = move_combo[a][1];
-        
         // on check jusqu'a la portee desiree
         for (register int j = 0; j < range; j++)
         {    
             posX += movX_bis;
-            posY += movY_bis;        
-
+            posY += movY_bis; 
+            //wprintf(L"indice i : %d\npos X : %d\nposY : %d\n ---\n", j, posX, posY);       
             if(posX < 8 && posY < 8 && posX >= 0 && posY >= 0) // on regarde si on sort de l'echiquier
             {
-                element = chessboard_mv[posX][posY];
+                element = chessboard_mv[posY][posX];
+                if( (isupper(element) && isupper(target.signature)) 
+                 || (!isupper(element) && !isupper(target.signature)) )
+                {
+                    break; // le roi est couvert par une piece alliee !
+                }
                 for (register int i = 0; i < nb_enemies; i++)
                 {
                     if(element == enemies[i])
@@ -386,12 +399,13 @@ char *enemies, const int nb_enemies, const int range)
             }
         }
     }
+
     return 1;
 }
 
 
 // Si les pions adverses mettent en danger la cible, alors on revoie 0
-int not_threat_target(const struct piece target)
+int pawn_not_threat_target(const struct piece target)
 {
     const int posX = target.posX;
     const int posY = target.posY; 
@@ -413,29 +427,29 @@ int is_king_safe(const struct piece king)
     char enemy[1] = {'0'};
     
     // On regarde les pieces qui peuvent atteindre horizontalement et verticalement le roi    
-    enemies2[0] = 'r';
-    enemies2[1] = 'q';
+    enemies2[0] = 't';
+    enemies2[1] = 'd';
     tmp = check_moveset(king, 1, 0, enemies2, 2, 8);
     if(tmp == 0)
     {
         return 0;
     }  
     // On regarde les pieces qui peuvent atteindre diagonalement le roi    
-    enemies2[0] = 'b';
+    enemies2[0] = 'f';
     tmp = check_moveset(king, 1, 1, enemies2, 2, 8);
     if(tmp == 0)
     {
         return 0;
     }
     // On regarde les cavaliers qui peuvent atteindre le roi    
-    enemy[0] = 'n';
-    tmp = check_moveset(king, 2, 1, enemy, 2, 8);
+    enemy[0] = 'c';
+    tmp = check_moveset(king, 2, 1, enemy, 1, 1);
     if(tmp == 0)
     {
         return 0;
     }
     // On regarde les pions qui peuvent atteindre le roi
-    tmp = not_threat_target(king);
+    tmp = pawn_not_threat_target(king);
     if(tmp == 0)
     {
         return 0;
@@ -457,7 +471,7 @@ int check_king(const int is_white)
         cond = is_king_safe(bKing);
     }
 
-    if(cond) // s'il y a un check au roi
+    if(cond == 0) // s'il y a un check au roi
     {
         return 1;
     }

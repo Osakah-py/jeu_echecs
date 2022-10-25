@@ -38,7 +38,7 @@ int main(int argc, char** argv)
         
     // Initialisation de l'échéquier
     init_echequier(chessboard);
-    int trait = 1; // trait au blac
+    int trait = 1; // trait au blanc
 
     //Affichage de l'échequier une première fois
     affichage(chessboard, -1); // -1 car on ne veut rien en bleu
@@ -69,6 +69,12 @@ int main(int argc, char** argv)
                 update_chessboard(coordonees_init, dest, chessboard); // on met a jour l'échiquier
                 clear(); // On reset l'affichage
                 affichage(chessboard, dest); // On affiche l'échéquier
+                
+                if(check_king((trait+1) % 2)) // le roi adverse est en echec ?
+                {
+                    wprintf(_RED_() L"LE ROI EST EN ECHEC\n" _DEFAULT_());
+                }
+                
                 trait ++; // On passe au tour suivant
             }
         } 
