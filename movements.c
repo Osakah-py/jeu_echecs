@@ -33,9 +33,7 @@ struct piece
 };
 
 // b = black et w = white
-const int number_pieces = 32; 
 struct piece bKing = {'r', 4, 7};
-
 struct piece wKing = {'R', 4, 0}; 
 
 
@@ -252,7 +250,7 @@ int diagonale_cond(const int position, const int destination, const char signatu
     return 0;
 }
 
-int find_final_pos_pawn(const int position, const int destination, const char signature, const char target)
+int find_final_pos_pawn(const int position, const int destination, const char signature, const char target) 
 {
     // le pion peut manger en diagonale
     if (diagonale_cond(position, destination, signature))
@@ -479,3 +477,14 @@ int check_king(const int is_white)
 
     return 0; // il n'y a pas de check
 }
+
+
+// ECHEC ET MAT ---------------------------------------------------------------------
+
+// 0 si ce n'est pas un echec et mat
+int checkmate()
+{
+    //trivial
+    return 0;
+}
+
