@@ -386,7 +386,7 @@ int check_moveset(const struct piece target, const int movX, const int movY, cha
     return 1;
 }
 
-
+//int is_king_
 
 // On suppose qu'il est appele apres check_movement, et donc chessboard_mv est bien actualise
 int is_king_safe(const struct piece king)
@@ -395,7 +395,7 @@ int is_king_safe(const struct piece king)
     char enemies2[2] = {'0','0'};
     char enemy[1] = {'0'};
     
-    // On regarde les pieces qui peuvent atteindre horizontalement et verticalament le roi    
+    // On regarde les pieces qui peuvent atteindre horizontalement et verticalement le roi    
     enemies2[0] = 'r';
     enemies2[1] = 'q';
     tmp = check_moveset(king, 1, 0, enemies2, 2, 8);
@@ -412,20 +412,33 @@ int is_king_safe(const struct piece king)
     }
     // On regarde les cavaliers qui peuvent atteindre le roi    
     enemy[0] = 'n';
-    tmp = check_moveset(king, 1, 1, enemy, 2, 8);
+    tmp = check_moveset(king, 2, 1, enemy, 2, 8);
     if(tmp == 0)
     {
         return 0;
     }
+    // On regarde les pions qui peuvent atteindre le roi
     return 1;
 }
-/*
-int is_check()
+
+// 0 : not check
+int check_king(int is_white)
 {
-    if(0) // s'il y a un check au roi
+    int cond; 
+    
+    if(is_white)
+    {
+        cond = is_king_safe(wKing);
+    }
+    else
+    {
+        cond = is_king_safe(bKing);
+    }
+
+    if(cond) // s'il y a un check au roi
     {
         return 1;
     }
-    return 0;
+
+    return 0; // il n'y a pas de check
 }
-*/
