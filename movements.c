@@ -179,8 +179,6 @@ int find_final_pos(const int position, const int destination, const int movement
     {
         final_movement[1] *= -1;
     }
-    wprintf(L"movH: %d avec le signe de %d\n", final_movement[0], sign_posH);
-    wprintf(L"movV: %d avec le signe de %d\n", final_movement[1], sign_posV);
     return move_piece(position, destination, final_movement);
 }
 
@@ -192,7 +190,6 @@ int find_pos_controller(const int position, const int destination, const int mov
     if(!isupper(signature)) // la piece est noire ? 
     {
         // la piece a donc un mouvement dans l'autre sens
-        wprintf(L"La piece est noire !\n");
         movement_adjusted[0] = - movement[0];
         movement_adjusted[1] = - movement[1];
     }
@@ -306,13 +303,11 @@ int check_movement(const int position, const int destination, const char signatu
     }
     
     pos_tmp = find_pos_controller(position, destination, movement_value[ind_key], signature);
-    wprintf(L"pos final : %d\n", pos_tmp);
 
     if (pos_tmp == destination)
     {
         // on update l'echiquier localement dans la logique pour voir d'eventuels echecs !
         update_chessboard(position, destination, chessboard_mv); 
-        wprintf(L"check_king in check_movement() : %d\n", check_king(isupper(signature)));
         if(check_king(isupper(signature)))
         {
             wprintf(L"ton roi est en echec !\n");
@@ -376,7 +371,6 @@ char *enemies, const int nb_enemies, const int range)
         {    
             posX += movX_bis;
             posY += movY_bis; 
-            //wprintf(L"indice i : %d\npos X : %d\nposY : %d\n ---\n", j, posX, posY);       
             if(posX < 8 && posY < 8 && posX >= 0 && posY >= 0) // on regarde si on sort de l'echiquier
             {
                 element = chessboard_mv[posY][posX];
