@@ -34,12 +34,8 @@ struct piece
 
 // b = black et w = white
 const int number_pieces = 32; 
-struct piece bKnight0 = {'k', 1, 7};
-struct piece bKnight1 = {'k', 6, 7};
 struct piece bKing = {'r', 4, 7};
 
-struct piece wKnight0 = {'C', 1, 0};
-struct piece wKnight1 = {'C', 6, 0};
 struct piece wKing = {'R', 4, 0}; 
 
 
@@ -292,6 +288,17 @@ int check_movement(const int position, const int destination, const char signatu
     const char target = chessboard_mv[VPOS(destination)][HPOS(destination)];
     int pos_tmp;
 
+    // On actualise la position du roi
+    if (signature == 'r')
+    {
+        bKing.posX = HPOS(position);
+        bKing.posY = VPOS(position);
+    }
+    if (signature == 'R')
+    {
+        wKing.posX = HPOS(position);
+        wKing.posY = VPOS(position);
+    }
     // le pion a des movements speciaux a traiter a part
     if (signature == 'p' || signature == 'P') 
     {
