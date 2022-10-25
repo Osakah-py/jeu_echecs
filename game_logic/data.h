@@ -1,10 +1,17 @@
 #ifndef DATA
 #define DATA
+
 # include <stdio.h>
 
-extern struct piece pieces;
-extern
+typedef struct piece
+{
+    char signature; // le type de piece
+    int posX; // entre 0 et 7
+    int posY; // entre 0 et 7
+} piece;
 
-free_pieces();
+extern piece *pieces;
+
+void free_pieces();
 
 #endif

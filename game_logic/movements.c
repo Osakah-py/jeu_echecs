@@ -1,3 +1,4 @@
+# include "data.h"
 # include "movements.h"
 //juste pour debug
 # include <wchar.h>
@@ -25,16 +26,9 @@ const char piece_key[6] = {       'p',          't',          'c',          'f',
 const int movement_value[6][4] = {{0, 1, 0, 0}, {1, 0, 1, 1}, {2, 1, 0, 1}, {1, 1, 1, 1}, {0, 0, 0, 1}, {0, 0, 1, 1}};
 char chessboard_mv[8][8];
 
-struct piece
-{
-    const char signature; // le type de piece
-    int posX; // entre 0 et 7
-    int posY; // entre 0 et 7
-};
-
 // b = black et w = white, on peut accéder simplement la position des roi sans parcourir chessboard_mv
-struct piece bKing = {'r', 4, 7};
-struct piece wKing = {'R', 4, 0}; 
+piece bKing = {'r', 4, 7};
+piece wKing = {'R', 4, 0}; 
 
 
 // PROTOTYPES ------------------------------------------------------------------------------------
@@ -50,10 +44,10 @@ int find_final_pos_pawn(const int position, const int destination, const char si
 // renvoie 0 si le mouvement n'est pas valide, sinon 1
 int check_movement(const int position, const int destination, const char signature, const char tableau[8][8]); // faux --> 0 et vrai --> autres valeurs
 
-void upper_enemies_or_not(const struct piece target, char *enemies, const int size);
-int check_moveset(const struct piece target, const int movX, const int movY, char *enemies, const int nb_enemies, const int range);
-int pawn_not_threat_target(const struct piece target);
-int is_king_safe(const struct piece king);
+void upper_enemies_or_not(const piece target, char *enemies, const int size);
+int check_moveset(const piece target, const int movX, const int movY, char *enemies, const int nb_enemies, const int range);
+int pawn_not_threat_target(const piece target);
+int is_king_safe(const piece king);
 int check_king(const int is_white);
 
 
@@ -348,7 +342,7 @@ int check_movement(const int position, const int destination, const char signatu
 // IS CHECK ---------------------------------------------------------------------------------- 
 
 // on suppose que les characteres dans enemies sont en miniscule
-void upper_enemies_or_not(const struct piece target, char *enemies, const int size)
+void upper_enemies_or_not(const piece target, char *enemies, const int size)
 {
     if(!isupper(target.signature))
     {
@@ -361,7 +355,7 @@ void upper_enemies_or_not(const struct piece target, char *enemies, const int si
 }
 
 // pour un mouvement en particulier a partir du roi (0 si le roi est en echec)
-int check_moveset(const struct piece target, const int movX, const int movY, 
+int check_moveset(const piece target, const int movX, const int movY, 
 char *enemies, const int nb_enemies, const int range)
 {
     int posX; int posY; 
@@ -414,7 +408,7 @@ char *enemies, const int nb_enemies, const int range)
 
 
 // Si les pions adverses mettent en danger la cible, alors on revoie 0
-int pawn_not_threat_target(const struct piece target)
+int pawn_not_threat_target(const piece target)
 {
     const int posX = target.posX;
     const int posY = target.posY; 
@@ -429,7 +423,7 @@ int pawn_not_threat_target(const struct piece target)
 
 
 // On suppose que chessboard_mv est bien actualise 
-int is_king_safe(const struct piece king)
+int is_king_safe(const piece king)
 {
     int tmp;
     char enemies2[2] = {'0','0'};
