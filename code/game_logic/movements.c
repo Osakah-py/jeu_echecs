@@ -1,5 +1,9 @@
 # include "data.h"
 # include "movements.h"
+# include "check.h"
+# include "chessboard_manager.h"
+# include "checkmate.h"
+
 //juste pour debug
 # include <wchar.h>
 
@@ -26,15 +30,14 @@ const char piece_key[6] = {       'p',          't',          'c',          'f',
 const int movement_value[6][4] = {{0, 1, 0, 0}, {1, 0, 1, 1}, {2, 1, 0, 1}, {1, 1, 1, 1}, {0, 0, 0, 1}, {0, 0, 1, 1}};
 extern char chessboard_logic[8][8];
 
-extern piece bKing;
-extern piece wKing;
-
 
 // b = black et w = white, on peut accéder simplement la position des roi sans parcourir chessboard_logic
 
 
 // FONCTIONS -------------------------------------------------------------------------------------
-void update_chessboard(const int position, const int destination, char chessboard[8][8])
+
+// On actualise le mouvement d'une seule piece
+void update_move_chessboard(const int position, const int destination, char chessboard[8][8])
 {
     chessboard[VPOS(destination)][HPOS(destination)] = chessboard[VPOS(position)][HPOS(position)];
     chessboard[VPOS(position)][HPOS(position)] = '0';    
@@ -251,22 +254,6 @@ int find_final_pos_pawn(const int position, const int destination, const char si
 }
 
 
-// On actualise la position du roi, si c'en est un !
-void update_king_pos(const int position, const char signature)
-{
-        if (signature == 'r')
-    {
-        bKing.posX = HPOS(position);
-        bKing.posY = VPOS(position);
-    }
-    if (signature == 'R')
-    {
-        wKing.posX = HPOS(position);
-        wKing.posY = VPOS(position);
-    }
-}
-
-
 int check_movement(const int position, const int destination, const char signature, const char tableau[8][8])
 {
     if(position == destination) // on ne peut pas se manger !!!
@@ -285,37 +272,42 @@ int check_movement(const int position, const int destination, const char signatu
         pos_tmp = find_final_pos_pawn(position, destination, signature, target);
         if(pos_tmp == destination)
         {
+            
             return 1;
         }
     }
-    
-    pos_tmp = find_pos_controller(position, destination, movement_value[ind_key], signature);
-
-    if (pos_tmp == destination)
+    else if ()
     {
-        // on update l'echiquier localement dans la logique pour voir d'eventuels echecs !
-        update_king_pos(destination, signature);
-        update_chessboard(position, destination, chessboard_logic); 
-        if(check_king(isupper(signature)))
+
+        pos_tmp = find_pos_controller(position, destination, movement_value[ind_key], signature);
+
+        if (pos_tmp == destination)
         {
-            wprintf(L"ton roi est en echec !\n");
-            update_king_pos(position, signature); // le roi revient à sa position initiale
-            return 0;
-        }
-        
-        if (target == '0') //case vide ! 
-        {
-            return 1;
-        }
-        // les deux pieces ne sont pas de meme couleur
-        else if ( (isupper(signature) && !isupper(target))
-                || (!isupper(signature) && isupper(target)) )
-        {
-            // noter la piece mangee 
-            return 1;            
+            // on update l'echiquier localement dans la logique pour voir d'eventuels echecs !
+            update_move_chessboard(position, destination, chessboard_logic); 
+            if(check_king(isupper(signature)))
+            {
+                wprintf(L"ton roi est en echec !\n");
+                if(is_checkmate(isupper(signature)))
+                {
+                    return -5668654632434678908985; // game over
+                }
+                return 0;
+            }
+            
+            if (target == '0') //case vide ! 
+            {
+                return 1;
+            }
+            // les deux pieces ne sont pas de meme couleur
+            else if ( (isupper(signature) && !isupper(target))
+                    || (!isupper(signature) && isupper(target)) )
+            {
+                // noter la piece mangee 
+                return 1;            
+            }
         }
     }
-
     return 0;
 }
 

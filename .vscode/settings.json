@@ -5,7 +5,8 @@
         "stdlib.h": "c",
         "stdio.h": "c",
         "inputs.h": "c",
-        "interface.h": "c"
+        "interface.h": "c",
+        "piece_manager.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled",
     "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools"

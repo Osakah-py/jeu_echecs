@@ -3,6 +3,8 @@
 # include "inputs.h"
 # include "code/game_logic/movements.h"
 # include "code/game_logic/check.h"
+# include "code/game_logic/piece_manager.h"
+
 
 /* note : 
 '0' --> case vide
@@ -38,8 +40,10 @@ int main(int argc, char** argv)
     
     char chessboard[8][8];
         
-    // Initialisation de l'échéquier
+    // Initialisation de l'échéquier et des pieces 
     init_echequier(chessboard);
+    init_pieces(pieces_logic, chessboard);
+    init_kings();
     int trait = 1; // trait au blanc
 
     //Affichage de l'échequier une première fois
@@ -68,7 +72,8 @@ int main(int argc, char** argv)
                 wprintf(_RED_() L"Impossible de déplacer votre pièce ici ! \nRéessayez : \n" _DEFAULT_());
             } else {
                 
-                update_chessboard(coordonees_init, dest, chessboard); // on met a jour l'échiquier
+                // on met a jour le mouvement sur l'échiquier
+                update_move_chessboard(coordonees_init, dest, chessboard); 
                 clear(); // On reset l'affichage
                 affichage(chessboard, dest); // On affiche l'échéquier
                 

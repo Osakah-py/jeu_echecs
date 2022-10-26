@@ -3,17 +3,9 @@
 
 # include <stdio.h>
 
-typedef struct
-{
-    char signature; // le type de piece
-    int posX; // entre 0 et 7
-    int posY; // entre 0 et 7
-} piece;
+# define HPOS(a) (a) % 8 // l'abscisse de la position sur l'echequier
+# define VPOS(a) (a) / 8 // l'ordonnee ...
 
-extern piece pieces_logic[64];
 extern char chessboard_logic[8][8];
-
-extern piece bKing;
-extern piece wKing;
 
 #endif
