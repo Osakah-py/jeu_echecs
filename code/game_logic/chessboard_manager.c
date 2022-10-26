@@ -12,11 +12,7 @@ int find_king_pos(const char signature)
     {
         for (int j = 0; j < 8; j ++)
         {
-            if(chessboard_logic[i][j] == 'r')
-            {
-                return j + i * 8;
-            }
-            if(chessboard_logic[i][j] == 'R')
+            if(chessboard_logic[i][j] == signature)
             {
                 return j + i * 8;
             }

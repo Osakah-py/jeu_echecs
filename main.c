@@ -22,6 +22,7 @@
 
 
 // FONCTIONS SECONDAIRES ----------------------------------------------------------------------------------
+int easy_check (int king_color, char chessboard[][8]);
 
 // MAIN FONCTION ------------------------------------------------------------------------------------------
 int main(int argc, char** argv)
@@ -76,6 +77,8 @@ int main(int argc, char** argv)
                 affichage(chessboard, dest); // On affiche l'échéquier
                 
                 if(check_king((trait+1) % 2)) // le roi adverse est en echec ?
+                
+                // if (easy_check ((trait + 1) % 2, chessboard))
                 {
                     wprintf(_RED_() L"--- LE ROI EST EN ECHEC ---\n" _DEFAULT_());
                 }
@@ -83,6 +86,41 @@ int main(int argc, char** argv)
                 trait ++; // On passe au tour suivant
             }
         } 
+    }
+    return 0;
+}
+
+
+
+int easy_check (int king_color, char chessboard[][8]){
+    
+    // On trouve la position du roi
+    int king_pos = -1;
+    for (int i = 0; i < 8; i++){
+        for (int j = 0; j < 8; j++){
+            if (chessboard[i][j] == 'R' && king_color == 1){
+                king_pos = j + i * 8;
+                break;
+            } 
+            if (chessboard[i][j] == 'r' && king_color == 0){
+                king_pos = j + i * 8;
+                break;
+            }
+        }
+        if (king_pos >= 0) {
+            break;
+        }
+    }
+
+    // On verifie si les pièces de l'échéquier peuvent atteindre cette position
+    
+    for (int i = 0; i < 8; i++){
+        for (int j = 0; j < 8; j++){
+
+            if(chessboard[i][j] != '0' && check_movement(j + i * 8, king_pos, chessboard[i][j], chessboard)){
+                return 1;
+            }
+        }
     }
     return 0;
 }
