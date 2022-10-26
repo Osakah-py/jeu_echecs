@@ -49,7 +49,7 @@ int check_around(const int position, const char signature)
             new_posX = init_posX + modif[i];
             new_posY = init_posY + modif[j];
             // on verifie que la piece ne sorte pas de l'echiquier
-            if(check) 
+            if(check_out_of_range(new_posX, new_posY)) 
             {
                 continue;
             }

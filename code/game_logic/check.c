@@ -146,11 +146,11 @@ int check_king(const int is_white)
     
     if(is_white)
     {
-        cond = is_king_safe("R");
+        cond = is_king_safe('R');
     }
     else
     {
-        cond = is_king_safe("r");
+        cond = is_king_safe('r');
     }
 
     if(cond == 0) // s'il y a un check au roi

@@ -90,9 +90,9 @@ int move_piece(const int position, const int destination, const int movement[3])
     {
         while(posX + posY * 8 > destination) // On veut trouver la position la plus proche vers destination
         {
-            if (posX < 0 && posX >= 8 && posY < 0 && posX >= 8) // la piece sort de l'echequier
+            if (check_out_of_range(posX, posY)) // la piece sort de l'echequier
             {
-                return position;
+                return position; // il atteindra jamais la destination alors
             }
             if (chessboard_logic[posY][posX] != '0')
             {
@@ -108,7 +108,7 @@ int move_piece(const int position, const int destination, const int movement[3])
         while(posX + posY * 8 < destination)
         {
             // le signe de x et y sont bien definis dans find_final_move
-            if (posX < 0 && posX >= 8 && posY < 0 && posX >= 8)
+            if (check_out_of_range(posX, posY))
             {
                 return position;
             }
