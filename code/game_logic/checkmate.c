@@ -1,7 +1,7 @@
 # include "data.h"
 # include "movements.h"
 # include "check.h"
-# include "piece_manager.h"
+# include "chessboard_manager.h"
 # include <stdio.h>
 
 // VARAIBLES GLOBALES --------------------------------------------------------------
@@ -36,7 +36,7 @@ int can_move_around(const int position, const char signature)
             target_position = init_posX + modif[i];
             target_position = init_posY + modif[j];
             //le roi peut bouger sur une case sans danger ?
-            if(chessboard_logic[target_position][target_position] == '0' && is_king_safe(signature)) 
+            if(chessboard_logic[target_position][target_position] == '0' && check_king(upper(signature))) 
             {
                 return 1;
             }
@@ -65,7 +65,7 @@ int is_checkmate(const int is_king_white, const int pos_enemy)
     {
         return 0;
     }
-    if()
+    //if()
 
     return 1;
 }

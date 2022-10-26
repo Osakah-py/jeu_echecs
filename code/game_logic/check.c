@@ -1,5 +1,5 @@
 # include "data.h"
-# include "piece_manager.h"
+# include "chessboard_manager.h"
 # include "check.h"
 
 // IS CHECK ---------------------------------------------------------------------------------- 
@@ -102,21 +102,21 @@ int is_king_safe(char king_signature)
     // On regarde les pieces qui peuvent atteindre horizontalement et verticalement le roi    
     enemies2[0] = 't';
     enemies2[1] = 'd';
-    tmp = check_moveset(king_signature, 1, 0, enemies2, 2, 8);
+    tmp = check_moveset(king_signature, king_position, 1, 0, enemies2, 2, 8);
     if(tmp == 0)
     {
         return 0;
     }  
     // On regarde les pieces qui peuvent atteindre diagonalement le roi    
     enemies2[0] = 'f';
-    tmp = check_moveset(king_signature, 1, 1, enemies2, 2, 8);
+    tmp = check_moveset(king_signature, king_position, 1, 1, enemies2, 2, 8);
     if(tmp == 0)
     {
         return 0;
     }
     // On regarde les cavaliers qui peuvent atteindre le roi    
     enemy[0] = 'c';
-    tmp = check_moveset(king_signature, 2, 1, enemy, 1, 1);
+    tmp = check_moveset(king_signature, king_position, 2, 1, enemy, 1, 1);
     if(tmp == 0)
     {
         return 0;

@@ -1,5 +1,5 @@
 # include "data.h"
-# include "piece_manager.h"
+# include "chessboard_manager.h"
 # include <ctype.h>
 # include <wchar.h>
 
@@ -35,17 +35,19 @@ void collect_allies(int pos_pieces_allies[16], int is_uppercase)
     {
         for (int j = 0; j < 8; j ++)
         {
-            element = chessboard_logic[i][j]
-            if(element != '0' && isupper(element) && is_uppercase != 0)
+            element = chessboard_logic[i][j];   
+            if(element != '0' && isupper(element) && is_uppercase != 0) // les deux sont blancs
             {
-                pos_pieces_allies[ind_array] = pos;
+                pos_pieces_allies[ind_array] = j + i * 8;
+                ind_array ++;
             }
-            else if(element != '0' && !isupper(element) && is_uppercase == 0)
+            else if(element != '0' && !isupper(element) && is_uppercase == 0) // les deux sont noirs
             {
-                pos_pieces_allies[ind_array] = pos;
+                pos_pieces_allies[ind_array] = j + i * 8;
+                ind_array ++;
             }
 
-            if(ind_array == 16) // on remplit au maximum notre tableau !
+            if(ind_array == 16) // on a rempli au maximum notre tableau !
             {
                 return;
             }
