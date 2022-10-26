@@ -36,7 +36,7 @@ int can_move_around(const int position, const char signature)
             target_position = init_posX + modif[i];
             target_position = init_posY + modif[j];
             //le roi peut bouger sur une case sans danger ?
-            if(chessboard_logic[target_position][target_position] == '0' && check_king(upper(signature))) 
+            if(chessboard_logic[target_position][target_position] == '0' && check_king(isupper(signature))) 
             {
                 return 1;
             }

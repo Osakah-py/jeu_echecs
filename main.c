@@ -1,9 +1,8 @@
-# include "code/game_logic/data.h"
+    # include "code/game_logic/data.h"
 # include "interface.h"
 # include "inputs.h"
 # include "code/game_logic/movements.h"
 # include "code/game_logic/check.h"
-# include "code/game_logic/piece_manager.h"
 
 
 /* note : 
@@ -42,8 +41,7 @@ int main(int argc, char** argv)
         
     // Initialisation de l'échéquier et des pieces 
     init_echequier(chessboard);
-    init_pieces(pieces_logic, chessboard);
-    init_kings();
+
     int trait = 1; // trait au blanc
 
     //Affichage de l'échequier une première fois
@@ -79,7 +77,7 @@ int main(int argc, char** argv)
                 
                 if(check_king((trait+1) % 2)) // le roi adverse est en echec ?
                 {
-                    wprintf(_RED_() L"LE ROI EST EN ECHEC\n" _DEFAULT_());
+                    wprintf(_RED_() L"--- LE ROI EST EN ECHEC ---\n" _DEFAULT_());
                 }
                 
                 trait ++; // On passe au tour suivant
