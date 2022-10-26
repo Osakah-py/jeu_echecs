@@ -4,7 +4,7 @@
 # include <wchar.h>
 
 /* ici on a les fonctions en relation avec chessboard_logic 
-pour faciliter la lecture des autres fichiers :D*/
+pour faciliter la lecture des autres fichiers :D */
 
 int find_king_pos(const char signature)
 {

@@ -54,7 +54,7 @@ int is_checkmate(const int is_king_white, const int pos_enemy)
     char king_signature;
     if(is_king_white)
     {
-        king_signature = "R";
+        king_signature = 'R';
     }
     else
     {

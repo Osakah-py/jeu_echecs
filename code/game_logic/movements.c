@@ -307,12 +307,3 @@ int check_movement(const int position, const int destination, const char signatu
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
