@@ -7,5 +7,4 @@
 # define VPOS(a) (a) / 8 // l'ordonnee ...
 
 extern char chessboard_logic[8][8];
-
 #endif

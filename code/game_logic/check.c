@@ -2,9 +2,9 @@
 # include "chessboard_manager.h"
 # include "check.h"
 
+# include <wchar.h>
 // IS CHECK ---------------------------------------------------------------------------------- 
 extern char chessboard_logic[8][8];
-
 
 // on suppose que les characteres dans enemies sont en miniscule
 void upper_enemies_or_not(const char signature, char *enemies, const int size)
@@ -50,7 +50,7 @@ char *enemies, const int nb_enemies, const int range)
         {    
             posX += movX_bis;
             posY += movY_bis; 
-            if(posX < 8 && posY < 8 && posX >= 0 && posY >= 0) // on regarde si on sort de l'echiquier
+            if(!check_out_of_range(posX, posY)) // on regarde si on sort de l'echiquier
             {
                 element = chessboard_logic[posY][posX];
                 if( (isupper(element) && isupper(signature)) 
@@ -82,8 +82,17 @@ int pawn_not_threat_target(const int position, int signature)
 {
     const int posX = HPOS(position);
     const int posY = VPOS(position); 
-    if( (isupper(signature) && (chessboard_logic[posY+1][posX-1] == 'p' || chessboard_logic[posY+1][posX+1] == 'p'))
-     ||(!isupper(signature) && (chessboard_logic[posY-1][posX-1] == 'P' || chessboard_logic[posY-1][posX+1] == 'P')) )
+
+    // on verifie si le roi n'est pas menace par un pion avec toutes les precautions a prendre  
+    if (isupper(signature) &&
+    ( (!check_out_of_range(posX-1,posY+1) && chessboard_logic[posY+1][posX-1] == 'p')  
+   || (!check_out_of_range(posX+1,posY+1) && chessboard_logic[posY+1][posX+1] == 'p') ))
+    {
+        return 0;
+    }
+    else if (!isupper(signature) && 
+    ( (!check_out_of_range(posX-1,posY-1) && chessboard_logic[posY-1][posX-1] == 'P' ) 
+   || (!check_out_of_range(posX+1,posY-1) && chessboard_logic[posY-1][posX+1] == 'P') ) )
     {
         return 0;
     }
@@ -137,11 +146,11 @@ int check_king(const int is_white)
     
     if(is_white)
     {
-        cond = is_king_safe('R');
+        cond = is_king_safe("R");
     }
     else
     {
-        cond = is_king_safe('r');
+        cond = is_king_safe("r");
     }
 
     if(cond == 0) // s'il y a un check au roi

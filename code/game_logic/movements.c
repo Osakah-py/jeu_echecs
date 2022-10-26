@@ -257,7 +257,7 @@ int find_final_pos_pawn(const int position, const int destination, const char si
 // 0 : impossible d'effectuer le mouvement sinon tout va bien 
 int check_movement(const int position, const int destination, const char signature, const char tableau[8][8])
 {
-    if(position == destination) // on ne peut pas se manger !!!
+    if(position == destination || signature == '0') // on ne peut pas se manger ou bouger une case !!!
     {
         return 0;   
     }
@@ -281,14 +281,15 @@ int check_movement(const int position, const int destination, const char signatu
     {
         // on update l'echiquier localement dans la logique pour voir d'eventuels echecs !
         update_move_chessboard(position, destination, chessboard_logic); 
+        //int pos_enemy = 0;
         if(check_king(isupper(signature)))
         {
             wprintf(L"ton roi est en echec !\n");
-            if(is_checkmate(isupper(signature)))
-            {
+            //if(is_checkmate(isupper(signature), pos_enemy))
+            //{
                 // game over
-                wprintf(L"GAME OVER\n");
-            }
+              //  wprintf(L"GAME OVER\n");
+            //}
             return 0;
         }
         
