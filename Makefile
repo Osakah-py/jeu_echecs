@@ -1,5 +1,5 @@
 # Les nom des sous-dossiers du projet 
-CODEDIR = . #./code/game_logic
+CODEDIR = ./code/game_logic .
 
 # Compilation de fichiers pour construire des programmes.
 # Vous pouvez rajouter des commentaires en utilisant le symbole #
@@ -13,12 +13,12 @@ CODEDIR = . #./code/game_logic
 SCRIPTS = $(foreach D, $(CODEDIR), $(wildcard $(D)/*.c))
 OBJETS = $(patsubst %.c, %.o, $(SCRIPTS))
 
+
 # Donner ci-dessous le nom du fichier exécutable à produire
 NOM_EXECUTABLE = main
 
 # Ligne ci-dessous à conserver
-OPTIONS = -std=c99 -Wall -Wextra -Wvla -fsanitize=address,undefined  
-
+OPTIONS = -std=c99 -Wall -Wextra -Wvla -fsanitize=address,undefined
 
 # Règle principale
 all: $(NOM_EXECUTABLE)
@@ -30,6 +30,5 @@ $(NOM_EXECUTABLE): $(OBJETS)
 	gcc -c $< $(OPTIONS) -o $@
 
 clean:
-	rm -f .o; rm main
-
-
+	-rm -f *.o $(addsuffix /*.o, $(CODEDIR))
+	-rm $(NOM_EXECUTABLE)	

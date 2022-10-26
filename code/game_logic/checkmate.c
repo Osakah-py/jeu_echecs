@@ -1,18 +1,22 @@
 # include "data.h"
 # include "movements.h"
+# include "check.h"
 # include <stdio.h>
 
 // VARAIBLES GLOBALES --------------------------------------------------------------
-extern piece pieces*;
+extern piece pieces_logic[64];
+extern char chessboard_logic[8][8];
+extern piece wKing;
+extern piece bKing;
 
 
 // 0 : le roi ne peut pas se deplacer autour de lui, sinon 1
-int can_move_around(struct piece king)
+int can_move_around(piece king)
 {
     int init_posX = king.posX;
     int init_posY = king.posY;
     int modif[3] = {0, 1, -1}; // on veut avoir toutes les modifs pour avoir les 8 cases autour du roi
-    int cond;
+    //int cond;
 
     for (int i = 0; i < 3; i++)
     {
@@ -25,7 +29,7 @@ int can_move_around(struct piece king)
             king.posX = init_posX + modif[i];
             king.posY = init_posY + modif[j];
             //le roi peut bouger sur une case sans danger ?
-            if(chessboard_mv[king.posY][king.posX] == '0' && is_king_safe(king)) 
+            if(chessboard_logic[king.posY][king.posX] == '0' && is_king_safe(king)) 
             {
                 return 1;
             }
@@ -40,7 +44,7 @@ int can_move_around(struct piece king)
 // 0 si ce n'est pas un echec et mat
 int checkmate(int king_is_white)
 {
-    if(can_move_around)   
+    if(can_move_around(wKing))   
     {
         return 0;
     }

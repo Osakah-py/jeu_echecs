@@ -1,17 +1,19 @@
-#ifndef DATA
-#define DATA
+#ifndef data
+#define data
 
 # include <stdio.h>
 
-typedef struct piece
+typedef struct
 {
     char signature; // le type de piece
     int posX; // entre 0 et 7
     int posY; // entre 0 et 7
 } piece;
 
-piece pieces[64];
+extern piece pieces_logic[64];
+extern char chessboard_logic[8][8];
 
-void free_pieces();
+extern piece bKing;
+extern piece wKing;
 
 #endif

@@ -24,31 +24,13 @@ const char piece_key[6] = {       'p',          't',          'c',          'f',
 /* NB : pour la suite, le fait que les x y sont positives sera tres important !!!
 (surtout pour check les mouvements) */
 const int movement_value[6][4] = {{0, 1, 0, 0}, {1, 0, 1, 1}, {2, 1, 0, 1}, {1, 1, 1, 1}, {0, 0, 0, 1}, {0, 0, 1, 1}};
-char chessboard_mv[8][8];
+extern char chessboard_logic[8][8];
 
-// b = black et w = white, on peut accéder simplement la position des roi sans parcourir chessboard_mv
-piece bKing = {'r', 4, 7};
-piece wKing = {'R', 4, 0}; 
+extern piece bKing;
+extern piece wKing;
 
 
-// PROTOTYPES ------------------------------------------------------------------------------------
-void update_chessboard(const int position, const int destination, char chessboard[8][8]);
-void duplicate_chessboard(char target[8][8], const char original[8][8]);
-int get_piece_key(const char signature);
-int move_piece(const int position, const int destination, const int movement[3]);
-int find_final_pos(int position, const int destination, const int movement[4]);
-int find_pos_controller(const int position, const int destination, const int movement[4], const char signature);
-// revoie 0 si le pion n'est pas dans le cas ou il doit manger en diagonale (yum yum :D)
-int diagonale_cond(const int position, const int destination, const char signature);
-int find_final_pos_pawn(const int position, const int destination, const char signature, const char target);
-// renvoie 0 si le mouvement n'est pas valide, sinon 1
-int check_movement(const int position, const int destination, const char signature, const char tableau[8][8]); // faux --> 0 et vrai --> autres valeurs
-
-void upper_enemies_or_not(const piece target, char *enemies, const int size);
-int check_moveset(const piece target, const int movX, const int movY, char *enemies, const int nb_enemies, const int range);
-int pawn_not_threat_target(const piece target);
-int is_king_safe(const piece king);
-int check_king(const int is_white);
+// b = black et w = white, on peut accéder simplement la position des roi sans parcourir chessboard_logic
 
 
 // FONCTIONS -------------------------------------------------------------------------------------
@@ -109,7 +91,7 @@ int move_piece(const int position, const int destination, const int movement[3])
             {
                 return position;
             }
-            if (chessboard_mv[posY][posX] != '0')
+            if (chessboard_logic[posY][posX] != '0')
             {
                 // la piece a rencontre une autre piece durant son mouvement !
                 return -1; 
@@ -127,7 +109,7 @@ int move_piece(const int position, const int destination, const int movement[3])
             {
                 return position;
             }
-            if(chessboard_mv[posY][posX] != '0')
+            if(chessboard_logic[posY][posX] != '0')
             {
                 return -1; 
             }
@@ -293,8 +275,8 @@ int check_movement(const int position, const int destination, const char signatu
     }
     
     const int ind_key = get_piece_key(signature); // cherche le mouvement de la piece
-    duplicate_chessboard(chessboard_mv, tableau); // on actualise l'echiquier 
-    const char target = chessboard_mv[VPOS(destination)][HPOS(destination)];
+    duplicate_chessboard(chessboard_logic, tableau); // on actualise l'echiquier 
+    const char target = chessboard_logic[VPOS(destination)][HPOS(destination)];
     int pos_tmp;
 
     // le pion a des movements speciaux a traiter a part
@@ -313,7 +295,7 @@ int check_movement(const int position, const int destination, const char signatu
     {
         // on update l'echiquier localement dans la logique pour voir d'eventuels echecs !
         update_king_pos(destination, signature);
-        update_chessboard(position, destination, chessboard_mv); 
+        update_chessboard(position, destination, chessboard_logic); 
         if(check_king(isupper(signature)))
         {
             wprintf(L"ton roi est en echec !\n");
@@ -338,148 +320,6 @@ int check_movement(const int position, const int destination, const char signatu
 }
 
 
-// IS CHECK ---------------------------------------------------------------------------------- 
-
-// on suppose que les characteres dans enemies sont en miniscule
-void upper_enemies_or_not(const piece target, char *enemies, const int size)
-{
-    if(!isupper(target.signature))
-    {
-        for (int i = 0; i < size; i++)
-        {
-            enemies[i] = toupper(enemies[i]);
-        }
-        
-    }
-}
-
-// pour un mouvement en particulier a partir du roi (0 si le roi est en echec)
-int check_moveset(const piece target, const int movX, const int movY, 
-char *enemies, const int nb_enemies, const int range)
-{
-    int posX; int posY; 
-    int movX_bis; int movY_bis; 
-    //On ajuste enemies par rapport a target
-    upper_enemies_or_not(target, enemies, nb_enemies);
-    // On a tout les combinaisons possibles avec movX et movY
-    const int move_combo[8][2] = 
-    {{movX, movY}, {-movX, -movY}, {movY, movX}, {-movY, -movX},
-    {-movX, movY}, {movX, -movY}, {-movY, movX}, {movY, -movX}};
-
-    register char element = '0'; 
-    // on part de la cible pour verifier si un ennemi le menace avec movX et movY 
-    for (register int a = 0; a < 8; a++)
-    {
-        posX = target.posX;
-        posY = target.posY;
-        movX_bis = move_combo[a][0];
-        movY_bis = move_combo[a][1];
-        // on check jusqu'a la portee desiree
-        for (register int j = 0; j < range; j++)
-        {    
-            posX += movX_bis;
-            posY += movY_bis; 
-            if(posX < 8 && posY < 8 && posX >= 0 && posY >= 0) // on regarde si on sort de l'echiquier
-            {
-                element = chessboard_mv[posY][posX];
-                if( (isupper(element) && isupper(target.signature)) 
-                 || (!isupper(element) && !isupper(target.signature)) )
-                {
-                    break; // le roi est couvert par une piece alliee !
-                }
-                for (register int i = 0; i < nb_enemies; i++)
-                {
-                    if(element == enemies[i])
-                    {
-                        return 0;
-                    }
-                }
-            }
-            else
-            {
-                break; // ca sort de l'echiquier donc on arrete la boucle
-            }
-        }
-    }
-
-    return 1;
-}
-
-
-// Si les pions adverses mettent en danger la cible, alors on revoie 0
-int pawn_not_threat_target(const piece target)
-{
-    const int posX = target.posX;
-    const int posY = target.posY; 
-    const char signature = target.signature;
-    if( (isupper(signature) && (chessboard_mv[posY+1][posX-1] == 'p' || chessboard_mv[posY+1][posX+1] == 'p'))
-     ||(!isupper(signature) && (chessboard_mv[posY-1][posX-1] == 'P' || chessboard_mv[posY-1][posX+1] == 'P')) )
-    {
-        return 0;
-    }
-    return 1;
-}
-
-
-// On suppose que chessboard_mv est bien actualise 
-int is_king_safe(const piece king)
-{
-    int tmp;
-    char enemies2[2] = {'0','0'};
-    char enemy[1] = {'0'};
-    
-    // On regarde les pieces qui peuvent atteindre horizontalement et verticalement le roi    
-    enemies2[0] = 't';
-    enemies2[1] = 'd';
-    tmp = check_moveset(king, 1, 0, enemies2, 2, 8);
-    if(tmp == 0)
-    {
-        return 0;
-    }  
-    // On regarde les pieces qui peuvent atteindre diagonalement le roi    
-    enemies2[0] = 'f';
-    tmp = check_moveset(king, 1, 1, enemies2, 2, 8);
-    if(tmp == 0)
-    {
-        return 0;
-    }
-    // On regarde les cavaliers qui peuvent atteindre le roi    
-    enemy[0] = 'c';
-    tmp = check_moveset(king, 2, 1, enemy, 1, 1);
-    if(tmp == 0)
-    {
-        return 0;
-    }
-    // On regarde les pions qui peuvent atteindre le roi
-    tmp = pawn_not_threat_target(king);
-    if(tmp == 0)
-    {
-        return 0;
-    }
-    return 1;
-}
-
-// 0 : not check
-int check_king(const int is_white)
-{
-    int cond; 
-    
-    if(is_white)
-    {
-        cond = is_king_safe(wKing);
-    }
-    else
-    {
-        cond = is_king_safe(bKing);
-    }
-
-    if(cond == 0) // s'il y a un check au roi
-    {
-        return 1;
-    }
-
-    return 0; // il n'y a pas de check
-}
 
 
 

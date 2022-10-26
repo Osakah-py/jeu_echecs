@@ -2,7 +2,7 @@
 #include "piece_manager.h"
 
 
-void init_pieces(piece *pieces, const char init_chessboard[8][8])
+void init_pieces(piece pieces[64], const char init_chessboard[8][8])
 {
     int ind_pieces = 0;
     char element;

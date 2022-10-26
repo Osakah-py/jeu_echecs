@@ -1,17 +1,19 @@
+# include "code/game_logic/data.h"
 # include "interface.h"
 # include "inputs.h"
-# include "movements.h"
+# include "code/game_logic/movements.h"
+# include "code/game_logic/check.h"
 
 /* note : 
 '0' --> case vide
 'lowercase' --> piece noire
 'uppercase' --> piece blanche
-'p' --> pawn
-'r' --> rook
-'n' --> knight
-'b' --> bishop
-'k' --> king
-'q' --> queen
+'p' --> pion
+'t' --> tour
+'c' --> cavalier
+'f' --> fou
+'r' --> roi
+'d' --> dame
 */
 
 
