@@ -6,7 +6,9 @@
         "stdio.h": "c",
         "inputs.h": "c",
         "interface.h": "c",
-        "piece_manager.h": "c"
+        "piece_manager.h": "c",
+        "movements.h": "c",
+        "game_data.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled",
     "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools"

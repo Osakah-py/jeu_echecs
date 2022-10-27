@@ -1,10 +1,15 @@
-# include "data.h"
+# include "game_data.h"
+# include "logic_data.h"
 # include "chessboard_manager.h"
 # include "check.h"
 
 # include <wchar.h>
-// IS CHECK ---------------------------------------------------------------------------------- 
-extern char chessboard_logic[8][8];
+// VARIABLES GLOBALES ------------------------------------------------------------------------- 
+extern int pos_enemy;
+extern char chessboard[8][8];
+
+
+// FONCTIONS ---------------------------------------------------------------------------------- 
 
 // on suppose que les characteres dans enemies sont en miniscule
 void upper_enemies_or_not(const char signature, char *enemies, const int size)
@@ -52,16 +57,16 @@ char *enemies, const int nb_enemies, const int range)
             posY += movY_bis; 
             if(!check_out_of_range(posX, posY)) // on regarde si on sort de l'echiquier
             {
-                element = chessboard_logic[posY][posX];
-                if( (isupper(element) && isupper(signature)) 
-                 || (!isupper(element) && !isupper(signature)) )
+                element = chessboard[posY][posX]; 
+                if(is_same_color(element, signature))
                 {
-                    break; // le roi est couvert par une piece alliee !
+                    break; // target est couvert par une piece alliee !
                 }
                 for (register int i = 0; i < nb_enemies; i++)
                 {
                     if(element == enemies[i])
                     {
+                        pos_enemy = posX + posY * 8;
                         return 0;
                     }
                 }
@@ -85,14 +90,14 @@ int pawn_not_threat_target(const int position, int signature)
 
     // on verifie si le roi n'est pas menace par un pion avec toutes les precautions a prendre  
     if (isupper(signature) &&
-    ( (!check_out_of_range(posX-1,posY+1) && chessboard_logic[posY+1][posX-1] == 'p')  
-   || (!check_out_of_range(posX+1,posY+1) && chessboard_logic[posY+1][posX+1] == 'p') ))
+    ( (!check_out_of_range(posX-1,posY+1) && chessboard[posY+1][posX-1] == 'p')  
+   || (!check_out_of_range(posX+1,posY+1) && chessboard[posY+1][posX+1] == 'p') ))
     {
         return 0;
     }
     else if (!isupper(signature) && 
-    ( (!check_out_of_range(posX-1,posY-1) && chessboard_logic[posY-1][posX-1] == 'P' ) 
-   || (!check_out_of_range(posX+1,posY-1) && chessboard_logic[posY-1][posX+1] == 'P') ) )
+    ( (!check_out_of_range(posX-1,posY-1) && chessboard[posY-1][posX-1] == 'P' ) 
+   || (!check_out_of_range(posX+1,posY-1) && chessboard[posY-1][posX+1] == 'P') ) )
     {
         return 0;
     }

@@ -13,13 +13,13 @@ void viderBuffer() {
 }
 // RECUPERATION DES COORDONNEES UTILISATEURS ----------------------------------------------------------
 int input(){
-    char entree[3];
+    char entree[3]; // entre[2] = '\0'
     
     fgets(entree, 3, stdin);
     viderBuffer();
     
-    int x = (int) toupper(entree[0]) - 65; // 65 corespond au code ASCII du A
-    int y = (int) entree[1] - 1 - 48; // 48 corespond au code ASCII du 0
+    int x = (int) toupper(entree[0]) - 65; // 65 correspond au code ASCII du A
+    int y = (int) entree[1] - 1 - 48; // 48 correspond au code ASCII du 0
 
     return x + 8 * y;
 

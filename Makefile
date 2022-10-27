@@ -1,5 +1,6 @@
 # Les nom des sous-dossiers du projet 
 CODEDIR = ./code/game_logic .
+INCDIR = headers headers/logic
 
 # Compilation de fichiers pour construire des programmes.
 # Vous pouvez rajouter des commentaires en utilisant le symbole #
@@ -18,16 +19,16 @@ OBJETS = $(patsubst %.c, %.o, $(SCRIPTS))
 NOM_EXECUTABLE = main
 
 # Ligne ci-dessous à conserver
-OPTIONS = -std=c99 -Wall -Wextra -Wvla -fsanitize=address,undefined
-
+OPTIONS = -std=c99 -Wall -Wextra -Wvla -fsanitize=address,undefined 
+IOPTION = $(foreach D,$(INCDIR),-iquote$(D))
 # Règle principale
 all: $(NOM_EXECUTABLE)
 
 $(NOM_EXECUTABLE): $(OBJETS)
-	gcc -o $@ $(OPTIONS) $(OBJETS) 
+	gcc $(OPTIONS) $(IOPTION) $^ -o $@ 
 
-%.o : %.c %.h
-	gcc -c $< $(OPTIONS) -o $@
+%.o : %.c
+	gcc -c $(OPTIONS) $(IOPTION) $^ -o $@
 
 clean:
 	-rm -f *.o $(addsuffix /*.o, $(CODEDIR))
