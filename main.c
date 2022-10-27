@@ -65,20 +65,21 @@ int main()
             } 
             else 
             {
-                // on est un male alpha donc on fait le mouvement quoi qu'il en advienne 
+                // on fait le mouvement quoi qu'il en advienne 
                 make_move(coordonees_init, dest); 
 
                 if(check_king(current_color%2)) // 1 : blanc et 0 : noir
                 {
                     wprintf(_RED_() L"--- ROI EN ECHEC DONC NON ---\n" _DEFAULT_());
                     undo_move(); // mince, c'est pas le bon mvt
+                    affichage(chessboard, dest, oponent_color); // On affiche l'échiquier   
                 }
                 else
                 {
                     
                     oponent_color = (current_color+1) % 2;
-                    clear(); // On reset l'affichage
-                    affichage(chessboard, dest, oponent_color % 2); // On affiche l'échiquier
+                    //clear(); // On reset l'affichage
+                    affichage(chessboard, dest, oponent_color); // On affiche l'échiquier
 
                     if(check_king(oponent_color)) // le roi adverse est en echec ?
                     {
