@@ -7,11 +7,17 @@
 
 // VARIABLES GLOBALES --------------------------------------------------------------
 
-// variables pour savoir la derniere modif de chess_virtual
+// variables pour savoir la derniere modif de chessboard
 char elt_replaced;
-char pos_init;
-char pos_dest;
+int pos_init;
+int pos_dest;
 
+// varaibles pour une deuxieme modif de chessboard
+char elt_replaced2;
+int pos_init2;
+int pos_dest2;
+
+extern int two_moves_in_once;
 extern char chessboard[8][8];
 
 
@@ -93,9 +99,18 @@ void collect_allies(int pos_pieces_allies[16], const char signature_ally)
 
 void make_move(const int position, const int destination)
 {
-    pos_init = position;
-    pos_dest = destination;
-    elt_replaced = chessboard[VPOS(destination)][HPOS(destination)];
+    if(two_moves_in_once)
+    {
+        pos_init2 = position;
+        pos_dest2 = destination;
+        elt_replaced2 = chessboard[VPOS(destination)][HPOS(destination)];
+    }
+    else
+    {
+        pos_init = position;
+        pos_dest = destination;
+        elt_replaced = chessboard[VPOS(destination)][HPOS(destination)];
+    }
 
     chessboard[VPOS(destination)][HPOS(destination)] = chessboard[VPOS(position)][HPOS(position)];
     chessboard[VPOS(position)][HPOS(position)] = '0';    
@@ -103,6 +118,16 @@ void make_move(const int position, const int destination)
  
 void undo_move()
 {    
+    if(two_moves_in_once)
+    {
+        chessboard[VPOS(pos_dest2)][HPOS(pos_dest2)] = chessboard[VPOS(pos_init2)][HPOS(pos_init2)];
+        chessboard[VPOS(pos_dest2)][HPOS(pos_dest2)] = elt_replaced2;    
+    }    
+    
+    two_moves_in_once = 0; // il n'y a plus de deux mouvements en un
+
     chessboard[VPOS(pos_dest)][HPOS(pos_dest)] = chessboard[VPOS(pos_init)][HPOS(pos_init)];
     chessboard[VPOS(pos_dest)][HPOS(pos_dest)] = elt_replaced;    
 }
+
+

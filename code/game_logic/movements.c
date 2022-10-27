@@ -1,7 +1,10 @@
 # include "game_data.h"
 # include "logic_data.h"
+# include "special_movements.h"
 # include "movements.h"
 # include "chessboard_manager.h"
+
+# include <wchar.h>
 
 /* note :
 pos = x
@@ -181,52 +184,6 @@ int find_pos_controller(const int position, const int destination, const int mov
     return pos_tmp;
 }
 
-int diagonale_mvt(const int position, const int destination, const char signature)
-{
-    if(isupper(signature))
-    {
-        // la piece peut se deplacer en diagonale "sans sortir" de l'echiquier  
-        if( (position-1 + 1*8 == destination && HPOS(position) != 0) 
-         || (position+1 + 1*8 == destination && HPOS(position) != 7) )
-        {
-            return 1;
-        }
-    }
-    else
-    {
-        if( (position-1 - 1*8 == destination && HPOS(position) != 0) 
-         || (position+1 - 1*8 == destination && HPOS(position) != 7) )
-        {
-            return 1;
-        }
-    }
-    return 0;
-}
-
-int special_mvt_pawn(const int position, const int destination, const char signature, const char target) 
-{
-    // le pion peut manger en diagonale
-    if (diagonale_mvt(position, destination, signature))
-    {
-        if(target == '0')
-        {
-            return -1; // un pion ne mange pas s'il y a rien :D
-        }
-        return destination; // on s'en fout de la couleur
-    }
-    // le pion peut avancer de deux cases au début
-    else if ( (isupper(signature) && position/8 == 1 && (position + 2*8) == destination)
-          || (!isupper(signature) && position/8 == 6 && (position - 2*8) == destination) )
-    {
-        if(target != '0')
-        {
-            return -1;  // ne peut pas manger une piece comme ca :(
-        }
-        return destination;
-    }
-    return position; // pas mouvements speciaux trouves
-}
-
 
 // 0 : impossible d'effectuer le mouvement sinon tout va bien 
 // On suppose que position et destination sotn bien définis
@@ -244,13 +201,10 @@ int is_movement_correct(const int position, const int destination)
     // on actualise l'echiquier reel et virtuel 
     int pos_tmp = -1;
 
-    // le pion a des movements speciaux a traiter a part
-    if (signature == 'p' || signature == 'P') 
-    {
-        pos_tmp = special_mvt_pawn(position, destination, signature, target);
-    
-    }
-    if (pos_tmp != destination) // le pion n'a pas de mouvement speciaux a effectuer
+    // on regarde si il y a un mvt special a traiter
+    pos_tmp = special_mvt_controller(position, destination, signature, target);
+
+    if (pos_tmp != destination) // la piece n'a pas de mouvements speciaux a effectuer
     {
         pos_tmp = find_pos_controller(position, destination, movement_value[ind_key], signature);
     }

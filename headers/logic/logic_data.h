@@ -7,5 +7,7 @@
 # define VPOS(a) (a) / 8 // l'ordonnee ...
 
 extern int pos_enemy;
+extern int two_moves_in_once;
+extern int has_king_moved;
 
 #endif

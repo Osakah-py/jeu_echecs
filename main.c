@@ -59,7 +59,6 @@ int main()
         { 
             // la coordonnee est dans le tableau
             int dest = input();
-        
             if(!is_movement_correct(coordonees_init, dest))
             {
                 wprintf(_RED_() L"Impossible de déplacer votre pièce ici ! \nRéessayez : \n" _DEFAULT_());
