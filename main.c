@@ -42,9 +42,9 @@ int main()
     while(1)
     {
         if (current_color % 2 == 1){
-            wprintf(L"---- Trait au blanc ---- \n");
+            wprintf(_BOLD_() L"---- Trait au blanc ---- \n" _RESET_());
         } else {
-            wprintf(L"---- Trait au noir ---- \n");
+            wprintf(_BOLD_() L"---- Trait au noir ---- \n" _RESET_());
         }
         
         // Entrée utilisateur
@@ -76,9 +76,10 @@ int main()
                 }
                 else
                 {
-                    clear(); // On reset l'affichage
-                    affichage(chessboard, dest); // On affiche l'échiquier
+                    
                     oponent_color = (current_color+1) % 2;
+                    clear(); // On reset l'affichage
+                    affichage(chessboard, dest, oponent_color % 2); // On affiche l'échiquier
 
                     if(check_king(oponent_color)) // le roi adverse est en echec ?
                     {
@@ -122,5 +123,5 @@ void game_initialization()
 
     current_color = 1; //  les blancs commencent
     //Affichage de l'échequier une première fois
-    affichage(chessboard, -1); // -1 car on ne veut rien en bleu
+    affichage(chessboard, -1, current_color); // -1 car on ne veut rien en jaune
 }

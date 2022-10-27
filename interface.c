@@ -76,37 +76,50 @@ int indice (char let){
     return ind;
 }
 
-// FONCTION PRINCIPAL AFFICHAGE ECHEQUIER ------------------------------------------------------------------------------------------
-void affichage (char chessboard[][8], int highlight){
-    // Affichage de l'échequier
-    interface_topedge(); 
-
-    for (int i = 0; i < 8; i++){
+// FONCTION AFFICHAGE LIGNE ECHIQUIER ---------------------------------------------------------------------
+void affichage_ligne(char chessboard[][8], int highlight, int ligne){
+    // Affichage du premier élement (on le sépare du reste pour avoir le bord)
+        wprintf(L"%d \x2551 ", ligne + 1); // Ce bord la :p
         
-        // Affichage du premier élement (on le sépare du reste pour avoir le bord)
-        wprintf(L"%d \x2551 ", i+1); // Ce bord la :p
-        
-        if (i * 8 == highlight){
+        if (ligne * 8 == highlight){
                 wprintf (_YELLOW_()); // si c la pièce à highlight on la met en bleu
             }
 
-        wprintf(L"%lc"_DEFAULT_(), unicode[indice(chessboard [i][0])]); 
+        wprintf(L"%lc"_DEFAULT_(), unicode[indice(chessboard [ligne][0])]); 
 
         for (int j = 1; j < 8; j++){
             
             wprintf(L"  \x2502 "); // On affiche le bord
 
-            if (i * 8 + j == highlight){
+            if (ligne * 8 + j == highlight){
                 wprintf (_YELLOW_()); // si c la pièce à highlight on la met en bleu
             }
 
-            wprintf(L"%lc" _DEFAULT_(), unicode[indice(chessboard [i][j])]); // on affiche chaque indice unicode des pièces
+            wprintf(L"%lc" _DEFAULT_(), unicode[indice(chessboard [ligne][j])]); // on affiche chaque indice unicode des pièces
         }
 
         wprintf(L"  \x2551 \n"); // On ferme le cadre
+}
+// FONCTION PRINCIPAL AFFICHAGE ECHIQUIER -----------------------------------------------------------------
+void affichage (char chessboard[][8], int highlight, int trait){
+    // Affichage de l'échequier
+    interface_topedge(); 
 
-        if (i != 7){ 
-        interface_interedge (); // Affichage du cadriage intermédiaire, on ne le veut pas pour la dernière ligne (le cadre est déjà là)
+    if (trait == 1){
+        for (int i = 7; i >= 0; i--){
+            affichage_ligne(chessboard, highlight, i);
+        
+            if (i != 0){ 
+            interface_interedge (); // Affichage du cadriage intermédiaire, on ne le veut pas pour la dernière ligne (le cadre est déjà là)
+            }
+        } 
+    } else {
+        for (int i = 0; i < 8; i++){
+            affichage_ligne(chessboard, highlight, i);
+        
+            if (i != 7){ 
+            interface_interedge (); // Affichage du cadriage intermédiaire, on ne le veut pas pour la dernière ligne (le cadre est déjà là)
+            }
         }
     }
     interface_botedge();

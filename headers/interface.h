@@ -23,9 +23,10 @@
 # define _RED_() "\x1b[31m"
 # define _YELLOW_() L"\x1b[33m"
 # define _DEFAULT_() "\x1b[39m"
-
+# define _BOLD_() "\x1b[1m"
+# define _RESET_() "\x1b[0m"
 // FONCTIONS ------------------------------------------------------------------
-void affichage(char chessboard[][8], int highlight);
+void affichage(char chessboard[][8], int highlight, int trait);
 void clear();
 void init_echequier (char chessboard[][8]);
 int detection (int y, int x, int color, char chessboard[][8]);
