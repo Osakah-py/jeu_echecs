@@ -16,7 +16,7 @@ OBJETS = $(patsubst %.c, %.o, $(SCRIPTS))
 
 
 # Donner ci-dessous le nom du fichier exécutable à produire
-NOM_EXECUTABLE = main
+NOM_EXECUTABLE = chess
 
 # Ligne ci-dessous à conserver
 OPTIONS = -std=c99 -Wall -Wextra -Wvla -fsanitize=address,undefined 

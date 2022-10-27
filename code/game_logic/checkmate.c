@@ -2,7 +2,8 @@
 # include "movements.h"
 # include "check.h"
 # include "chessboard_manager.h"
-# include <stdio.h>
+
+# include <wchar.h>
 
 // VARIABLES GLOBALES --------------------------------------------------------------
 int pos_ally[16];
@@ -10,25 +11,44 @@ extern int pos_enemy;
 
 // FONCTIONS -------------------------------------------------------------------------------
 
+// une fonction qui regarde si le mouvement est valide avant et apres son execution
+int check_and_movement(const int position, const int new_pos, const int is_white)
+{
+    int tmp = 0;
+    if(is_movement_correct(position, new_pos)) 
+    {
+        make_move(position, new_pos); // faisons le mouvement sur l'echiquier 
+        tmp = 1;
+        if(check_king(is_white))
+        {
+            tmp = 0; // movement irrealisable
+            undo_move(); 
+        }
+         // on revient en arriere apres avoir vu une possibilite de s'en sortir !
+    }
+
+    return tmp;
+}
+
 
 // On veut savoir si on peut manger la piece ennemi pour eviter un echec et mat
 // On considere que enemy_pos a ete bien actualise avant (puisque le roi a ete en echec)
 // Pareil pour pos_ally (dans is_checkmate)
-int can_eat_enemy()
+int can_eat_enemy(const int is_white)
 {
     for (int i = 0; i < 16; i++)
-    {
-        if(check_movement(pos_ally[i], pos_enemy))
+    {       
+        // si pos_ally[i] == -1 alors cet allie n'existe pas sur l'echiquier
+        if (pos_ally[i] != -1 && check_and_movement(pos_ally[i], pos_enemy, is_white))
         {
-            undo_move();
-            return 1; // on peut le manger !
+            return 1; // une piece peut le manger !
         }
     }
     return 0;
 }
 
 // 0 : le roi ne peut pas se deplacer autour de lui et les pieces ne peuvent pas le proteger, sinon 1
-int can_do_smth_around(const int position)
+int can_do_smth_around(const int position, const int is_white)
 {
     int new_pos;
     int new_posX;
@@ -57,23 +77,20 @@ int can_do_smth_around(const int position)
             new_pos = new_posX + new_posY * 8; // la nouvelle pos_ally calculee
             
             // le roi peut bouger sur une case sans danger ?
-            if(check_movement(position, new_pos)) 
+            if(check_and_movement(position, new_pos, is_white))
             {
-                undo_move(); // c'est juste une verification donc on pense a bien retourner en arriere
-                return 1;
-            }
+                return 1; // he oui il peut
+            }            
+
             // on check si les allies peuvent sauver le roi autour de lui
-            else 
+            for (int a = 0; a < 16; a++)
             {
-                for (int a = 0; a < 16; a++)
+                if (pos_ally[a] != -1 && check_and_movement(pos_ally[a], new_pos, is_white))
                 {
-                    if (pos_ally[a] != -1 && check_movement(pos_ally[a], new_pos))
-                    {
-                        undo_move();
-                        return 1;
-                    } 
-                }
+                    return 1;
+                } 
             }
+            
         }
     }
 
@@ -94,16 +111,17 @@ int is_checkmate(const int is_king_white)
     {
         king_signature = 'r';
     }
+
     king_position = find_king_pos(king_signature);
     collect_allies(pos_ally, king_signature); // On trouve les pieces de la meme couleur
-    
-    if(can_do_smth_around(king_position))   
+    if(can_do_smth_around(king_position, is_king_white))   
     {
         return 0;
     }
-    if(can_eat_enemy(pos_enemy))
+    if(can_eat_enemy(is_king_white))
     {
         return 0;
     }
+
     return 1;
 }

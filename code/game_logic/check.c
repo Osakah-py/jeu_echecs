@@ -14,7 +14,7 @@ extern char chessboard[8][8];
 // on suppose que les characteres dans enemies sont en miniscule
 void upper_enemies_or_not(const char signature, char *enemies, const int size)
 {
-    if(!isupper(signature))
+    if(islower(signature))
     {
         for (int i = 0; i < size; i++)
         {

@@ -1,15 +1,7 @@
 # include "game_data.h"
 # include "logic_data.h"
 # include "movements.h"
-# include "check.h"
 # include "chessboard_manager.h"
-# include "checkmate.h"
-
-//juste pour debug
-# include <wchar.h>
-# define _RED_() "\x1b[31m"
-# define _DEFAULT_() "\x1b[39m"
-
 
 /* note :
 pos = x
@@ -237,8 +229,8 @@ int special_mvt_pawn(const int position, const int destination, const char signa
 
 
 // 0 : impossible d'effectuer le mouvement sinon tout va bien 
-// On suppose que position et destination sotn bien définis et que l'echiquier virtuel est bien a jour
-int check_movement(const int position, const int destination)
+// On suppose que position et destination sotn bien définis
+int is_movement_correct(const int position, const int destination)
 {
     const char signature = chessboard[VPOS(position)][HPOS(position)];
     const char target = chessboard[VPOS(destination)][HPOS(destination)];
@@ -256,25 +248,15 @@ int check_movement(const int position, const int destination)
     if (signature == 'p' || signature == 'P') 
     {
         pos_tmp = special_mvt_pawn(position, destination, signature, target);
+    
     }
     if (pos_tmp != destination) // le pion n'a pas de mouvement speciaux a effectuer
     {
         pos_tmp = find_pos_controller(position, destination, movement_value[ind_key], signature);
     }
-
+    
     if (pos_tmp == destination)
     {
-        // on update l'echiquier virtuellement pour voir d'eventuels echecs !
-        make_move(position, destination); 
-
-        if(check_king(isupper(signature)))
-        {
-            wprintf(_RED_() L"ton roi est en echec !\n"_DEFAULT_());
-            // on ANNULE TOUT (le mouvement n'est pas bon T-T )
-            undo_move();
-            return 0;
-        }
-
         return 1; // le mouvement est valide !
     }
 
