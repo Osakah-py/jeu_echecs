@@ -120,13 +120,13 @@ void undo_move()
 {    
     if(two_moves_in_once)
     {
-        chessboard[VPOS(pos_dest2)][HPOS(pos_dest2)] = chessboard[VPOS(pos_init2)][HPOS(pos_init2)];
+        chessboard[VPOS(pos_init2)][HPOS(pos_init2)] = chessboard[VPOS(pos_dest2)][HPOS(pos_dest2)];
         chessboard[VPOS(pos_dest2)][HPOS(pos_dest2)] = elt_replaced2;    
     }    
     
     two_moves_in_once = 0; // il n'y a plus de deux mouvements en un
 
-    chessboard[VPOS(pos_dest)][HPOS(pos_dest)] = chessboard[VPOS(pos_init)][HPOS(pos_init)];
+    chessboard[VPOS(pos_init)][HPOS(pos_init)] = chessboard[VPOS(pos_dest)][HPOS(pos_dest)];
     chessboard[VPOS(pos_dest)][HPOS(pos_dest)] = elt_replaced;    
 }
 

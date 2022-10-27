@@ -57,7 +57,8 @@ char *enemies, const int nb_enemies, const int range)
             posY += movY_bis; 
             if(!check_out_of_range(posX, posY)) // on regarde si on sort de l'echiquier
             {
-                element = chessboard[posY][posX]; 
+                element = chessboard[posY][posX];
+                wprintf(L"%c  posX : %d   posY: %d is the same color : %d\n", element, posX, posY, is_same_color(element, signature)); 
                 if(is_same_color(element, signature))
                 {
                     break; // target est couvert par une piece alliee !
@@ -87,7 +88,6 @@ int pawn_not_threat_target(const int position, int signature)
 {
     const int posX = HPOS(position);
     const int posY = VPOS(position); 
-
     // on verifie si le roi n'est pas menace par un pion avec toutes les precautions a prendre  
     if (isupper(signature) &&
     ( (!check_out_of_range(posX-1,posY+1) && chessboard[posY+1][posX-1] == 'p')  
@@ -136,7 +136,7 @@ int is_king_safe(char king_signature)
         return 0;
     }
     // On regarde les pions qui peuvent atteindre le roi
-    tmp = pawn_not_threat_target(king_signature, king_position);
+    tmp = pawn_not_threat_target(king_position, king_signature);
     if(tmp == 0)
     {
         return 0;
