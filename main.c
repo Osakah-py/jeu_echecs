@@ -121,7 +121,8 @@ void game_initialization()
     #endif
     // On demande à l'utilisateur ses préférences
     wprintf(L"Voulez vous que l'échiquier se retourne entre chaque coup ? (O/N) : ");
-    pref = config_input ();     
+    pref = config_input ();
+    clear();     
     // Initialisation de l'échéquier et des pieces 
     init_echequier(chessboard);
 
