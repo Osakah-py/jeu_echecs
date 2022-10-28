@@ -21,7 +21,12 @@ int input(){
     int x = (int) toupper(entree[0]) - 65; // 65 correspond au code ASCII du A
     int y = (int) entree[1] - 1 - 48; // 48 correspond au code ASCII du 0
 
-    return x + 8 * y;
+    if (0 <= x  && x < 8 && 0 <= y && y < 8){
+        return x + 8 * y;
+    } else {
+        wprintf (L"!! Entree Invalide !! Réessayez : \n");
+        input();
+    }
 
 }
 
