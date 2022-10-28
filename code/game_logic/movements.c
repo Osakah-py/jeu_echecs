@@ -30,12 +30,11 @@ const int movement_value[6][4] = {{0, 1, 0, 0}, {1, 0, 1, 1}, {2, 1, 0, 1}, {1, 
 
 extern char chessboard[8][8];
 
-
 // FONCTIONS -------------------------------------------------------------------------------------
 
-// On actualise le mouvement d'une seule piece
+// On trouve le mouvement d'une seule piece
 
-int get_piece_key(const char signature)
+int get_ind_key(const char signature)
 {
     for (int i = 0; i <size_dict_movement; i++)
     {
@@ -48,7 +47,7 @@ int get_piece_key(const char signature)
 }
 
 
-int move_piece(const int position, const int destination, const int movement[3])
+int move_piece(const int position, const int destination, const int movement[4])
 {
     const int movX = movement[0]; 
     const int movY = movement[1];
@@ -105,35 +104,27 @@ int move_piece(const int position, const int destination, const int movement[3])
 }
 
 
-int find_final_pos(const int position, const int destination, const int movement[4])
-{
-    // On trouve les coordonnees de position et destination sur l'echequier
-    const int init_posH = HPOS(position);
-    const int init_posV = VPOS(position);
-    const int dest_posH = HPOS(destination);
-    const int dest_posV = VPOS(destination);
-    
-    int final_movement[3] = {movement[0], movement[1], movement[2]};
+void adjust_move_dir(const int position, const int destination, int movement[4])
+{    
     int sign_posH = 0;
     int sign_posV = 0;
 
     if(movement[3] != 0) // la piece est multidirectionnelle ?
     {
         // on veut savoir la position relative de la piece par rapport a la destination
-        sign_posH = dest_posH - init_posH; 
-        sign_posV = dest_posV - init_posV; 
+        sign_posH = HPOS(destination) - HPOS(position); 
+        sign_posV = VPOS(destination) - VPOS(position); 
     }
 
-    if(sign_posH * final_movement[0] < 0) // si sign_posH = 0, on garde la valeur initiale
+    if(sign_posH * movement[0] < 0) // si sign_posH = 0, on garde la valeur initiale
     {
-        final_movement[0] *= -1; // la position relative et le mouvement x doit etre reajuste
+        movement[0] *= -1; // la position relative et le mouvement x doit etre reajuste
     }
-    if(sign_posV * final_movement[1] < 0) // si sign_posV = 0, on garde la valeur initiale
+    if(sign_posV * movement[1] < 0) // si sign_posV = 0, on garde la valeur initiale
     {
-        final_movement[1] *= -1;
+        movement[1] *= -1;
     }
-    return move_piece(position, destination, final_movement);
-}
+} 
 
 
 int find_pos_controller(const int position, const int destination, const int movement[4], const char signature)
@@ -153,7 +144,9 @@ int find_pos_controller(const int position, const int destination, const int mov
         movement_adjusted[1] = 1;
     }
 
-    int pos_tmp = find_final_pos(position, destination, movement_adjusted);
+    // On fait en sorte que le movement "pointe" vers la destination
+    adjust_move_dir(position, destination, movement_adjusted);
+    int pos_tmp = move_piece(position, destination, movement_adjusted);
     
     if(pos_tmp == destination)
     {
@@ -164,7 +157,10 @@ int find_pos_controller(const int position, const int destination, const int mov
     {
         movement_adjusted[0] = 1;
         movement_adjusted[1] = 0;
-        pos_tmp = find_final_pos(position, destination, movement_adjusted);
+
+        adjust_move_dir(position, destination, movement_adjusted);
+        int pos_tmp = move_piece(position, destination, movement_adjusted);
+
         if(pos_tmp == destination) // il a trouve son mvt ?
         {
             return destination;
@@ -177,11 +173,17 @@ int find_pos_controller(const int position, const int destination, const int mov
         int tmp = movement_adjusted[0];
         movement_adjusted[0] = movement_adjusted[1];
         movement_adjusted[1] = tmp; // on inverse pour avoir toutes les possibilites        
-        
-        pos_tmp = find_final_pos(position, destination, movement_adjusted);
+
+        adjust_move_dir(position, destination, movement_adjusted);
+        int pos_tmp = move_piece(position, destination, movement_adjusted);
+
+        if(pos_tmp == destination)
+        {
+            return destination;
+        }
     }
 
-    return pos_tmp;
+    return -1; // aucun mvt correct n'a ete trouver
 }
 
 
@@ -197,7 +199,7 @@ int is_movement_correct(const int position, const int destination)
     {
         return 0;   
     }
-    const int ind_key = get_piece_key(signature); // cherche le mouvement de la piece
+    const int ind_key = get_ind_key(signature); // cherche le mouvement de la piece
     // on actualise l'echiquier reel et virtuel 
     int pos_tmp = -1;
 

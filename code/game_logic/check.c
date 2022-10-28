@@ -6,8 +6,11 @@
 # include <wchar.h>
 // VARIABLES GLOBALES ------------------------------------------------------------------------- 
 extern int pos_enemy;
+extern int mvt_enemy[2];
+
 extern char chessboard[8][8];
 
+int _pos_local_enemy;
 
 // FONCTIONS ---------------------------------------------------------------------------------- 
 
@@ -67,6 +70,9 @@ char *enemies, const int nb_enemies, const int range)
                     if(element == enemies[i])
                     {
                         pos_enemy = posX + posY * 8;
+                        // on veut que le mvt vienne de l'ennemi (d'ou le signe -) 
+                        mvt_enemy[0] = - movX_bis; 
+                        mvt_enemy[1] = - movY_bis;
                         return 0;
                     }
                 }

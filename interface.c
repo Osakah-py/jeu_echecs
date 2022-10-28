@@ -13,7 +13,7 @@ void init_echequier (char chessboard[][8]){
     // Gestion d'une erreur éventuelle
     errno = 0;
     // Ouverture du fichier par défaut
-    const char *nom_fichier = "Default.txt";
+    const char *nom_fichier = "Test.txt";
     FILE* flux_entree = fopen ( nom_fichier, "r");
     if ( flux_entree == NULL ){
         wprintf (L" Une erreur s'est produite à l'ouverture du fichier %s : %s\n", nom_fichier, strerror ( errno ) ) ;
