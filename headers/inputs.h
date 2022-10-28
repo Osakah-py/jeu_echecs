@@ -5,5 +5,6 @@
 # include "interface.h"
 
 int input();
+int config_input ();
 
 #endif

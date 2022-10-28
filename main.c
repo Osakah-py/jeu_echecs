@@ -25,7 +25,7 @@ extern char chessboard[8][8];
 // 0 : noir et 1 : blanc
 int current_color;
 int oponent_color;
-
+int pref;
 
 // PROTOTYPES ---------------------------------------------------------------------------------------------
 
@@ -72,15 +72,17 @@ int main()
                 {
                     wprintf(_RED_() L"--- ROI EN ECHEC DONC NON ---\n" _DEFAULT_());
                     undo_move(); // mince, c'est pas le bon mvt
-                    affichage(chessboard, dest, oponent_color); // On affiche l'échiquier   
+                    affichage(chessboard, dest, ((oponent_color + 1) * pref + 1) % 2); 
+                    // On affiche l'échiquier (pour l'explication du calcul avec pref voir ci-dessous)
                 }
                 else
                 {
                     
                     oponent_color = (current_color+1) % 2;
                     clear(); // On reset l'affichage
-                    affichage(chessboard, dest, oponent_color); // On affiche l'échiquier
-
+                    affichage(chessboard, dest, ((oponent_color + 1) * pref + 1) % 2); // On affiche l'échiquier
+                    /* Ce calcul dans le paramètre de affichage permet de renvoyer toujours 1 si pref = 0 
+                     et sinon la couleur du joueur suivant */
                     if(check_king(oponent_color)) // le roi adverse est en echec ?
                     {
                         wprintf(_RED_() L"--- LE ROI EST EN ECHEC ---\n" _DEFAULT_());
@@ -117,7 +119,9 @@ void game_initialization()
         // On passe la console Linux en Unicode
         setlocale(LC_CTYPE, "");    
     #endif
-            
+    // On demande à l'utilisateur ses préférences
+    wprintf(L"Voulez vous que l'échiquier se retourne entre chaque coup ? (O/N) : ");
+    pref = config_input ();     
     // Initialisation de l'échéquier et des pieces 
     init_echequier(chessboard);
 

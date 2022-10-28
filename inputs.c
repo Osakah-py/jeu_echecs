@@ -24,3 +24,18 @@ int input(){
     return x + 8 * y;
 
 }
+
+// CONFIG
+int config_input (){
+    char entree[1]; 
+    
+    fgets(entree, 2, stdin);
+    viderBuffer(); 
+    if (toupper(entree[0]) == 'O'){
+        return 1;
+    }
+    if (toupper(entree[0]) == 'N'){
+        return 0;
+    }
+    return 1; // si l'entrée est mauvais on retourne 1 quand meme
+}
