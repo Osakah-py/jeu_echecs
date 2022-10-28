@@ -114,7 +114,6 @@ int is_checkmate(const int is_king_white)
 
     king_position = find_king_pos(king_signature);
     collect_allies(pos_ally, king_signature); // On trouve les pieces de la meme couleur
-
     if(can_do_smth_around(king_position, is_king_white))   
     {
         return 0;

@@ -58,7 +58,6 @@ char *enemies, const int nb_enemies, const int range)
             if(!check_out_of_range(posX, posY)) // on regarde si on sort de l'echiquier
             {
                 element = chessboard[posY][posX];
-                wprintf(L"%c  posX : %d   posY: %d is the same color : %d\n", element, posX, posY, is_same_color(element, signature)); 
                 if(is_same_color(element, signature))
                 {
                     break; // target est couvert par une piece alliee !

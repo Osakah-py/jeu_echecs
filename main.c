@@ -78,7 +78,7 @@ int main()
                 {
                     
                     oponent_color = (current_color+1) % 2;
-                    //clear(); // On reset l'affichage
+                    clear(); // On reset l'affichage
                     affichage(chessboard, dest, oponent_color); // On affiche l'échiquier
 
                     if(check_king(oponent_color)) // le roi adverse est en echec ?
