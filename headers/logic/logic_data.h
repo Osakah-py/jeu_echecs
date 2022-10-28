@@ -8,6 +8,7 @@
 
 extern int pos_enemy;
 extern int two_moves_in_once;
-extern int has_king_moved;
+extern int has_wking_moved;
+extern int has_bking_moved;
 
 #endif

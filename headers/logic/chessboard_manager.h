@@ -15,4 +15,8 @@ void make_move(const int position, const int destination);
 
 void undo_move();
 
+int move_and_check(const int position, const int new_pos, const int is_white);
+
+void next_turn_logic();
+
 #endif

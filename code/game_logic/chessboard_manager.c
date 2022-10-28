@@ -1,6 +1,9 @@
 # include "game_data.h"
 # include "logic_data.h"
 # include "chessboard_manager.h"
+# include "movements.h"
+# include "check.h"
+
 # include <ctype.h>
 # include <wchar.h>
 
@@ -8,11 +11,13 @@
 // VARIABLES GLOBALES --------------------------------------------------------------
 
 // variables pour savoir la derniere modif de chessboard
+char elt_moved;
 char elt_replaced;
 int pos_init;
 int pos_dest;
 
 // varaibles pour une deuxieme modif de chessboard
+char elt_moved2;
 char elt_replaced2;
 int pos_init2;
 int pos_dest2;
@@ -131,3 +136,38 @@ void undo_move()
 }
 
 
+// une fonction qui regarde si le mouvement est valide avant et apres son execution
+int move_and_check(const int position, const int new_pos, const int is_white)
+{
+    int tmp = 0;
+    if(is_movement_correct(position, new_pos)) 
+    {
+        make_move(position, new_pos); // faisons le mouvement sur l'echiquier 
+        tmp = 1;
+        if(check_king(is_white))
+        {
+            tmp = 0; // movement irrealisable
+            undo_move(); 
+        }
+        // on revient en arriere apres avoir vu une possibilite de s'en sortir !
+        undo_move();
+    }
+
+    return tmp;
+}
+
+
+// On reset tout au tour suivant
+void next_turn_logic()
+{
+    two_moves_in_once = 0;
+    if(elt_moved == 'R' || elt_moved2 == 'R')
+    {
+        has_wking_moved = 1;
+    }
+    else if(elt_moved == 'r' || elt_moved2 == 'r')
+    {
+        has_bking_moved = 1;
+    }
+    
+}

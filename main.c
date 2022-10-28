@@ -92,7 +92,7 @@ int main()
                             return 0;
                         }
                     }
-
+                    next_turn_logic(); // on donne l'information a la section logique qu'un tour est passe
                     current_color ++; // On passe au tour suivant
                 }
             }

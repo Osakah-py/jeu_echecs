@@ -11,26 +11,6 @@ extern int pos_enemy;
 
 // FONCTIONS -------------------------------------------------------------------------------
 
-// une fonction qui regarde si le mouvement est valide avant et apres son execution
-int check_and_movement(const int position, const int new_pos, const int is_white)
-{
-    int tmp = 0;
-    if(is_movement_correct(position, new_pos)) 
-    {
-        make_move(position, new_pos); // faisons le mouvement sur l'echiquier 
-        tmp = 1;
-        if(check_king(is_white))
-        {
-            tmp = 0; // movement irrealisable
-            undo_move(); 
-        }
-         // on revient en arriere apres avoir vu une possibilite de s'en sortir !
-    }
-
-    return tmp;
-}
-
-
 // On veut savoir si on peut manger la piece ennemi pour eviter un echec et mat
 // On considere que enemy_pos a ete bien actualise avant (puisque le roi a ete en echec)
 // Pareil pour pos_ally (dans is_checkmate)
@@ -39,7 +19,7 @@ int can_eat_enemy(const int is_white)
     for (int i = 0; i < 16; i++)
     {       
         // si pos_ally[i] == -1 alors cet allie n'existe pas sur l'echiquier
-        if (pos_ally[i] != -1 && check_and_movement(pos_ally[i], pos_enemy, is_white))
+        if (pos_ally[i] != -1 && move_and_check(pos_ally[i], pos_enemy, is_white))
         {
             return 1; // une piece peut le manger !
         }
@@ -77,7 +57,7 @@ int can_do_smth_around(const int position, const int is_white)
             new_pos = new_posX + new_posY * 8; // la nouvelle pos_ally calculee
             
             // le roi peut bouger sur une case sans danger ?
-            if(check_and_movement(position, new_pos, is_white))
+            if(move_and_check(position, new_pos, is_white))
             {
                 return 1; // he oui il peut
             }            
@@ -85,7 +65,7 @@ int can_do_smth_around(const int position, const int is_white)
             // on check si les allies peuvent sauver le roi autour de lui
             for (int a = 0; a < 16; a++)
             {
-                if (pos_ally[a] != -1 && check_and_movement(pos_ally[a], new_pos, is_white))
+                if (pos_ally[a] != -1 && move_and_check(pos_ally[a], new_pos, is_white))
                 {
                     return 1;
                 } 
