@@ -1,12 +1,7 @@
-# jeu_echecs
-Un jeu d'échecs en C
+# jeu_echecs en C
+## Installation
+aller voir : https://github.com/Osakah-py/jeu_echecs/wiki#installation-
 
-# Comment compiler ?
-## sous linux :
-- taper `make` dans la console
-- exécuter le fichier "chess" avec `./chess`
-
-## sous windows :
-- taper `./makewin` dans la console
-
-
+## Comment y jouer ?
+C'est un jeu d'échec classique !
+les règles : http://www.echecs.asso.fr/livrearbitre/110.pdf 
