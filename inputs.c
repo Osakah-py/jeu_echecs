@@ -5,18 +5,20 @@
 
 // VIDAGE DU BUFFER A CHAQUE ENTREE -------------------------------------------------------------------
 void viderBuffer() {
-    int c = 0;
-    while (c != '\n' && c != EOF)
+    int c = 0; // c pour corbeille :p
+    
+    while (c != '\n' && c != EOF) 
     {
-        c = getchar();
+        // la variable c prend le premier caractère du buffer jusqu'à arriver à la fin
+        c = getchar(); 
     }
 }
 // RECUPERATION DES COORDONNEES UTILISATEURS ----------------------------------------------------------
 int input(){
     char entree[3]; // entre[2] = '\0'
     
-    fgets(entree, 3, stdin);
-    viderBuffer();
+    fgets(entree, 3, stdin); // equivalent de scanf en un peu mieux...
+    viderBuffer(); // On nettoie ce qui nous intéresse pas
     
     int x = (int) toupper(entree[0]) - 65; // 65 correspond au code ASCII du A
     int y = (int) entree[1] - 1 - 48; // 48 correspond au code ASCII du 0
@@ -25,17 +27,18 @@ int input(){
         return x + 8 * y;
     } else {
         wprintf (L"!! Entree Invalide !! Réessayez : \n");
-        input();
+        input(); //Si les coordonnées ne sont pas valides on redemande une entrée à l'utilisateur
     }
 
 }
 
-// CONFIG
+// CONFIG PREFERENCES --------------------------------------------------------------------------------
 int config_input (){
-    char entree[1]; 
+    char entree[1]; // entre[1] = '\0'
     
     fgets(entree, 2, stdin);
     viderBuffer(); 
+    // O = oui et N = Non
     if (toupper(entree[0]) == 'O'){
         return 1;
     }
