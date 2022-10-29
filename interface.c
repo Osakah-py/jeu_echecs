@@ -1,4 +1,4 @@
-// https://linuxhint.com/unicode-c/
+// A lire avec sous les yeux la doc pour une meilleure compréhension ^^ : https://bit.ly/3fd7Vec
 
 # include "interface.h"
 
