@@ -206,6 +206,8 @@ int is_movement_correct(const int position, const int destination)
     // on regarde si il y a un mvt special a traiter
     pos_tmp = special_mvt_controller(position, destination, signature, target);
 
+    wprintf(L"position_th : %d\n", special_mvt_controller(position, destination, signature, target));
+
     if (pos_tmp != destination) // la piece n'a pas de mouvements speciaux a effectuer
     {
         pos_tmp = find_pos_controller(position, destination, movement_value[ind_key], signature);
