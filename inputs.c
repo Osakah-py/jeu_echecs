@@ -34,7 +34,7 @@ int input(){
 
 // CONFIG PREFERENCES --------------------------------------------------------------------------------
 int config_input (){
-    char entree[1]; // entre[1] = '\0'
+    char entree[1];
     
     fgets(entree, 1, stdin);
     viderBuffer(); 
