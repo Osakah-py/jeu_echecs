@@ -143,7 +143,6 @@ int can_castle(const int pos_king, const int posX_rook, const char rook_signatur
         {
             factor_castle = -1;
         }
-        wprintf(L"move_and_check : %d\n", !move_and_check(pos_king, pos_king + 1 * factor_castle, rook_signature));
         // pas besoin de verifier la validite de sa destination finale (verif par movements.c)
         if(!move_and_check(pos_king, pos_king + 1 * factor_castle, rook_signature))
         {
@@ -204,7 +203,7 @@ int find_final_mvt_castle(const int position, const int destination, const char 
 // GLOBAL SECTION ----------------------------------------------------------------------------------
 
 
-int special_mvt_controller(const int position, const int destination, const char signature, const char target)
+int is_special_mvt_correct(const int position, const int destination, const char signature, const char target)
 {
     // le pion a des movements speciaux a traiter a part
     if (signature == 'p' || signature == 'P') 
@@ -214,7 +213,6 @@ int special_mvt_controller(const int position, const int destination, const char
     // idem pour le roi
     else if ( (signature == 'r' && !has_bking_moved) || (signature == 'R' && !has_wking_moved))
     {
-        wprintf(L"find_final_mvt : %d\n", find_final_mvt_castle(position, destination, signature));
         return find_final_mvt_castle(position, destination, signature);
     }
 

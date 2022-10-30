@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-int special_mvt_controller(const int position, const int destination, const char signature, const char target);
+int is_special_mvt_correct(const int position, const int destination, const char signature, const char target);
 
 
 #endif
