@@ -55,6 +55,7 @@ int en_passant(const int position, const int destination, const char signature)
     int dest_posX = HPOS(destination);
     int enemy_posY;
     char enemy_pawn;
+
     if(isupper(signature))
     {
         enemy_posY = 4;
@@ -129,39 +130,28 @@ int special_mvt_pawn(const int position, const int destination, const char signa
 // on sait que soit la position du roi est soit (4;0) soit (4;7)
 int can_castle(const int pos_king, const int posX_rook, const char rook_signature)
 {
+    int factor_castle;
     if(chessboard[VPOS(pos_king)][posX_rook] == rook_signature) // la tour est la pour effectuer le roque !
     {
+
         // roque a l'aile roi
-            if (posX_rook == 7)
+        if (posX_rook == 7)
         {
-            // pas besoin de verifier la validite de sa destination finale (verif par movements.c)
-            if(!move_and_check(pos_king, pos_king + 1, rook_signature))
-            {
-                return 0; // le movement n'est pas valide
-            }
-            // on va effectuer deux mouvements en un coup ici !
-            make_move(7 + VPOS(pos_king) * 8, 5 + VPOS(pos_king) * 8);
-            two_moves_in_once = 1;
+            factor_castle = 1;
         }
-        else // roque a l'aile dame
+        else
         {
-            if(!move_and_check(pos_king, pos_king - 1, rook_signature))
-            {
-                return 0;
-            }
-            make_move(pos_king, pos_king - 1);
-            two_moves_in_once = 1; // on veut savoir si le mvt est valide arpes son 1er mvt
-            // move_and_check appellera undo() qui annulera le mvt de 2 cases du roi
-            if(!move_and_check(pos_king - 1, pos_king - 2, rook_signature))
-            {
-                return 0;
-            }
-            // on va effectuer deux mouvements en un coup ici !
-            //ici pour la tour  
-            make_move(0 + VPOS(pos_king) * 8, 2 + VPOS(pos_king) * 8);
-            two_moves_in_once = 1; 
+            factor_castle = -1;
         }
-        
+        wprintf(L"move_and_check : %d\n", !move_and_check(pos_king, pos_king + 1 * factor_castle, rook_signature));
+        // pas besoin de verifier la validite de sa destination finale (verif par movements.c)
+        if(!move_and_check(pos_king, pos_king + 1 * factor_castle, rook_signature))
+        {
+            return 0; // le movement n'est pas valide
+        }
+        // on va effectuer deux mouvements en un coup ici !
+        make_move(posX_rook + VPOS(pos_king) * 8, pos_king + 2*factor_castle - factor_castle * 1);
+        two_moves_in_once = 1;
         return 1;
     }   
 
@@ -183,7 +173,6 @@ int find_final_mvt_castle(const int position, const int destination, const char 
     {
         rook_ally = 't';
     }
-
     // on verifie si la destination est coherente avec le roque
     if (VPOS(position) != VPOS(destination)) 
     {
@@ -194,7 +183,7 @@ int find_final_mvt_castle(const int position, const int destination, const char 
     {
         posX_rook = 7;
     }
-    else if (HPOS(destination == 1)) // roque a l'aile dame
+    else if (HPOS(destination) == 2) // roque a l'aile dame
     {
         posX_rook = 0;
     }
@@ -225,11 +214,11 @@ int special_mvt_controller(const int position, const int destination, const char
     // idem pour le roi
     else if ( (signature == 'r' && !has_bking_moved) || (signature == 'R' && !has_wking_moved))
     {
+        wprintf(L"find_final_mvt : %d\n", find_final_mvt_castle(position, destination, signature));
         return find_final_mvt_castle(position, destination, signature);
     }
 
     two_moves_in_once = 0; // on a alors pas 2 coups a jouer dans le meme tour
-
     return -1; // aucun mouvement special a effectuer
 
 }

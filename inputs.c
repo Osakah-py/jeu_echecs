@@ -27,16 +27,16 @@ int input(){
         return x + 8 * y;
     } else {
         wprintf (L"!! Entree Invalide !! Réessayez : \n");
-        input(); //Si les coordonnées ne sont pas valides on redemande une entrée à l'utilisateur
+        return input(); //Si les coordonnées ne sont pas valides on redemande une entrée à l'utilisateur
     }
-
+    // return 0;
 }
 
 // CONFIG PREFERENCES --------------------------------------------------------------------------------
 int config_input (){
     char entree[1]; // entre[1] = '\0'
     
-    fgets(entree, 2, stdin);
+    fgets(entree, 1, stdin);
     viderBuffer(); 
     // O = oui et N = Non
     if (toupper(entree[0]) == 'O'){
@@ -45,5 +45,5 @@ int config_input (){
     if (toupper(entree[0]) == 'N'){
         return 0;
     }
-    return 1; // si l'entrée est mauvais on retourne 1 quand meme
+    return 0; // si l'entrée est mauvais on retourne 0 quand meme
 }

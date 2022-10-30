@@ -13,7 +13,7 @@ void init_echequier (char chessboard[][8]){
     // Gestion d'une erreur éventuelle
     errno = 0;
     // Ouverture du fichier par défaut
-    const char *nom_fichier = "Default.txt";
+    const char *nom_fichier = "Test.txt";
     FILE* flux_entree = fopen ( nom_fichier, "r");
     if ( flux_entree == NULL ){
         wprintf (L" Une erreur s'est produite à l'ouverture du fichier %s : %s\n", nom_fichier, strerror ( errno ) ) ;
@@ -143,11 +143,11 @@ int detection (int y, int x, int color, char chessboard[][8]){
     
         // Veérifions que la couleur de la pièce corespond à celle du joueur
         if ( isupper(chessboard[y][x]) && color == 1){
-            wprintf(L"Où voulez vous déplacer votre %s ? \n", nom_piece[indice(chessboard[y][x])]);
+            wprintf(L"Où voulez vous déplacer votre %ls ? \n", nom_piece[indice(chessboard[y][x])]);
             return 1;
         } 
         else if (!isupper(chessboard[y][x]) && color == 0){
-            wprintf(L"Où voulez vous déplacer votre %s ? \n", nom_piece[indice(chessboard[y][x]) - 6]); // (déphasage de 6 pièces)
+            wprintf(L"Où voulez vous déplacer votre %ls ? \n", nom_piece[indice(chessboard[y][x]) - 6]); // (déphasage de 6 pièces)
             return 1; 
         }
     }
