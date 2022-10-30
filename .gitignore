@@ -3,6 +3,7 @@
 
 # Object files
 *.o
+./code/game_logic/*.o
 *.ko
 *.obj
 *.elf
